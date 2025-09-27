@@ -4,13 +4,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
-        <div class="container">
-            @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+    <nav class="bg-primary">
+        <div class="container-fluid">
+            @*@Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -21,6 +22,18 @@
                     <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                 </ul>
+            </div>*@
+            <div class="row">
+                <div class="col-3">
+                    <img src="~/Images/Logo/logodarkthestorepreview.png" width="100px" height="auto" style="padding-left:20px;"/>
+                </div>
+                <div class="col-5 d-flex align-items-center"><input type="search" class="w-100" /></div>
+                <div class="col-2 d-flex align-items-center">
+                    
+                </div>
+                <div class="col-2 d-flex align-items-center">
+                    <a><img src="~/Images/Icon/icondn2.png" width="100px" height="auto"/></a>
+                </div>
             </div>
         </div>
     </nav>

@@ -166,6 +166,10 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\Icon\icondn2.png" />
+    <Content Include="Images\Icon\iconlogin.png" />
+    <Content Include="Images\Logo\logodarkthestore.jpg" />
+    <Content Include="Images\Logo\logodarkthestorepreview.png" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -200,6 +204,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Images\Banner\" />
+    <Folder Include="Images\Product_images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
