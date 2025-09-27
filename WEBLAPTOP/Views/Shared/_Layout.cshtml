@@ -5,7 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
+        /* Hiện menu khi hover */ 
+        .dropdown:hover > .dropdown-menu {
+            display: block;
+        }
+        /* Hiện submenu khi hover */
+        .dropdown-submenu:hover > .dropdown-menu {
+            display: block;
+            margin-left: 0.5rem;
+            top: 0;
+            left: 100%;
+            position: absolute;
+        }
+        /* Định dạng submenu */
+        .dropdown-submenu {
+            position: relative;
+        }
+        
         .footer {
             background: #f8f8f8;
             font-size: 14px;
@@ -60,35 +78,224 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
+@*@Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+    <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
+        <ul class="navbar-nav flex-grow-1">
+            <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+            <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+            <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+        </ul>
+    </div>*@
 <body>
-    <nav class="bg-primary">
-        <div class="container-fluid">
-            @*@Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                        <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                        <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    </ul>
-                </div>*@
-            <div class="row">
-                <div class="col-3">
-                    <img src="~/Images/Logo/logodarkthestorepreview.png" width="100px" height="auto" style="padding-left:20px;" />
-                </div>
-                <div class="col-5 d-flex align-items-center"><input type="search" class="w-100" /></div>
-                <div class="col-2 d-flex align-items-center">
+    <nav class="header navbar bg-danger">
+        <!-- Header Top -->
+        <div class="header_top container-fluid">
+            <div class="row align-items-center w-100 " style="margin:0 40px">
 
+                <!-- Logo -->
+                <div class="col-4">
+                    <a href="@Url.Action("Index","Home")">
+                        <img src="~/Images/Logo/logodarkthestorepreview.png" width="100" alt="Logo" />
+                    </a>
                 </div>
-                <div class="col-2 d-flex align-items-center">
-                    <a><img src="~/Images/Icon/icondn2.png" width="100px" height="auto" /></a>
+
+                <!-- Thanh tìm kiếm -->
+                <div class="col">
+                    <form class="d-flex" method="get" action="@Url.Action("Search","Home")">
+                        <input class="form-control me-2 " type="text" name="textSearch" placeholder="Tìm kiếm..." />
+                        <button class="btn btn-light" type="submit" name="submitSearch">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </form>
                 </div>
+
+                <!-- Chọn địa chỉ -->
+                <div class="col-auto">
+                    <div class="dropdown">
+                        <a class="btn btn-light dropdown-toggle d-flex align-items-center gap-1"
+                           href="#" role="button" id="dropdownLocation"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-geo-alt"></i>
+                            <span>Chọn địa chỉ</span>
+                        </a>
+
+                        <ul class="dropdown-menu" aria-labelledby="dropdownLocation">
+                            <li><h6 class="dropdown-header">Tỉnh/Thành phố</h6></li>
+                            <li><a class="dropdown-item" href="#">Hà Nội</a></li>
+                            <li><a class="dropdown-item" href="#">TP. Hồ Chí Minh</a></li>
+                            <li><a class="dropdown-item" href="#">Đà Nẵng</a></li>
+                            <li><a class="dropdown-item" href="#">Cần Thơ</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Khác...</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!--Liên hệ-->
+                <div class="col-auto">
+                    <a href="#"
+                       class="text-decoration-none text-light d-flex align-items-center gap-1">
+                        <span>Liên hệ</span>
+                    </a>
+                </div>
+
+                <!-- Giỏ hàng -->
+                <div class="col-auto">
+                    <a href="@Url.Action("Cart","Shopping")"
+                       class="text-decoration-none text-light d-flex align-items-center gap-1">
+                        <i class="bi bi-cart"></i>
+                        <span>Giỏ hàng</span>
+                    </a>
+                </div>
+
+                <!-- Người dùng -->
+                <div class="col-auto">
+                    <a href="@Url.Action("Login","Account")"
+                       class="text-decoration-none text-light d-flex align-items-center gap-1">
+                        <i class="bi bi-person-circle"></i>
+                        <span>User</span>
+                    </a>
+                </div>
+
             </div>
         </div>
     </nav>
+    <!-- Header Bottom -->
+    <div class="header-bottom bg-light">
+        <div class="container-fluid">
+            <ul class="nav align-items-center justify-content-around w-100 ">
+                <!-- Dropdown danh mục -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle fw-bold text-black" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-list"></i>
+                        Tất cả danh mục
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown" >
+
+                        <!-- Laptop theo hãng -->
+                        <li><h6 class="dropdown-header text-black">Laptop theo hãng</h6></li>
+
+                        <!-- Dell -->
+                        <li class="dropdown-submenu">
+                            <a class="dropdown-item dropdown-toggle" href="#">Dell</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Dell Inspiron</a></li>
+                                <li><a class="dropdown-item" href="#">Dell Vostro</a></li>
+                                <li><a class="dropdown-item" href="#">Dell Latitude</a></li>
+                                <li><a class="dropdown-item" href="#">Dell XPS</a></li>
+                                <li><a class="dropdown-item" href="#">Dell Alienware (Gaming)</a></li>
+                                <li><a class="dropdown-item" href="#">Dell G-Series (Gaming)</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- HP -->
+                        <li class="dropdown-submenu">
+                            <a class="dropdown-item dropdown-toggle" href="#">HP</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">HP Pavilion</a></li>
+                                <li><a class="dropdown-item" href="#">HP Envy</a></li>
+                                <li><a class="dropdown-item" href="#">HP Spectre</a></li>
+                                <li><a class="dropdown-item" href="#">HP EliteBook</a></li>
+                                <li><a class="dropdown-item" href="#">HP ProBook</a></li>
+                                <li><a class="dropdown-item" href="#">HP Omen (Gaming)</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Lenovo -->
+                        <li class="dropdown-submenu">
+                            <a class="dropdown-item dropdown-toggle" href="#">Lenovo</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Lenovo IdeaPad</a></li>
+                                <li><a class="dropdown-item" href="#">Lenovo ThinkPad</a></li>
+                                <li><a class="dropdown-item" href="#">Lenovo Yoga</a></li>
+                                <li><a class="dropdown-item" href="#">Lenovo Legion (Gaming)</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Asus -->
+                        <li class="dropdown-submenu">
+                            <a class="dropdown-item dropdown-toggle" href="#">Asus</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Asus VivoBook</a></li>
+                                <li><a class="dropdown-item" href="#">Asus ZenBook</a></li>
+                                <li><a class="dropdown-item" href="#">Asus ExpertBook</a></li>
+                                <li><a class="dropdown-item" href="#">Asus TUF Gaming</a></li>
+                                <li><a class="dropdown-item" href="#">Asus ROG (Republic of Gamers)</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Acer -->
+                        <li class="dropdown-submenu">
+                            <a class="dropdown-item dropdown-toggle" href="#">Acer</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Acer Aspire</a></li>
+                                <li><a class="dropdown-item" href="#">Acer Swift</a></li>
+                                <li><a class="dropdown-item" href="#">Acer Spin</a></li>
+                                <li><a class="dropdown-item" href="#">Acer Nitro (Gaming)</a></li>
+                                <li><a class="dropdown-item" href="#">Acer Predator (Gaming)</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Apple -->
+                        <li class="dropdown-submenu">
+                            <a class="dropdown-item dropdown-toggle" href="#">Apple</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">MacBook Air M1/M2</a></li>
+                                <li><a class="dropdown-item" href="#">MacBook Pro 13"</a></li>
+                                <li><a class="dropdown-item" href="#">MacBook Pro 14"</a></li>
+                                <li><a class="dropdown-item" href="#">MacBook Pro 16"</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- MSI -->
+                        <li class="dropdown-submenu">
+                            <a class="dropdown-item dropdown-toggle" href="#">MSI</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">MSI Modern</a></li>
+                                <li><a class="dropdown-item" href="#">MSI Prestige</a></li>
+                                <li><a class="dropdown-item" href="#">MSI Creator</a></li>
+                                <li><a class="dropdown-item" href="#">MSI Gaming GF/GL/GP</a></li>
+                                <li><a class="dropdown-item" href="#">MSI Stealth / Raider</a></li>
+                                <li><a class="dropdown-item" href="#">MSI Titan (Cao cấp)</a></li>
+                            </ul>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+
+                        <!-- Laptop theo nhu cầu -->
+                        <li><h6 class="dropdown-header text-black ">Laptop theo nhu cầu</h6></li>
+                        <li><a class="dropdown-item" href="#">Laptop văn phòng - học tập</a></li>
+                        <li><a class="dropdown-item" href="#">Laptop gaming</a></li>
+                        <li><a class="dropdown-item" href="#">Laptop đồ họa - kỹ thuật</a></li>
+                        <li><a class="dropdown-item" href="#">Laptop mỏng nhẹ - cao cấp</a></li>
+                        <li><a class="dropdown-item" href="#">Laptop cảm ứng - 2 trong 1</a></li>
+
+                        <li><hr class="dropdown-divider"></li>
+
+                        <!-- Laptop theo giá -->
+                        <!--<li><h6 class="dropdown-header">Laptop theo giá</h6></li>
+                        <li><a class="dropdown-item" href="#">Dưới 10 triệu</a></li>
+                        <li><a class="dropdown-item" href="#">10 - 15 triệu</a></li>
+                        <li><a class="dropdown-item" href="#">15 - 20 triệu</a></li>
+                        <li><a class="dropdown-item" href="#">20 - 30 triệu</a></li>
+                        <li><a class="dropdown-item" href="#">Trên 30 triệu</a></li>-->
+
+                    </ul>
+                </li>
+
+
+                <!-- Chính sách -->
+                <li class="nav-item"><a class="nav-link text-black  fw-bold" href="#">Sản phẩm </a></li>
+                <li class="nav-item"><span class="nav-link text-black">100% chính hãng</span></li>
+                <li class="nav-item"><span class="nav-link text-black">Giá ưu đãi nhất</span></li>
+                <li class="nav-item"><span class="nav-link text-black">Hỗ trợ khách hàng</span></li>
+            </ul>
+        </div>
+    </div>
+
     <div class="container body-content">
         @RenderBody()
         <hr />
@@ -183,11 +390,11 @@
         </footer>
     </div>
     <script>
-    // jQuery demo nhỏ: alert khi đăng ký
-    $(".newsletter").on("submit", function (e) {
-        e.preventDefault();
-        alert("Bạn đã đăng ký thành công!");
-    });
+        // jQuery demo nhỏ: alert khi đăng ký
+        $(".newsletter").on("submit", function (e) {
+            e.preventDefault();
+            alert("Bạn đã đăng ký thành công!");
+        });
     </script>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
