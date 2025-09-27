@@ -166,6 +166,11 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\Footer\as.png" />
+    <Content Include="Images\Footer\fb.png" />
+    <Content Include="Images\Footer\gg.png" />
+    <Content Include="Images\Footer\logo-momo.jpg" />
+    <Content Include="Images\Footer\tiktok.png" />
     <Content Include="Images\Icon\icondn2.png" />
     <Content Include="Images\Icon\iconlogin.png" />
     <Content Include="Images\Logo\logodarkthestore.jpg" />
@@ -176,6 +181,11 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Images\Footer\haui.png" />
+    <Content Include="Images\Footer\mb.png" />
+    <Content Include="Images\Footer\vnpay.png" />
+    <Content Include="Images\Footer\yt.png" />
+    <Content Include="Images\Footer\zalopay.png" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />

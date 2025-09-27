@@ -5,6 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <style>
+        .footer {
+            background: #f8f8f8;
+            font-size: 14px;
+            color: #333;
+            padding: 40px 0 20px;
+        }
+
+            .footer h5 {
+                font-size: 16px;
+                font-weight: bold;
+                margin-bottom: 15px;
+            }
+
+            .footer a {
+                text-decoration: none;
+                color: #333;
+            }
+
+                .footer a:hover {
+                    color: rgb(82, 139, 196);
+                }
+
+            .footer ul {
+                list-style: none;
+                padding-left: 0;
+            }
+
+                .footer ul li {
+                    margin: 6px 0;
+                }
+
+            .footer .pay-methods img,
+            .footer .apps img,
+            .footer .socials img {
+                height: 35px;
+                margin: 5px;
+            }
+
+            .footer .newsletter input {
+                margin-bottom: 10px;
+            }
+
+        .footer-bottom {
+            border-top: 1px solid #ddd;
+            margin-top: 20px;
+            padding-top: 10px;
+            text-align: center;
+            font-size: 13px;
+            color: #666;
+        }
+    </style>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -12,27 +64,27 @@
     <nav class="bg-primary">
         <div class="container-fluid">
             @*@Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                </ul>
-            </div>*@
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                    </ul>
+                </div>*@
             <div class="row">
                 <div class="col-3">
-                    <img src="~/Images/Logo/logodarkthestorepreview.png" width="100px" height="auto" style="padding-left:20px;"/>
+                    <img src="~/Images/Logo/logodarkthestorepreview.png" width="100px" height="auto" style="padding-left:20px;" />
                 </div>
                 <div class="col-5 d-flex align-items-center"><input type="search" class="w-100" /></div>
                 <div class="col-2 d-flex align-items-center">
-                    
+
                 </div>
                 <div class="col-2 d-flex align-items-center">
-                    <a><img src="~/Images/Icon/icondn2.png" width="100px" height="auto"/></a>
+                    <a><img src="~/Images/Icon/icondn2.png" width="100px" height="auto" /></a>
                 </div>
             </div>
         </div>
@@ -40,11 +92,103 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <!-- Cột 1 -->
+                    <div class="col-md-3">
+                        <h5>Tổng đài hỗ trợ miễn phí</h5>
+                        <p>Mua hàng - bảo hành <a href="#">1800.2097</a> (7h30 - 22h00)</p>
+                        <p>Khiếu nại <a href="#">1800.2063</a> (8h00 - 21h30)</p>
+
+                        <h5>Phương thức thanh toán</h5>
+                        <div class="pay-methods">
+                            <a href="#"><img src="~/Images/Footer/mb.png" alt="Mb Bank"></a>
+                            <a href="#"><img src="~/Images/Footer/vnpay.png" alt="VNPay"></a>
+                            <a href="#"><img src="~/Images/Footer/logo-momo.jpg" alt="Momo"></a>
+                            <a href="#"><img src="~/Images/Footer/zalopay.png" alt="ZaloPay"></a>
+                        </div>
+
+                        <h5>Đăng ký nhận tin khuyến mãi</h5>
+                        <form class="newsletter">
+                            <small class="text-danger">Nhận ngay voucher 10% (chỉ áp dụng khách hàng mới)</small>
+                            <input type="email" class="form-control" placeholder="Nhập email của bạn">
+                            <input type="text" class="form-control" placeholder="Nhập số điện thoại của bạn">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" checked>
+                                <label class="form-check-label"> Tôi đồng ý với điều khoản của DarkTheStore</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100 mt-2">ĐĂNG KÝ NGAY</button>
+                        </form>
+                    </div>
+
+                    <!-- Cột 2 -->
+                    <div class="col-md-3">
+                        <h5>Thông tin và chính sách</h5>
+                        <ul>
+                            <li><a href="#">Mua hàng và thanh toán Online</a></li>
+                            <li><a href="#">Mua hàng trả góp Online</a></li>
+                            <li><a href="#">Mua hàng trả góp bằng thẻ tín dụng</a></li>
+                            <li><a href="#">Chính sách giao hàng</a></li>
+                            <li><a href="#">Chính sách đổi trả</a></li>
+                            <li><a href="#">Tra điểm TMember</a></li>
+                            <li><a href="#">Xem ưu đãi TMember</a></li>
+                            <li><a href="#">Tra thông tin bảo hành</a></li>
+                            <li><a href="#">Tra cứu hoá đơn điện tử</a></li>
+                            <li><a href="#">Trung tâm bảo hành chính hãng</a></li>
+                            <li><a href="#">Quy định về sao lưu dữ liệu</a></li>
+                            <li><a href="#">Chính sách Apple</a></li>
+                            <li><a href="#">VAT Refund</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Cột 3 -->
+                    <div class="col-md-3">
+                        <h5>Dịch vụ và thông tin khác</h5>
+                        <ul>
+                            <li><a href="#">Khách hàng doanh nghiệp (B2B)</a></li>
+                            <li><a href="#">Ưu đãi thanh toán</a></li>
+                            <li><a href="#">Quy chế hoạt động</a></li>
+                            <li><a href="#">Chính sách bảo mật</a></li>
+                            <li><a href="#">Chính sách bảo hành</a></li>
+                            <li><a href="#">Liên hệ hợp tác</a></li>
+                            <li><a href="#">Tuyển dụng</a></li>
+                            <li><a href="#">Dịch vụ bảo hành mở rộng</a></li>
+                        </ul>
+                        <h5>Mua sắm dễ dàng - Ưu đãi ngập tràn</h5>
+                        <div class="apps" style="display: flex;">
+                            <a href="#"><img style="width: 150px; height: auto;" src="~/Images/Footer/gg.png" alt="Google Play"></a>
+                            <a href="#"><img style="width: 150px; height: auto;" src="~/Images/Footer/as.png" alt="App Store"></a>
+                        </div>
+                    </div>
+
+                    <!-- Cột 4 -->
+                    <div class="col-md-3">
+                        <h5>Kết nối với DarkTheStore</h5>
+                        <div class="socials">
+                            <a href="#"><img src="~/Images/Footer/yt.png" alt="YouTube"></a>
+                            <a href="#"><img src="~/Images/Footer/fb.png" alt="Facebook"></a>
+                            <a href="#"><img src="~/Images/Footer/tiktok.png" alt="TikTok"></a>
+                            <a href="#"><img src="~/Images/Footer/haui.png" alt="Haui"></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-bottom">
+                    T
+                    <p>© 2025 Công ty TNHH Nhóm 12</p>
+                    <p>Địa chỉ: 298 Phố Nhổn | Điện thoại: 028.7148.9626</p>
+                </div>
+            </div>
         </footer>
     </div>
-
+    <script>
+    // jQuery demo nhỏ: alert khi đăng ký
+    $(".newsletter").on("submit", function (e) {
+        e.preventDefault();
+        alert("Bạn đã đăng ký thành công!");
+    });
+    </script>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
