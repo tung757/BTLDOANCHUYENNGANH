@@ -6,77 +6,9 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <style>
-        /* Hiện menu khi hover */ 
-        .dropdown:hover > .dropdown-menu {
-            display: block;
-        }
-        /* Hiện submenu khi hover */
-        .dropdown-submenu:hover > .dropdown-menu {
-            display: block;
-            margin-left: 0.5rem;
-            top: 0;
-            left: 100%;
-            position: absolute;
-        }
-        /* Định dạng submenu */
-        .dropdown-submenu {
-            position: relative;
-        }
-        
-        .footer {
-            background: #f8f8f8;
-            font-size: 14px;
-            color: #333;
-            padding: 40px 0 20px;
-        }
-
-            .footer h5 {
-                font-size: 16px;
-                font-weight: bold;
-                margin-bottom: 15px;
-            }
-
-            .footer a {
-                text-decoration: none;
-                color: #333;
-            }
-
-                .footer a:hover {
-                    color: rgb(82, 139, 196);
-                }
-
-            .footer ul {
-                list-style: none;
-                padding-left: 0;
-            }
-
-                .footer ul li {
-                    margin: 6px 0;
-                }
-
-            .footer .pay-methods img,
-            .footer .apps img,
-            .footer .socials img {
-                height: 35px;
-                margin: 5px;
-            }
-
-            .footer .newsletter input {
-                margin-bottom: 10px;
-            }
-
-        .footer-bottom {
-            border-top: 1px solid #ddd;
-            margin-top: 20px;
-            padding-top: 10px;
-            text-align: center;
-            font-size: 13px;
-            color: #666;
-        }
-    </style>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="@Url.Content("~/Content/new_css/stylehome.css")" />
 </head>
 @*@Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
     <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
@@ -97,7 +29,7 @@
             <div class="row align-items-center w-100 " style="margin:0 40px">
 
                 <!-- Logo -->
-                <div class="col-4">
+                <div class="col-3 d-flex justify-content-center">
                     <a href="@Url.Action("Index","Home")">
                         <img src="~/Images/Logo/logodarkthestorepreview.png" width="100" alt="Logo" />
                     </a>
@@ -105,7 +37,7 @@
 
                 <!-- Thanh tìm kiếm -->
                 <div class="col">
-                    <form class="d-flex" method="get" action="@Url.Action("Search","Home")">
+                    <form class="d-flex justify-content-center" method="get" action="@Url.Action("Search","Home")">
                         <input class="form-control me-2 " type="text" name="textSearch" placeholder="Tìm kiếm..." />
                         <button class="btn btn-light" type="submit" name="submitSearch">
                             <i class="bi bi-search"></i>
@@ -134,7 +66,9 @@
                         </ul>
                     </div>
                 </div>
-
+                <script>
+                    $
+                </script>
                 <!--Liên hệ-->
                 <div class="col-auto">
                     <a href="#"
@@ -174,7 +108,7 @@
                         <i class="bi bi-list"></i>
                         Tất cả danh mục
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown" >
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 
                         <!-- Laptop theo hãng -->
                         <li><h6 class="dropdown-header text-black">Laptop theo hãng</h6></li>
@@ -182,7 +116,7 @@
                         <!-- Dell -->
                         <li class="dropdown-submenu">
                             <a class="dropdown-item dropdown-toggle" href="#">Dell</a>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu" style="margin:0px;">
                                 <li><a class="dropdown-item" href="#">Dell Inspiron</a></li>
                                 <li><a class="dropdown-item" href="#">Dell Vostro</a></li>
                                 <li><a class="dropdown-item" href="#">Dell Latitude</a></li>
@@ -195,7 +129,7 @@
                         <!-- HP -->
                         <li class="dropdown-submenu">
                             <a class="dropdown-item dropdown-toggle" href="#">HP</a>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu " style="margin:0px" ;>
                                 <li><a class="dropdown-item" href="#">HP Pavilion</a></li>
                                 <li><a class="dropdown-item" href="#">HP Envy</a></li>
                                 <li><a class="dropdown-item" href="#">HP Spectre</a></li>
@@ -208,7 +142,7 @@
                         <!-- Lenovo -->
                         <li class="dropdown-submenu">
                             <a class="dropdown-item dropdown-toggle" href="#">Lenovo</a>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu" style="margin:0px" ;>
                                 <li><a class="dropdown-item" href="#">Lenovo IdeaPad</a></li>
                                 <li><a class="dropdown-item" href="#">Lenovo ThinkPad</a></li>
                                 <li><a class="dropdown-item" href="#">Lenovo Yoga</a></li>
@@ -219,7 +153,7 @@
                         <!-- Asus -->
                         <li class="dropdown-submenu">
                             <a class="dropdown-item dropdown-toggle" href="#">Asus</a>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu" style="margin:0px" ;>
                                 <li><a class="dropdown-item" href="#">Asus VivoBook</a></li>
                                 <li><a class="dropdown-item" href="#">Asus ZenBook</a></li>
                                 <li><a class="dropdown-item" href="#">Asus ExpertBook</a></li>
@@ -231,7 +165,7 @@
                         <!-- Acer -->
                         <li class="dropdown-submenu">
                             <a class="dropdown-item dropdown-toggle" href="#">Acer</a>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu" style="margin:0px" ;>
                                 <li><a class="dropdown-item" href="#">Acer Aspire</a></li>
                                 <li><a class="dropdown-item" href="#">Acer Swift</a></li>
                                 <li><a class="dropdown-item" href="#">Acer Spin</a></li>
@@ -243,7 +177,7 @@
                         <!-- Apple -->
                         <li class="dropdown-submenu">
                             <a class="dropdown-item dropdown-toggle" href="#">Apple</a>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu" style="margin:0px" ;>
                                 <li><a class="dropdown-item" href="#">MacBook Air M1/M2</a></li>
                                 <li><a class="dropdown-item" href="#">MacBook Pro 13"</a></li>
                                 <li><a class="dropdown-item" href="#">MacBook Pro 14"</a></li>
@@ -254,7 +188,7 @@
                         <!-- MSI -->
                         <li class="dropdown-submenu">
                             <a class="dropdown-item dropdown-toggle" href="#">MSI</a>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu" style="margin:0px" ;>
                                 <li><a class="dropdown-item" href="#">MSI Modern</a></li>
                                 <li><a class="dropdown-item" href="#">MSI Prestige</a></li>
                                 <li><a class="dropdown-item" href="#">MSI Creator</a></li>
@@ -389,15 +323,34 @@
             </div>
         </footer>
     </div>
-    <script>
-        // jQuery demo nhỏ: alert khi đăng ký
-        $(".newsletter").on("submit", function (e) {
-            e.preventDefault();
-            alert("Bạn đã đăng ký thành công!");
-        });
-    </script>
+
+
+
+    <div class="chatbot-btn" id="chatbotBtn">
+        <img src="~/Images/Logo/logodarkthestorepreview.png" alt="Chatbot">
+        Tư vấn
+    </div>
+
+    <!-- Dấu X để tắt hẳn -->
+    <div class="chatbot-close" id="chatbotClose">✖</div>
+
+    <!-- Khung chat -->
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">
+            Chatbot AI
+            <span onclick="toggleChat()">✖</span>
+        </div>
+        <div class="chat-body" id="chatBody">
+            Xin chào! Tôi có thể giúp gì cho bạn? 😊
+        </div>
+        <div class="chat-footer">
+            <input type="text" id="userInput" placeholder="Nhập tin nhắn...">
+            <button onclick="sendMessage()">Gửi</button>
+        </div>
+    </div>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <script src="~/Scripts/new_script/home_layout.js"></script>
 </body>
 </html>
