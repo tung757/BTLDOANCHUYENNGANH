@@ -1,41 +1,60 @@
-﻿const chatbotBtn = document.getElementById("chatbotBtn");
-const chatbotClose = document.getElementById("chatbotClose");
-const chatWindow = document.getElementById("chatWindow");
-
-// Bấm X xanh -> ẩn hoàn toàn nút
-chatbotClose.addEventListener("click", () => {
-    chatbotBtn.style.display = "none";
-    chatbotClose.style.display = "none";
-    chatWindow.style.display = "none";
-});
-
-// Bấm nút chatbot -> mở/đóng khung chat
-chatbotBtn.addEventListener("click", toggleChat);
-
-function toggleChat() {
-    chatWindow.style.display = (chatWindow.style.display === "flex") ? "none" : "flex";
+﻿function scrollToBottom() {
+    let chatContent = $("#chatContent");
+    chatContent.scrollTop(chatContent[0].scrollHeight);
 }
 
-// Gửi tin nhắn
-function sendMessage() {
-    const input = document.getElementById("userInput");
-    const chatBody = document.getElementById("chatBody");
-    if (input.value.trim() !== "") {
-        const userMsg = document.createElement("div");
-        userMsg.textContent = "Bạn: " + input.value;
-        chatBody.appendChild(userMsg);
+$(document).ready(function () {
+    // Bấm vào nút tư vấn (ngoại trừ dấu X) để mở chat
+    $("#chatbotBtn").click(function (e) {
+        if (!$(e.target).hasClass("chatbot-btn-close")) {
+            $("#chatbotBox")
+                .css("display", "flex") // ép flex
+                .hide()
+                .fadeIn();
 
-        // Giả lập phản hồi AI
-        setTimeout(() => {
-            const botMsg = document.createElement("div");
-            botMsg.textContent = "AI: Tôi đã nhận được \"" + input.value + "\"";
-            chatBody.appendChild(botMsg);
-            chatBody.scrollTop = chatBody.scrollHeight;
-        }, 800);
+            $("#chatbotBtn").fadeOut(); // ẩn nút tư vấn
+            scrollToBottom();
+        }
+    });
 
-        input.value = "";
+    // Bấm dấu X trên khung chat -> đóng chat, hiện lại nút tư vấn
+    $("#chatbotClose").click(function () {
+        $("#chatbotBox").fadeOut();
+        $("#chatbotBtn").fadeIn(); // hiện lại nút tư vấn
+    });
+
+    // Bấm dấu X trên nút tư vấn -> ẩn luôn nút
+    $("#chatbotBtnClose").click(function (e) {
+        e.stopPropagation(); // ngăn mở chat
+        $("#chatbotBtn").fadeOut();
+    });
+
+    // Hàm gửi tin nhắn
+    function sendMessage() {
+        let msg = $("#chatInput").val();
+        if (msg.trim() !== "") {
+            $("#chatContent").append("<p><b>Bạn:</b> " + msg + "</p>");
+            $("#chatInput").val("");
+            scrollToBottom();
+
+            setTimeout(function () {
+                $("#chatContent").append("<p><b>Bot:</b> Đây là phản hồi tự động 🤖</p>");
+                scrollToBottom();
+            }, 500);
+        }
     }
-}
+
+    // Bấm nút gửi
+    $("#sendBtn").click(sendMessage);
+
+    // Nhấn Enter để gửi
+    $("#chatInput").keypress(function (e) {
+        if (e.which === 13) {
+            sendMessage();
+            return false;
+        }
+    });
+});
 
 // jQuery demo nhỏ: alert khi đăng ký
 $(".newsletter").on("submit", function (e) {
