@@ -1,0 +1,45 @@
+﻿@model IEnumerable<WEBLAPTOP.Models.SANPHAM>
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    @foreach (var sp in Model)
+    {
+        <div class="col">
+            <div class="card h-100">
+                <!-- Ảnh sản phẩm -->
+                @*<img src="@sp.Images_url" class="card-img-top" alt="@sp.TenSP" style="height:200px; object-fit:cover;">*@
+                @sp.Images_url
+
+                <!-- Tên và giá -->
+                <div class="card-body">
+                    <h5 class="card-title">@sp.TenSP</h5>
+                    <p class="card-text">Giá: @sp.Gia VNĐ</p>
+                </div>
+
+                <!-- Nút hành động -->
+                <div class="card-footer d-flex justify-content-between flex-wrap gap-2">
+                    <!-- Xem thêm -->
+                    @*@Url.Action("Details", "SANPHAM", new { id = sp.MaSP })*@
+                    <a href="#" class="btn btn-info">
+                        Xem thêm
+                    </a>
+
+                    <!-- Mua ngay -->
+                    <form method="post" action="" class="d-inline">
+                        <input type="hidden" name="MaSP" value="@sp.MaSP" />
+                        <button type="submit" class="btn btn-success">Mua ngay</button>
+                    </form>
+
+                    <!-- Thêm vào giỏ hàng -->
+                    <form method="post" action="" class="d-inline">
+                        <input type="hidden" name="MaSP" value="@sp.MaSP" />
+                        <button type="submit" class="btn btn-warning text-white">Thêm vào giỏ hàng</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
