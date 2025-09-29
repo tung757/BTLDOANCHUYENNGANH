@@ -9,20 +9,19 @@
         <div class="col">
             <div class="card h-100">
                 <!-- Ảnh sản phẩm -->
-                @*<img src="@sp.Images_url" class="card-img-top" alt="@sp.TenSP" style="height:200px; object-fit:cover;">*@
-                @sp.Images_url
+                <img src="@Url.Content(@sp.Images_url)" class="card-img-top" alt="@sp.TenSP" style="height:200px; object-fit:cover;">
 
                 <!-- Tên và giá -->
                 <div class="card-body">
-                    <h5 class="card-title">@sp.TenSP</h5>
-                    <p class="card-text">Giá: @sp.Gia VNĐ</p>
+                    <h5 class="card-title text-center">@sp.TenSP</h5>
+                    <p class="card-text text-center">Giá: @sp.Gia VNĐ</p>
                 </div>
 
                 <!-- Nút hành động -->
                 <div class="card-footer d-flex justify-content-between flex-wrap gap-2">
                     <!-- Xem thêm -->
                     @*@Url.Action("Details", "SANPHAM", new { id = sp.MaSP })*@
-                    <a href="#" class="btn btn-info">
+                    <a href="@Url.Action("Details","Product", new {id=sp.ID_SP})" class="btn btn-info">
                         Xem thêm
                     </a>
 

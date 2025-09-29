@@ -18,5 +18,10 @@ namespace WEBLAPTOP.Controllers
             IEnumerable<SANPHAM> ds = await db.SANPHAMs.ToListAsync();
             return View(ds);
         }
+        public async Task<ActionResult> Details(int id)
+        {
+            var query = await db.SANPHAMs.SingleOrDefaultAsync(sp=> sp.ID_SP == id);
+            return View(query);
+        }
     }
 }
