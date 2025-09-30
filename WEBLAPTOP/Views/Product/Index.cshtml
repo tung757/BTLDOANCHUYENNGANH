@@ -3,39 +3,35 @@
     ViewBag.Title = "Index";
 }
 
-<div class="row row-cols-1 row-cols-md-3 g-4">
+<div class="row row-cols-1 row-cols-md-5 g-4">
     @foreach (var sp in Model)
     {
         <div class="col">
             <div class="card h-100">
                 <!-- Ảnh sản phẩm -->
-                <img src="~/Images/Product_images/@Url.Content(@sp.Images_url)" class="card-img-top" alt="@sp.TenSP" style="height:200px; object-fit:cover;">
+                <img src="~/Images/Product_images/@Url.Content(@sp.Images_url)" class="card-img-top p-2" alt="@sp.TenSP" style="height:200px; object-fit:cover;">
 
                 <!-- Tên và giá -->
-                <div class="card-body">
-                    <h5 class="card-title text-center">@sp.TenSP</h5>
-                    <p class="card-text text-center">Giá: @sp.Gia VNĐ</p>
+                <div class="card-body rounded-2">
+                    <div class="card-title">@sp.TenSP</div>
+                    <div style="color:red; font-weight:bold; font-size: 17px;">@Convert.ToDecimal(sp.GiaBan).ToString("C0", System.Globalization.CultureInfo.GetCultureInfo("vi-VN"))</div>
+                    <div class="text-decoration-line-through" style="color: gray; font-size: 17px;">@sp.Gia</div>
+
                 </div>
 
                 <!-- Nút hành động -->
-                <div class="card-footer d-flex justify-content-between flex-wrap gap-2">
-                    <!-- Xem thêm -->
-                    @*@Url.Action("Details", "SANPHAM", new { id = sp.MaSP })*@
-                    <a href="@Url.Action("Details","Product", new {id=sp.ID_SP})" class="btn btn-info">
-                        Xem thêm
-                    </a>
-
+                <div class="card-footer d-flex justify-content-center flex-wrap gap-2">
                     <!-- Mua ngay -->
                     <form method="post" action="" class="d-inline">
-                        <input type="hidden" name="MaSP" value="@sp.MaSP" />
+                        @*<input type="hidden" name="MaSP" value="@sp.MaSP" />*@
                         <button type="submit" class="btn btn-success">Mua ngay</button>
                     </form>
 
                     <!-- Thêm vào giỏ hàng -->
-                    <form method="post" action="" class="d-inline">
+                    <!--<form method="post" action="" class="d-inline">
                         <input type="hidden" name="MaSP" value="@sp.MaSP" />
                         <button type="submit" class="btn btn-warning text-white">Thêm vào giỏ hàng</button>
-                    </form>
+                    </form>-->
                 </div>
             </div>
         </div>
