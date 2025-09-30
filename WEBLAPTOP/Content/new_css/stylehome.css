@@ -71,36 +71,110 @@
 }
 
 
-.chatbot-btn {
+#chatbotBtn {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    width: 110px;
-    height: 110px;
-    border-radius: 50%;
+    width: 80px;
+    height: 80px;
     background: #fff;
-    box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+    border: 2px solid #0d6efd;
+    border-radius: 50%;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    animation: swing 1.5s infinite;
     z-index: 9999;
-    animation: shake 2s infinite;
-    flex-direction: column;
-    text-align: center;
-    font-size: 15px;
-    font-weight: bold;
-    color: #007bff;
 }
 
-/* Lắc lư qua lại */
-@keyframes shake {
+    #chatbotBtn img {
+        width: 35px;
+        margin-right: 6px;
+    }
+
+    #chatbotBtn span {
+        font-weight: bold;
+        color: #0d6efd;
+    }
+
+/* Nút X trên nút chatbot */
+#chatbotBtnClose {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: none;
+    background: #0d6efd;
+    color: #fff;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+/* Chatbox */
+#chatbotBox {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 350px;
+    height: 450px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    display: none;
+    flex-direction: column;
+    z-index: 10000;
+}
+
+
+#chatHeader {
+    background: #0d6efd;
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+#chatContent {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+#chatInputBox {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    background: #f9f9f9;
+}
+
+    #chatInputBox input {
+        flex: 1;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        padding: 5px;
+    }
+
+    #chatInputBox button {
+        margin-left: 5px;
+    }
+
+/* Hiệu ứng lắc */
+@keyframes swing {
     0% {
         transform: rotate(0deg);
     }
 
     25% {
-        transform: rotate(8deg);
+        transform: rotate(5deg);
     }
 
     50% {
@@ -108,105 +182,10 @@
     }
 
     75% {
-        transform: rotate(-8deg);
+        transform: rotate(-5deg);
     }
 
     100% {
         transform: rotate(0deg);
     }
 }
-
-.chatbot-btn img {
-    width: 65%;
-    height: 65%;
-    object-fit: contain;
-    border-radius: 50%;
-    margin-bottom: 5px;
-}
-
-/* --- Dấu X để tắt hẳn --- */
-.chatbot-close {
-    position: fixed;
-    bottom: 135px; /* sát ngay trên nút chat */
-    right: 45px; /* căn chỉnh ngang với nút chat */
-    background: #007bff;
-    color: white;
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    font-size: 16px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 10000;
-    box-shadow: 0px 2px 6px rgba(0,0,0,0.2);
-    transition: background 0.3s;
-}
-
-    .chatbot-close:hover {
-        background: #0056b3;
-    }
-
-/* --- Khung chat --- */
-.chat-window {
-    position: fixed;
-    bottom: 140px;
-    right: 20px;
-    width: 320px;
-    height: 420px;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    display: none;
-    flex-direction: column;
-    overflow: hidden;
-    z-index: 9998;
-}
-
-.chat-header {
-    background: #007bff;
-    color: white;
-    padding: 10px;
-    font-size: 16px;
-    font-weight: bold;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-    .chat-header span {
-        cursor: pointer;
-        font-weight: bold;
-    }
-
-.chat-body {
-    flex: 1;
-    padding: 10px;
-    overflow-y: auto;
-    font-size: 14px;
-}
-
-.chat-footer {
-    padding: 10px;
-    border-top: 1px solid #ccc;
-    display: flex;
-    gap: 5px;
-}
-
-    .chat-footer input {
-        flex: 1;
-        padding: 8px;
-        border-radius: 6px;
-        border: 1px solid #ccc;
-    }
-
-    .chat-footer button {
-        padding: 8px 12px;
-        border: none;
-        background: #007bff;
-        color: white;
-        border-radius: 6px;
-        cursor: pointer;
-    }

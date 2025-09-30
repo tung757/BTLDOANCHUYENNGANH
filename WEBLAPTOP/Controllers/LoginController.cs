@@ -18,11 +18,11 @@ namespace WEBLAPTOP.Controllers
             ViewBag.Trangthai = "";
             return View();
         }
+        [HttpPost]
         public async Task<ActionResult> Account()
         {
             string username = Request["username"];
             string password = Request["password"];
-            string trangthai = "";
             var query = await db.KHACHHANGs.SingleOrDefaultAsync(kh=> kh.TK==username&&kh.MK==password);
             if (query == null) {
                 ViewBag.Trangthai = "Thong tin tai khoan khong chinh xac";
@@ -35,6 +35,11 @@ namespace WEBLAPTOP.Controllers
                 return Redirect("~/Home/Index");
             }
             
+        }
+        public ActionResult Logout()
+        {
+            Session.Clear();
+            return View("Index");
         }
 
     }
