@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Đăng ký</h2>
+<form method="post" action="@Url.Content("~/SignUp/CreateAccount")">
+    TK<input type="text" name="username" /><br />
+    MK<input type="password" name="password" /><br />
+    Ten<input type="text" name="fullname" /><br />
+    DC<input type="text" name="address" /><br />
+    SDT<input type="text" name="phone_number" /><br />
+    NS<input type="date" name="both" /><br />
+    Email<input type="text" name="email" /><br />
+    Gioitinh <br />
+    <input type="radio" name="sex" value="Nam" />Nam
+    <input type="radio" name="sex" value="Nu" />Nu<br />
+    <input type="submit" value="Dang Ky" />
+</form>
+
