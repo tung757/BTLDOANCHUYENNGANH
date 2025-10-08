@@ -8,109 +8,109 @@ using System.Web;
 using System.Web.Mvc;
 using WEBLAPTOP.Models;
 
-namespace WEBLAPTOP.Controllers
+namespace WEBLAPTOP.Areas.Admin.Controllers
 {
-    public class KHACHHANGsController : Controller
+    public class DANHMUCsController : Controller
     {
         private DARKTHESTORE db = new DARKTHESTORE();
 
-        // GET: KHACHHANGs
+        // GET: Admin/DANHMUCs
         public ActionResult Index()
         {
-            return View(db.KHACHHANGs.ToList());
+            return View(db.DANHMUCs.ToList());
         }
 
-        // GET: KHACHHANGs/Details/5
+        // GET: Admin/DANHMUCs/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            KHACHHANG kHACHHANG = db.KHACHHANGs.Find(id);
-            if (kHACHHANG == null)
+            DANHMUC dANHMUC = db.DANHMUCs.Find(id);
+            if (dANHMUC == null)
             {
                 return HttpNotFound();
             }
-            return View(kHACHHANG);
+            return View(dANHMUC);
         }
 
-        // GET: KHACHHANGs/Create
+        // GET: Admin/DANHMUCs/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: KHACHHANGs/Create
+        // POST: Admin/DANHMUCs/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID_KH,TenKH,DiaChi,SDT,GioTinh,NgaySinh,Email,TK,MK,PhanQuyen")] KHACHHANG kHACHHANG)
+        public ActionResult Create([Bind(Include = "ID_DM,TenDM")] DANHMUC dANHMUC)
         {
             if (ModelState.IsValid)
             {
-                db.KHACHHANGs.Add(kHACHHANG);
+                db.DANHMUCs.Add(dANHMUC);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(kHACHHANG);
+            return View(dANHMUC);
         }
 
-        // GET: KHACHHANGs/Edit/5
+        // GET: Admin/DANHMUCs/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            KHACHHANG kHACHHANG = db.KHACHHANGs.Find(id);
-            if (kHACHHANG == null)
+            DANHMUC dANHMUC = db.DANHMUCs.Find(id);
+            if (dANHMUC == null)
             {
                 return HttpNotFound();
             }
-            return View(kHACHHANG);
+            return View(dANHMUC);
         }
 
-        // POST: KHACHHANGs/Edit/5
+        // POST: Admin/DANHMUCs/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID_KH,TenKH,DiaChi,SDT,GioTinh,NgaySinh,Email,TK,MK,PhanQuyen")] KHACHHANG kHACHHANG)
+        public ActionResult Edit([Bind(Include = "ID_DM,TenDM")] DANHMUC dANHMUC)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(kHACHHANG).State = EntityState.Modified;
+                db.Entry(dANHMUC).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(kHACHHANG);
+            return View(dANHMUC);
         }
 
-        // GET: KHACHHANGs/Delete/5
+        // GET: Admin/DANHMUCs/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            KHACHHANG kHACHHANG = db.KHACHHANGs.Find(id);
-            if (kHACHHANG == null)
+            DANHMUC dANHMUC = db.DANHMUCs.Find(id);
+            if (dANHMUC == null)
             {
                 return HttpNotFound();
             }
-            return View(kHACHHANG);
+            return View(dANHMUC);
         }
 
-        // POST: KHACHHANGs/Delete/5
+        // POST: Admin/DANHMUCs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            KHACHHANG kHACHHANG = db.KHACHHANGs.Find(id);
-            db.KHACHHANGs.Remove(kHACHHANG);
+            DANHMUC dANHMUC = db.DANHMUCs.Find(id);
+            db.DANHMUCs.Remove(dANHMUC);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
