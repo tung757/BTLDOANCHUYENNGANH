@@ -93,3 +93,12 @@ function updateMainImage() {
     $(".thumb-item").removeClass("border-primary");
     $(".thumb-item").eq(currentIndex).addClass("border-primary");
 }
+
+
+function onSortChange(sort) {
+    window.location.href = base_link + '?sort=' + sort ;
+}
+
+function changedisplayproduct(display, sort) {
+    window.location.href = base_link + '?sort=' + sort +'&display=' + display;
+}

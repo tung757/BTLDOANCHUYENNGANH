@@ -16,7 +16,7 @@
     background-color: #ffffff;
 }
 .product_style_scale:hover{
-    background-color:#dbdbdb;
+/*    background-color:#dbdbdb;*/
     transform:scale(1.01);
 }
 .cartsp span{
@@ -42,4 +42,38 @@
     background-color: antiquewhite;
     color: #808080;
     text-decoration: none;
+}
+
+
+
+
+
+
+.category-bar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding: 10px 0;
+}
+
+.category-btn {
+    white-space: nowrap;
+    border: none;
+    background-color: #f5f5f5;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 14px;
+}
+
+.category-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.category-btn.active {
+    background-color: #3b82f6;  /* xanh giống Bootstrap primary */
+    color: white;
+    font-weight: 600;
 }

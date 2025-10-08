@@ -148,6 +148,7 @@
     <Compile Include="Models\GIOHANG_SANPHAM.cs" />
     <Compile Include="Models\KHACHHANG.cs" />
     <Compile Include="Models\KHUYENMAI.cs" />
+    <Compile Include="Models\ProductFilter.cs" />
     <Compile Include="Models\SANPHAM.cs" />
     <Compile Include="Models\sysdiagram.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
