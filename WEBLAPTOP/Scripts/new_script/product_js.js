@@ -134,4 +134,9 @@ function groupby_price() {
     window.location.href = base_link + "?price_start=" + price_start + "&price_end=" +price_end;
 }
 
+//button lọc danh mục
+function btn_dm(value) {
+    window.location.href = base_link + "?categories_id=" + value;
+}
+
 

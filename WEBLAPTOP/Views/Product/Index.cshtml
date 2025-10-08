@@ -11,7 +11,7 @@
     <div class="category-bar">
         @foreach(var cate in ViewBag.categories)
             {
-                <button class="category-btn" data-category="@cate.ID_DM">@cate.TenDM</button>
+                <button class="category-btn" onclick="btn_dm('@cate.ID_DM')" >@cate.TenDM</button>
             }
     </div>
 </div>
