@@ -94,7 +94,7 @@ function updateMainImage() {
     $(".thumb-item").eq(currentIndex).addClass("border-primary");
 }
 
-//Lọc fiilter cho sản phẩm
+//Lọc fiilter cho sản phẩm nhé
 function onSortChange(sort) {
     window.location.href = base_link + '?sort=' + sort ;
 }
