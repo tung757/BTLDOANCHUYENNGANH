@@ -147,6 +147,7 @@
     <Compile Include="Models\GIOHANG_SANPHAM.cs" />
     <Compile Include="Models\KHACHHANG.cs" />
     <Compile Include="Models\KHUYENMAI.cs" />
+    <Compile Include="Models\ProductFilter.cs" />
     <Compile Include="Models\SANPHAM.cs" />
     <Compile Include="Models\sysdiagram.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -170,6 +171,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\new_css\product_style.css" />
     <Content Include="Content\new_css\stylehome.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -216,6 +218,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\new_script\home_layout.js" />
+    <Content Include="Scripts\new_script\product_js.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
