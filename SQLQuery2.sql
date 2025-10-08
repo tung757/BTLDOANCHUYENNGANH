@@ -76,6 +76,14 @@ constraint pk1 primary key(ID_DH,ID_SP),
 constraint fk9 foreign key (ID_DH) references DONHANG(ID_DH),
 constraint fk10 foreign key (ID_SP) references SANPHAM(ID_SP)
 )
+ALTER TABLE DONHANG
+ADD Ten nvarchar(255),
+ DiaChiGiaoHang nvarchar(255),
+ SDT nvarchar(10),
+ PhuongthucTT nvarchar(255)
+
+ALTER TABLE KHUYENMAI
+ADD Mota nvarchar(25)
 
 select * from DANHGIA
 select * from SANPHAM

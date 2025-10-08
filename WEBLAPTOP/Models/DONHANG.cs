@@ -31,6 +31,18 @@ namespace WEBLAPTOP.Models
 
         public int? ID_KM { get; set; }
 
+        [StringLength(255)]
+        public string Ten { get; set; }
+
+        [StringLength(255)]
+        public string DiaChiGiaoHang { get; set; }
+
+        [StringLength(10)]
+        public string SDT { get; set; }
+
+        [StringLength(255)]
+        public string PhuongthucTT { get; set; }
+
         public virtual KHACHHANG KHACHHANG { get; set; }
 
         public virtual KHUYENMAI KHUYENMAI { get; set; }

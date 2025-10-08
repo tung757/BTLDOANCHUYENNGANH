@@ -1,0 +1,79 @@
+﻿body {
+}
+.menu_filter li a {
+    padding: 7px 20px;
+    border: 0.5px solid gray;
+    border-radius: 20px;
+    color: black;
+    text-decoration: none;
+}
+.menu_filter li {
+    padding: 10px 20px;
+    margin: 5px 0px;
+}
+.menu_filter li:hover a{
+    color: #ff6a00;
+    background-color: #ffffff;
+}
+.product_style_scale:hover{
+/*    background-color:#dbdbdb;*/
+    transform:scale(1.01);
+}
+.cartsp span{
+    color: yellow;
+}
+.cartsp{
+    background-color:red;
+}
+.card_product{
+    position:relative;
+}
+.quick_view {
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%, -50%);
+    z-index:2;
+    display:none;
+}
+.quick_view p{
+    font-weight:bold;
+    padding: 5px 10px;
+    background-color: antiquewhite;
+    color: #808080;
+    text-decoration: none;
+}
+
+
+
+
+
+
+.category-bar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding: 10px 0;
+}
+
+.category-btn {
+    white-space: nowrap;
+    border: none;
+    background-color: #f5f5f5;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 14px;
+}
+
+.category-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.category-btn.active {
+    background-color: #3b82f6;  /* xanh giống Bootstrap primary */
+    color: white;
+    font-weight: 600;
+}
