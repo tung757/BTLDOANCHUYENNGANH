@@ -94,7 +94,7 @@ function updateMainImage() {
     $(".thumb-item").eq(currentIndex).addClass("border-primary");
 }
 
-
+//Lọc fiilter cho sản phẩm
 function onSortChange(sort) {
     window.location.href = base_link + '?sort=' + sort ;
 }
@@ -102,3 +102,36 @@ function onSortChange(sort) {
 function changedisplayproduct(display, sort) {
     window.location.href = base_link + '?sort=' + sort +'&display=' + display;
 }
+
+//Hiển thị thanh chạy giá để lọc
+const minInput = document.getElementById('minPrice');
+const maxInput = document.getElementById('maxPrice');
+const minValue = document.getElementById('minPriceValue');
+const maxValue = document.getElementById('maxPriceValue');
+
+minInput.addEventListener('input', () => {
+    if (parseInt(minInput.value) > parseInt(maxInput.value)) {
+        maxInput.value = minInput.value;
+    }
+    minValue.textContent = parseInt(minInput.value).toLocaleString();
+    maxValue.textContent = parseInt(maxInput.value).toLocaleString();
+});
+
+maxInput.addEventListener('input', () => {
+    if (parseInt(maxInput.value) < parseInt(minInput.value)) {
+        minInput.value = maxInput.value;
+    }
+    maxValue.textContent = parseInt(maxInput.value).toLocaleString();
+    minValue.textContent = parseInt(minInput.value).toLocaleString();
+});
+
+//Xử lý lọc theo giá
+function groupby_price() {
+    var str = $("#minPriceValue").text();
+    var price_start = parseInt(str.replace(/\./g, ""), 10);
+    str = $("#maxPriceValue").text();
+    var price_end = parseInt(str.replace(/\./g, ""), 10);
+    window.location.href = base_link + "?price_start=" + price_start + "&price_end=" +price_end;
+}
+
+

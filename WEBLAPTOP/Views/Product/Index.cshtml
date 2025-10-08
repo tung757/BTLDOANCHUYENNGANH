@@ -9,9 +9,10 @@
 <link rel="stylesheet" href="~/Content/new_css/product_style.css" />
 <div class="d-flex justify-content-center">
     <div class="category-bar">
-        <button class="category-btn" data-category="dell">Dell</button>
-        <button class="category-btn" data-category="lenovo">Lenovo</button>
-        <button class="category-btn" data-category="apple">Apple</button>
+        @foreach(var cate in ViewBag.categories)
+            {
+                <button class="category-btn" data-category="@cate.ID_DM">@cate.TenDM</button>
+            }
     </div>
 </div>
 <div class="row">
@@ -22,25 +23,50 @@
         <div class="dropdown">
             <button class="btn dropdown-toggle" data-bs-toggle="dropdown">Danh mục sản phẩm</button>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Laptop Dell</a></li>
-                <li><a class="dropdown-item" href="#">Laptop Acer</a></li>
-                <li><a class="dropdown-item" href="#">Laptop Gamming</a></li>
+                @foreach (var cate in ViewBag.categories)
+                {
+                    <li><a class="dropdown-item" href="@Url.Action("Index", "Product", new {categories_id=cate.ID_DM})">@cate.TenDM</a></li>
+                }
             </ul>
         </div>
         <hr style="color:gray;" />
         <div>
-            <p class="p-0 m-0">Khoảng giá</p>
-            <ul class="list-unstyled menu_filter">
-                <li><a href="#" style="cursor:pointer;">Nhỏ hơn 2.000.000đ</a></li>
-                <li><a href="#" style="cursor:pointer;" ">2.000.000đ-5.000.000đ</a></li>
-            </ul>
+            <div class="row">
+                <div class="col">
+                    <div class="row">
+                        <div class="col"><p class="p-0 m-0">Khoảng giá</p></div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <ul class="list-unstyled menu_filter">
+                                <li><a href="@Url.Action("Index", "Product", new {price_end=2000000})" style="cursor:pointer;">Nhỏ hơn 2.000.000đ</a></li>
+                                <li><a href="@Url.Action("Index", "Product", new {price_start=2000000,price_end=5000000})" style="cursor:pointer;" >2.000.000đ-5.000.000đ</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+   
             <p class="p-0 m-0">Chọn khoảng giá</p>
             <div class="row">
                 <div class="col-6">
-                    <input type="number" id="giabatdau" class="w-100" placeholder="0">
+                    <input type="range" id="minPrice" min="0" max="500000000" step="1000000" value="0" class="form-range">
                 </div>
                 <div class="col-6">
-                    <input type="number" id="giaketthuc" class="w-100" placeholder="0">
+                    <input type="range" id="maxPrice" min="0" max="500000000" step="1000000" value="50000000" class="form-range">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <span id="minPriceValue">0</span> đ
+                </div>
+                <div class="col-6">
+                    <span id="maxPriceValue">50.000.000</span> đ
+                </div>
+            </div>
+            <div class="row">
+                <div class="col p-2 d-flex justify-content-center">
+                    <button class="btn btn-secondary w-50" onclick="groupby_price()" >Lọc</button>
                 </div>
             </div>
             <hr style="color:gray;" />
@@ -49,179 +75,179 @@
 
     </div>
     @*Hien thi san pham*@
-<div class="col-9">
-    <div class="row">
-        <div class="col">
-            <div class="container my-3">
-                <div class="d-flex flex-wrap align-items-center gap-2">
-                    <!-- Bộ lọc loại -->
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-outline-secondary @(ViewBag.CurrentDisplay == "default" || ViewBag.CurrentDisplay == null ? "active" : "")" onclick="changedisplayproduct('default','@ViewBag.CurrentSort')" data-filter="all">Tất cả</button>
-                        <button type="button" class="btn btn-outline-secondary @(ViewBag.CurrentDisplay == "sell_percent" ? "active" : "")" onclick="changedisplayproduct('sell_percent','@ViewBag.CurrentSort')" data-filter="discount">Giảm giá</button>
-                    </div>
-
-                    <!-- Bộ lọc sắp xếp -->
-                    <div class="ms-auto d-flex align-items-center">
-                        <label class="me-2 mb-0 fw-semibold">Sắp xếp</label>
-                        <select class="form-select form-select-sm w-auto" id="sortSelect" onchange="onSortChange(this.value)">
-                            <option value="default" @(ViewBag.CurrentSort == "default" || ViewBag.CurrentSort == null ? "selected" : "")>Nổi bật</option>
-                            <option value="price_asc" @(ViewBag.CurrentSort == "price_asc" ? "selected" : "")>Giá tăng dần</option>
-                            <option value="price_desc" @(ViewBag.CurrentSort == "price_desc" ? "selected" : "")>Giá giảm dần</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-        @foreach (var sp in Model)
-        {
+    <div class="col-9">
+        <div class="row">
             <div class="col">
-                <div class="card h-100 shadow-lg product_style_scale card_product" onclick="location.href='@Url.Action("Details", "Product", new { id = sp.ID_SP })'">
-                    <div class="badge bg-warning text-dark position-absolute" style="top: 10px; right: 10px;">
-                        @{
-                            double? a = 1.0 * sp.Gia / sp.GiaBan;
-                            double? kq = (a - 1) * 100;
-                            decimal gia = Convert.ToDecimal(kq ?? 0);
-                            int sell = (int)gia;
-                        }
-                        @sell OFF
-
-                    </div>
-
-                    @{string[] images = sp.Images_url.Split(';');
-                    }
-
-                    <img src="~/Images/Product_images/@images[0]" class="card-img-top p-2 img_product" alt="@sp.TenSP" style="height:200px; object-fit:cover;">
-
-                    <div class="quick_view">
-                        <p class="btn-quick-view"
-                           data-id="@sp.ID_SP"
-                           data-name="@sp.TenSP"
-                           data-price="@Convert.ToDecimal(sp.GiaBan).ToString("C0", System.Globalization.CultureInfo.GetCultureInfo("vi-VN"))"
-                           data-slb="@sp.SoLuongBan"
-                           data-giathat="@Convert.ToDecimal(sp.Gia).ToString("C0", System.Globalization.CultureInfo.GetCultureInfo("vi-VN"))"
-                           data-description="@sp.Mota"
-                           data-sell="@sell"
-                           data-image="@sp.Images_url" style="cursor:pointer;">
-                            <i class="bi bi-eye"></i> Xem nhanh
-                        </p>
-                    </div>
-                    <div class="card-body p-2">
-
-                        <h6 class="card-title text-truncate mb-2" title="Kệ Đầu Giường Gỗ Tự Nhiên Tối Giản Calm 348">
-                            @sp.TenSP
-                        </h6>
-
-
-                        <div class="mb-1">
-                            <span class="badge bg-dark">
-                                <i class="bi bi-truck"></i> Freeship
-                            </span>
+                <div class="container my-3">
+                    <div class="d-flex flex-wrap align-items-center gap-2">
+                        <!-- Bộ lọc loại -->
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-outline-secondary @(ViewBag.CurrentDisplay == "default" || ViewBag.CurrentDisplay == null ? "active" : "")" onclick="changedisplayproduct('default','@ViewBag.CurrentSort')" data-filter="all">Tất cả</button>
+                            <button type="button" class="btn btn-outline-secondary @(ViewBag.CurrentDisplay == "sell_percent" ? "active" : "")" onclick="changedisplayproduct('sell_percent','@ViewBag.CurrentSort')" data-filter="discount">Giảm giá</button>
                         </div>
 
-
-                        <div class="d-flex align-items-center mb-1">
-                            <span class="fw-bold text-warning me-2" style="font-size: 1.1rem;">@sp.GiaBan</span>
-                            <span class="badge bg-warning text-dark">-@sell %</span>
-                        </div>
-
-
-                        <div class="d-flex align-items-center text-muted" style="font-size: 0.9rem;">
-                            <i class="bi bi-star-fill text-warning me-1"></i>
-                            3.90/6
-                            <span class="mx-1">|</span>
-                            Đã bán @sp.SoLuongBan
+                        <!-- Bộ lọc sắp xếp -->
+                        <div class="ms-auto d-flex align-items-center">
+                            <label class="me-2 mb-0 fw-semibold">Sắp xếp</label>
+                            <select class="form-select form-select-sm w-auto" id="sortSelect" onchange="onSortChange(this.value)">
+                                <option value="default" @(ViewBag.CurrentSort == "default" || ViewBag.CurrentSort == null ? "selected" : "")>Nổi bật</option>
+                                <option value="price_asc" @(ViewBag.CurrentSort == "price_asc" ? "selected" : "")>Giá tăng dần</option>
+                                <option value="price_desc" @(ViewBag.CurrentSort == "price_desc" ? "selected" : "")>Giá giảm dần</option>
+                            </select>
                         </div>
                     </div>
-                </div>
-            </div>
-        }
-
-
-        <div class="modal fade" id="quickViewModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-xl modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-body p-4">
-                        <div class="row g-4">
-                            <!-- Cột trái: Ảnh sản phẩm -->
-                            <div class="col-md-6">
-                                <div class="position-relative">
-                                    <img src=""
-                                         class="img-fluid rounded w-100" alt="Ảnh sản phẩm" id="modalImage" />
-                                    <!-- Nút điều hướng -->
-                                    <button class="btn btn-dark position-absolute top-50 start-0 translate-middle-y" id="prevImage">
-                                        <i class="bi bi-chevron-left"></i>
-                                    </button>
-                                    <button class="btn btn-dark position-absolute top-50 end-0 translate-middle-y" id="nextImage">
-                                        <i class="bi bi-chevron-right"></i>
-                                    </button>
-                                </div>
-
-                                @*Ảnh nhỏ bên dưới*@
-                                <div class="d-flex mt-2 overflow-auto gap-2" id="thumbContainer"></div>
-                            </div>
-
-                            <!-- Cột phải: Thông tin sản phẩm -->
-                            <div class="col-md-6">
-                                <!-- Tiêu đề & đánh giá -->
-                                <h4 id="modalName"></h4>
-                                <div class="mb-2">
-                                    <span class="text-warning fw-bold">5.4</span><span>/6.0</span>
-                                    <a href="#" class="ms-1 text-decoration-none">(33 đánh giá)</a>
-                                    <span class="mx-1">|</span>
-                                    <span id="soluongban"></span>
-                                </div>
-
-
-
-                                <!-- Giá & giảm giá -->
-                                <div class="d-flex align-items-center mb-3">
-                                    <span class="text-warning fw-bold me-2" style="font-size: 1.5rem;" id="modalPrice"></span>
-                                    <span class="text-muted text-decoration-line-through me-2" id="modalrealPrice"></span>
-                                    <span class="badge bg-warning text-dark" id="modalgiamgia"></span>
-                                </div>
-
-                                <!-- Nút mua -->
-                                <div class="d-flex gap-3 mb-3">
-                                    <button class="btn btn-outline-warning flex-grow-1">
-                                        <i class="bi bi-cart-plus"></i>
-                                    </button>
-                                    <button class="btn btn-warning flex-grow-1 fw-bold">
-                                        Mua ngay
-                                    </button>
-                                </div>
-
-                                <!-- Thông tin chi tiết -->
-                                <div>
-                                    <a href="#" class="text-decoration-none text-dark fw-bold d-block mb-2">
-                                        Xem thêm thông tin sản phẩm
-                                    </a>
-                                    <p class="mb-0"><strong>Chi tiết:</strong></p>
-                                    <p id="modalDescription"></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Nút đóng -->
-                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal"></button>
                 </div>
             </div>
         </div>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            @foreach (var sp in Model)
+            {
+                <div class="col">
+                    <div class="card h-100 shadow-lg product_style_scale card_product" onclick="location.href='@Url.Action("Details", "Product", new { id = sp.ID_SP })'">
+                        <div class="badge bg-warning text-dark position-absolute" style="top: 10px; right: 10px;">
+                            @{
+                                double? a = 1.0 * sp.Gia / sp.GiaBan;
+                                double? kq = (a - 1) * 100;
+                                decimal gia = Convert.ToDecimal(kq ?? 0);
+                                int sell = (int)gia;
+                            }
+                            @sell OFF
 
-    </div>
-    <nav aria-label="Page navigation" class="d-flex justify-content-center">
-        <ul class="pagination">
+                        </div>
+
+                        @{string[] images = sp.Images_url.Split(';');
+                        }
+
+                        <img src="~/Images/Product_images/@images[0]" class="card-img-top p-2 img_product" alt="@sp.TenSP" style="height:200px; object-fit:cover;">
+
+                        <div class="quick_view">
+                            <p class="btn-quick-view"
+                               data-id="@sp.ID_SP"
+                               data-name="@sp.TenSP"
+                               data-price="@Convert.ToDecimal(sp.GiaBan).ToString("C0", System.Globalization.CultureInfo.GetCultureInfo("vi-VN"))"
+                               data-slb="@sp.SoLuongBan"
+                               data-giathat="@Convert.ToDecimal(sp.Gia).ToString("C0", System.Globalization.CultureInfo.GetCultureInfo("vi-VN"))"
+                               data-description="@sp.Mota"
+                               data-sell="@sell"
+                               data-image="@sp.Images_url" style="cursor:pointer;">
+                                <i class="bi bi-eye"></i> Xem nhanh
+                            </p>
+                        </div>
+                        <div class="card-body p-2">
+
+                            <h6 class="card-title text-truncate mb-2" title="Kệ Đầu Giường Gỗ Tự Nhiên Tối Giản Calm 348">
+                                @sp.TenSP
+                            </h6>
+
+
+                            <div class="mb-1">
+                                <span class="badge bg-dark">
+                                    <i class="bi bi-truck"></i> Freeship
+                                </span>
+                            </div>
+
+
+                            <div class="d-flex align-items-center mb-1">
+                                <span class="fw-bold text-warning me-2" style="font-size: 1.1rem;">@sp.GiaBan</span>
+                                <span class="badge bg-warning text-dark">-@sell %</span>
+                            </div>
+
+
+                            <div class="d-flex align-items-center text-muted" style="font-size: 0.9rem;">
+                                <i class="bi bi-star-fill text-warning me-1"></i>
+                                3.90/6
+                                <span class="mx-1">|</span>
+                                Đã bán @sp.SoLuongBan
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+            <div class="modal fade" id="quickViewModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-xl modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-body p-4">
+                            <div class="row g-4">
+                                <!-- Cột trái: Ảnh sản phẩm -->
+                                <div class="col-md-6">
+                                    <div class="position-relative">
+                                        <img src=""
+                                             class="img-fluid rounded w-100" alt="Ảnh sản phẩm" id="modalImage" />
+                                        <!-- Nút điều hướng -->
+                                        <button class="btn btn-dark position-absolute top-50 start-0 translate-middle-y" id="prevImage">
+                                            <i class="bi bi-chevron-left"></i>
+                                        </button>
+                                        <button class="btn btn-dark position-absolute top-50 end-0 translate-middle-y" id="nextImage">
+                                            <i class="bi bi-chevron-right"></i>
+                                        </button>
+                                    </div>
+
+                                    @*Ảnh nhỏ bên dưới*@
+                                    <div class="d-flex mt-2 overflow-auto gap-2" id="thumbContainer"></div>
+                                </div>
+
+                                <!-- Cột phải: Thông tin sản phẩm -->
+                                <div class="col-md-6">
+                                    <!-- Tiêu đề & đánh giá -->
+                                    <h4 id="modalName"></h4>
+                                    <div class="mb-2">
+                                        <span class="text-warning fw-bold">5.4</span><span>/6.0</span>
+                                        <a href="#" class="ms-1 text-decoration-none">(33 đánh giá)</a>
+                                        <span class="mx-1">|</span>
+                                        <span id="soluongban"></span>
+                                    </div>
+
+
+
+                                    <!-- Giá & giảm giá -->
+                                    <div class="d-flex align-items-center mb-3">
+                                        <span class="text-warning fw-bold me-2" style="font-size: 1.5rem;" id="modalPrice"></span>
+                                        <span class="text-muted text-decoration-line-through me-2" id="modalrealPrice"></span>
+                                        <span class="badge bg-warning text-dark" id="modalgiamgia"></span>
+                                    </div>
+
+                                    <!-- Nút mua -->
+                                    <div class="d-flex gap-3 mb-3">
+                                        <button class="btn btn-outline-warning flex-grow-1">
+                                            <i class="bi bi-cart-plus"></i>
+                                        </button>
+                                        <button class="btn btn-warning flex-grow-1 fw-bold">
+                                            Mua ngay
+                                        </button>
+                                    </div>
+
+                                    <!-- Thông tin chi tiết -->
+                                    <div>
+                                        <a href="#" class="text-decoration-none text-dark fw-bold d-block mb-2">
+                                            Xem thêm thông tin sản phẩm
+                                        </a>
+                                        <p class="mb-0"><strong>Chi tiết:</strong></p>
+                                        <p id="modalDescription"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Nút đóng -->
+                        <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal"></button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <nav aria-label="Page navigation" class="d-flex justify-content-center">
+            <ul class="pagination">
                 @for (int i = 1; i <= ViewBag.TotalPages; i++)
                 {
                     <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
-                        <a class="page-link" href="@Url.Action("Index", new { sort=ViewBag.CurrentSort, display=ViewBag.CurrentDisplay, page = i })">@i</a>
+                        <a class="page-link" href="@Url.Action("Index", new { sort=ViewBag.CurrentSort, display=ViewBag.CurrentDisplay,categories_id=ViewBag.Curentcategori, page = i })">@i</a>
                     </li>
                 }
             </ul>
-    </nav>
-</div>
+        </nav>
+    </div>
 </div>
 @Scripts.Render("~/Scripts/new_script/product_js.js")
 
