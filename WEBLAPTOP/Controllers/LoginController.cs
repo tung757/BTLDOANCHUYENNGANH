@@ -25,7 +25,7 @@ namespace WEBLAPTOP.Controllers
             string password = Request["password"];
             var query = await db.KHACHHANGs.SingleOrDefaultAsync(kh=> kh.TK==username&&kh.MK==password);
             if (query == null) {
-                ViewBag.Trangthai = "Thong tin tai khoan khong chinh xac";
+                ViewBag.Trangthai = "Thông tin tài khoản không chính xác";
                 return View("Index");
             }
             else
