@@ -20,18 +20,24 @@ namespace WEBLAPTOP.Controllers
         public async Task<ActionResult> CreateAccount()
         {
             KHACHHANG kh_new = new KHACHHANG();
-            kh_new.TK = Request["username"].ToString();
-            kh_new.MK = Request["password"].ToString();
-            kh_new.TenKH= Request["fullname"].ToString();
-            kh_new.DiaChi = Request["address"].ToString();
-            kh_new.SDT = Request["phone_number"].ToString();
-            kh_new.NgaySinh = Convert.ToDateTime(Request["both"]);
-            kh_new.Email= Request["email"].ToString();
-            kh_new.GioTinh = Request["sex"].ToString();
+            kh_new.TK = Request["TK"];
+            kh_new.MK = Request["MK"];
+            kh_new.TenKH = Request["TenKH"];
+            kh_new.DiaChi = Request["DiaChi"];
+            kh_new.SDT = Request["SDT"];
+            kh_new.Email = Request["Email"];
+            kh_new.GioTinh = Request["GioTinh"];
             kh_new.PhanQuyen = 1;
+
+            DateTime date;
+            if (DateTime.TryParse(Request["NgaySinh"], out date))
+                kh_new.NgaySinh = date;
+
             db.KHACHHANGs.Add(kh_new);
             db.SaveChanges();
-            return RedirectToAction("Index","Login");
+
+            return RedirectToAction("Index", "Login");
+
         }
     }
 }
