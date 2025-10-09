@@ -20,7 +20,6 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
             var sANPHAMs = db.SANPHAMs.Include(s => s.DANHMUC);
             return View(sANPHAMs.ToList());
         }
-
         // GET: Admin/SANPHAMs/Details/5
         public ActionResult Details(int? id)
         {

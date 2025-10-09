@@ -14,18 +14,18 @@ namespace WEBLAPTOP.Controllers
     {
         private readonly DARKTHESTORE db = new DARKTHESTORE();
         // GET: Product
-        public async Task<ActionResult> Index(ProductFilter filter, int page = 1, int pageSize=6)
+        public async Task<ActionResult> Index(ProductFilter filter, int page = 1, int pageSize = 6)
         {
             //lấy danh sách danh mục
             List<DANHMUC> lstcategori = await db.DANHMUCs.ToListAsync();
-            ViewBag.categories=lstcategori;
+            ViewBag.categories = lstcategori;
 
             IQueryable<SANPHAM> ds = db.SANPHAMs.AsQueryable();
 
             //lọc theo danh mục
             if (filter.categories_id != null)
             {
-                ds=ds.Where(sp=>sp.ID_DM==filter.categories_id);
+                ds = ds.Where(sp => sp.ID_DM == filter.categories_id);
             }
 
             //lọc theo giá
@@ -43,17 +43,18 @@ namespace WEBLAPTOP.Controllers
             }
 
             //lọc theo giảm giá
-            if(filter.display== "sell_percent")
+            if (filter.display == "sell_percent")
             {
                 ds = ds.Where(p => p.Gia > p.GiaBan);
             }
 
             if (filter.price_start != null)
             {
-                ds=ds.Where(p=>p.GiaBan>=filter.price_start);
+                ds = ds.Where(p => p.GiaBan >= filter.price_start);
             }
-            if (filter.price_end != null) { 
-                ds=ds.Where(p=>p.GiaBan<=filter.price_end);
+            if (filter.price_end != null)
+            {
+                ds = ds.Where(p => p.GiaBan <= filter.price_end);
             }
 
             var dssl = ds;
@@ -76,7 +77,7 @@ namespace WEBLAPTOP.Controllers
         }
         public async Task<ActionResult> Details(int id)
         {
-            var query = await db.SANPHAMs.SingleOrDefaultAsync(sp=> sp.ID_SP == id);
+            var query = await db.SANPHAMs.SingleOrDefaultAsync(sp => sp.ID_SP == id);
             return View(query);
         }
     }
