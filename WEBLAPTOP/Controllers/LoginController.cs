@@ -23,9 +23,10 @@ namespace WEBLAPTOP.Controllers
         {
             string username = Request["username"];
             string password = Request["password"];
-            var query = await db.KHACHHANGs.SingleOrDefaultAsync(kh=> kh.TK==username&&kh.MK==password);
-            if (query == null) {
-                ViewBag.Trangthai = "Thong tin tai khoan khong chinh xac";
+            var query = await db.KHACHHANGs.SingleOrDefaultAsync(kh => kh.TK == username && kh.MK == password);
+            if (query == null)
+            {
+                ViewBag.Trangthai = "Thông tin tài khoản không chính xác";
                 return View("Index");
             }
             else
@@ -34,7 +35,7 @@ namespace WEBLAPTOP.Controllers
                 Session["Rolw"] = query.PhanQuyen;
                 return Redirect("~/Home/Index");
             }
-            
+
         }
         public ActionResult Logout()
         {
