@@ -78,6 +78,8 @@ namespace WEBLAPTOP.Controllers
         public async Task<ActionResult> Details(int id)
         {
             var query = await db.SANPHAMs.SingleOrDefaultAsync(sp => sp.ID_SP == id);
+            var danhgia=await db.DANHGIAs.Where(dg=>dg.ID_SP==id).Include(kh=>kh.KHACHHANG).ToListAsync();
+            ViewBag.DSDanhGia = danhgia;
             return View(query);
         }
     }

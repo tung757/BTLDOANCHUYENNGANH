@@ -2,7 +2,232 @@
 @{
     ViewBag.Title = "Details";
 }
+@{
+    string[] images = Model.Images_url.Split(';');
+}
 
-<h2>Details</h2>
-@Model.ID_SP
+<style>
+    .thumb {
+        width: 70px;
+        cursor: pointer;
+        border: 2px solid transparent;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+
+    .thumb.active {
+        border-color: #ffc107;
+    }
+    .review-item {
+        border-top: 1px solid #eee;
+        padding: 15px 0;
+    }
+
+    .review-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: #ddd;
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    .review-name {
+        font-weight: 600;
+        font-size: 16px;
+    }
+
+    .review-stars i {
+        color: #f6c542;
+        font-size: 15px;
+    }
+
+    .review-content {
+        margin-top: 5px;
+        font-size: 15px;
+    }
+
+    .review-date {
+        font-size: 13px;
+        color: #888;
+        margin-top: 5px;
+    }
+</style>
+
+<!-- Container chính -->
+<div class="container my-4">
+
+    <div class="row">
+        <!-- Carousel ảnh sản phẩm -->
+        <div class="col-md-5">
+            <div id="productCarousel" class="carousel slide">
+                <div class="carousel-inner rounded">
+                    <div class="carousel-item active">
+                        <img src="~/Images/Product_images/@images[0]" class="d-block w-100">
+                    </div>
+                    @{
+                        for (int i = 1; i < images.Count(); i++)
+                        {
+                            <div class="carousel-item">
+                                <img src="~/Images/Product_images/@images[i]" class="d-block w-100">
+                            </div>
+                        }
+                    }
+
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
+            </div>
+
+            <div class="d-flex gap-2">
+                @{
+                    <div class="thumb active" data-bs-target="#productCarousel" data-bs-slide-to="0">
+                        <img src="~/Images/Product_images/@images[0]" class="w-100">
+                    </div>
+                    for (int i = 1; i < images.Count(); i++)
+                    {
+                        <div class="thumb" data-bs-target="#productCarousel" data-bs-slide-to="@i">
+                            <img src="~/Images/Product_images/@images[i]" class="w-100">
+                        </div>
+                    }
+                }
+
+            </div>
+        </div>
+
+        <!-- Thông tin sản phẩm giữa -->
+        <div class="col-md-4">
+            <!-- Tiêu đề sản phẩm -->
+            <div class="mb-3">
+                <div class="fs-4 fw-semibold">Bàn Trang Điểm Gỗ Tự Nhiên Aura 011</div>
+                <div class="d-flex align-items-center text-warning">
+                    <div class="me-1">⭐ 3.9/6.0</div>
+                    <div class="text-secondary">(20 đánh giá)</div>
+                    <div class="ms-3 text-secondary">| Đã bán 105</div>
+                </div>
+            </div>
+
+
+            <div class="text-muted mb-2">Thiết kế tùy chỉnh theo yêu cầu <span class="text-warning">Liên hệ với chúng tôi</span></div>
+
+            <div class="d-flex align-items-center mb-3">
+                <div class="fs-3 fw-bold text-warning me-2">3.950.000đ</div>
+                <div class="text-decoration-line-through text-muted me-2">5.050.000đ</div>
+                <div class="badge bg-warning text-dark">-22%</div>
+            </div>
+
+            <div class="fw-semibold mb-2">Chi tiết</div>
+            <div class="text-secondary small">
+                <div>• Màu sắc: Màu óc chó</div>
+                <div>• Kích thước: Tiêu chuẩn</div>
+                <div>• Kiểu dáng sản phẩm: Truyền thống</div>
+                <div>• Chất liệu: Gỗ cao su</div>
+                <div>• Chất liệu an toàn: Ít hóa chất</div>
+            </div>
+        </div>
+
+        <!-- Khung bên phải (mua hàng) -->
+        <div class="col-md-3 bg-light p-3 rounded">
+
+            <div class="fw-semibold mb-2">Số lượng</div>
+            <div class="d-flex mb-3">
+                <div class="btn btn-outline-secondary">-</div>
+                <div class="px-3 border d-flex align-items-center">1</div>
+                <div class="btn btn-outline-secondary">+</div>
+            </div>
+
+            <div class="fw-semibold mb-2">Vận chuyển <span class="text-muted" title="Phí ship"><i class="bi bi-info-circle"></i></span></div>
+            <div class="mb-3">
+                <span class="text-decoration-line-through text-muted me-2">606.000đ</span>
+                <span class="badge bg-dark">Freeship</span>
+            </div>
+
+            <div class="d-flex align-items-center mb-3">
+                <div class="fs-3 fw-bold text-warning me-2">3.950.000đ</div>
+                <div class="text-decoration-line-through text-muted me-2">5.050.000đ</div>
+                <div class="badge bg-warning text-dark">-22%</div>
+            </div>
+
+            <div class="btn btn-warning w-100 fw-semibold">Mua ngay</div>
+        </div>
+    </div>
+
+    <!--Đẩy ra đánh giá và mô tả-->
+    <div class="row">
+        <div class="col-6" style="text-align:right;" id="description">Mô tả</div>
+        <div class="col-6" id="reviewer">Đánh giá</div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div id="hienmota">
+                @Model.Mota
+            </div>
+            <div class="container mt-3" style="display:none;" id="hiendanhgia">
+                @{
+                    var ds = ViewBag.DSDanhGia;
+                    foreach (var gt in ds)
+                    {
+                        <div class="review-item d-flex flex-column">
+                            <div class="d-flex align-items-center">
+                                <div class="review-avatar"></div>
+                                <div>
+                                    <div class="review-name">@gt.KHACHHANG.TenKH</div>
+                                    <div class="review-stars">
+                                        @for (int i = 0; i < gt.Diem; i++)
+                                        {
+                                            <i class="bi bi-star-fill"></i>
+                                        }
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="review-content">
+                                @gt.NoiDung
+                            </div>
+                            <div class="review-date">
+                                30/06/2025 09:18
+                            </div>
+                        </div>
+                    }
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+<script>
+    const carousel = document.getElementById('productCarousel');
+    const thumbnails = document.querySelectorAll('.thumb');
+
+    carousel.addEventListener('slid.bs.carousel', function (event) {
+        thumbnails.forEach(thumb => thumb.classList.remove('active'));
+        thumbnails[event.to].classList.add('active');
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#reviewer").click(function () {
+            $("#hiendanhgia").show();
+            $("#hienmota").hide();
+        });
+        $("#description").click(function () {
+            $("#hienmota").show();
+            $("#hiendanhgia").hide();
+        });
+    });
+</script>
+
 
