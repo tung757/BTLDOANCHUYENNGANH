@@ -79,6 +79,10 @@ namespace WEBLAPTOP.Controllers
         {
             var query = await db.SANPHAMs.SingleOrDefaultAsync(sp => sp.ID_SP == id);
             var danhgia=await db.DANHGIAs.Where(dg=>dg.ID_SP==id).Include(kh=>kh.KHACHHANG).ToListAsync();
+            var danhsach= await db.SANPHAMs.Where(sp=>sp.ID_DM==query.ID_DM).ToListAsync();
+            ViewBag.DSSPDanhMuc = danhsach;
+            ViewBag.SLDM = danhsach.Count();
+            ViewBag.SLDG = danhgia.Count();
             ViewBag.DSDanhGia = danhgia;
             return View(query);
         }
