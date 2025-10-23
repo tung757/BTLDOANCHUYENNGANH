@@ -58,7 +58,67 @@ namespace WEBLAPTOP.Controllers
             ViewBag.TongTienHang = tongTienHang;
             return View(spGioHang);
         }
+        [HttpPost]
+        public JsonResult DatHang(DonHangView model)
+        {
+            try
+            {
+                string username = Session["username"] as string;
+                if (string.IsNullOrEmpty(username))
+                    return Json(new { success = false, message = "Bạn chưa đăng nhập!" });
+
+                var khachHang = db.KHACHHANGs.FirstOrDefault(kh => kh.TK == username);
+                if (khachHang == null)
+                    return Json(new { success = false, message = "Không tìm thấy khách hàng!" });
+
+                var dh = model.DONHANG;
+                // Tạo đơn hàng mới
+                var donHang = new DONHANG
+                {
+                    NgayLap = DateTime.Now,
+                    GhiChu = dh.GhiChu,
+                    TrangThai = "Chờ xác nhận",
+                    ID_KH = khachHang.ID_KH,
+                    ID_KM = dh.ID_KM,
+                    Ten = dh.Ten,
+                    DiaChiGiaoHang = dh.DiaChiGiaoHang,
+                    SDT = dh.SDT,
+                    PhuongthucTT = dh.PhuongthucTT
+                };
+
+                db.DONHANGs.Add(donHang);
+                db.SaveChanges(); 
+
+                // Thêm chi tiết sản phẩm
+                foreach (var sp in model.DONHANG_SANPHAM)
+                {
+                    var chiTiet = new DONHANG_SANPHAM
+                    {
+                        ID_DH = donHang.ID_DH,
+                        ID_SP = sp.ID_SP,
+                        SoLuong = sp.SoLuong
+                    };
+                    db.DONHANG_SANPHAM.Add(chiTiet);
+                }
+
+                db.SaveChanges();
+
+                //  Xóa giỏ hàng sau khi đặt
+                //var gioHang = db.GIOHANGs.FirstOrDefault(g => g.ID_KH == khachHang.ID_KH);
+                //if (gioHang != null)
+                //{
+                //    var gioHangSP = db.GIOHANG_SANPHAM.Where(x => x.ID_GH == gioHang.ID_GH);
+                //    db.GIOHANG_SANPHAM.RemoveRange(gioHangSP);
+                //    db.SaveChanges();
+                //}
+
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
 
     }
-
-    }
+}

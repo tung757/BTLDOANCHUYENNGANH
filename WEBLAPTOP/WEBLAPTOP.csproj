@@ -153,6 +153,7 @@
     <Compile Include="Models\SANPHAM.cs" />
     <Compile Include="Models\sysdiagram.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\DonHangView.cs" />
     <Compile Include="ViewModel\GioHangView.cs" />
   </ItemGroup>
   <ItemGroup>
