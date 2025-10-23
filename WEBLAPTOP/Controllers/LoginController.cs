@@ -12,7 +12,6 @@ namespace WEBLAPTOP.Controllers
     public class LoginController : Controller
     {
         private readonly DARKTHESTORE db = new DARKTHESTORE();
-        // GET: Login
         public ActionResult Index()
         {
             ViewBag.Trangthai = "";
@@ -32,8 +31,18 @@ namespace WEBLAPTOP.Controllers
             else
             {
                 Session["username"] = username;
-                Session["Rolw"] = query.PhanQuyen;
-                return Redirect("~/Home/Index");
+
+                Session["Role"] = query.PhanQuyen;
+
+                if (query.PhanQuyen == 3)
+                {
+                    return RedirectToAction("Index", "HomeA", new { area = "Admin" });
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home", new { area = "" });
+                }
+
             }
 
         }
