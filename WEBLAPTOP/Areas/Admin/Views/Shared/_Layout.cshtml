@@ -42,13 +42,42 @@
         </div>
         <hr />
         <ul class="app-menu">
-            <li><a class="app-menu__item" href="@Url.Action("Index", "DANHMUCs")"><i class="app-menu__icon fas fa-bars"></i><span class="app-menu__label">Quản lý danh mục</span></a></li>
-            <li><a class="app-menu__item" href="@Url.Action("Index", "SANPHAMs")"><i class="app-menu__icon bx bx-purchase-tag-alt"></i><span class="app-menu__label">Quản lý sản phẩm</span></a></li>
-            <li><a class="app-menu__item" href="@Url.Action("Index", "DONHANGs")"><i class="app-menu__icon bx bx-task"></i><span class="app-menu__label">Quản lý đơn hàng</span></a></li>
-            <li><a class="app-menu__item" href="@Url.Action("Index", "KHACHHANGs")"><i class="app-menu__icon bx bx-user-voice"></i><span class="app-menu__label">Quản lý khách hàng</span></a></li>
-            <li><a class="app-menu__item" href="#"><i class="app-menu__icon bx bx-pie-chart-alt-2"></i><span class="app-menu__label">Thống kê báo cáo</span></a></li>
-            <li><a class="app-menu__item" href="#"><i class="app-menu__icon fas fa-ticket-alt"></i><span class="app-menu__label">Quản lý khuyến mại</span></a></li>
-            <li><a class="app-menu__item" href="#"><i class="app-menu__icon fa fa-cog"></i><span class="app-menu__label">Cài đặt hệ thống</span></a></li>
+            <li>
+                <a class="app-menu__item" href="@Url.Action("Index", "DANHMUCs", new { area = "Admin" })">
+                    <i class="app-menu__icon fas fa-bars"></i><span class="app-menu__label">Quản lý danh mục</span>
+                </a>
+            </li>
+            <li>
+                <a class="app-menu__item" href="@Url.Action("Index", "SANPHAMs", new { area = "Admin" })">
+                    <i class="app-menu__icon bx bx-purchase-tag-alt"></i><span class="app-menu__label">Quản lý sản phẩm</span>
+                </a>
+            </li>
+            <li>
+                <a class="app-menu__item" href="table-data-oder.html">
+                    <i class="app-menu__icon bx bx-task"></i><span class="app-menu__label">Quản lý đơn hàng</span>
+                </a>
+            </li>
+            </li>
+            <li>
+                <a class="app-menu__item" href="@Url.Action("Index", "KHACHHANGs", new { area = "Admin" })">
+                    <i class="app-menu__icon bx bx-user-voice"></i><span class="app-menu__label">Quản lý khách hàng</span>
+                </a>
+            </li>
+            <li>
+                <a class="app-menu__item" href="quan-ly-bao-cao.html">
+                    <i class="app-menu__icon bx bx-pie-chart-alt-2"></i><span class="app-menu__label">Thống kê báo cáo</span>
+                </a>
+            </li>
+            <li>
+                <a class="app-menu__item" href="quan-ly-bao-cao.html">
+                    <i class="app-menu__icon fas fa-ticket-alt"></i><span class="app-menu__label">Quản lý khuyến mại</span>
+                </a>
+            </li>
+            <li>
+                <a class="app-menu__item" href="quan-ly-bao-cao.html">
+                    <i class="app-menu__icon fa fa-cog"></i><span class="app-menu__label">Cài đặt hệ thống</span>
+                </a>
+            </li>
         </ul>
     </aside>
 
