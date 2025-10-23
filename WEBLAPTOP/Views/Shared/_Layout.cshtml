@@ -43,7 +43,7 @@
                     <form class="d-flex justify-content-center" method="get" action="@Url.Action("Search_name","Product")">
                         <input class="form-control me-2 " type="text" name="name" placeholder="Tìm kiếm..." />
                         <button class="btn btn-light" type="submit" name="submitSearch">
-                            <i class="bi bi-search"></i>
+                            <i class="bi bi-search "></i>
                         </button>
                     </form>
                 </div>
@@ -55,17 +55,17 @@
                            href="#" role="button" id="dropdownLocation"
                            data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-geo-alt"></i>
-                            <span>Chọn địa chỉ</span>
+                            <span class="diachi_ht">Chọn địa chỉ</span>
                         </a>
 
                         <ul class="dropdown-menu" aria-labelledby="dropdownLocation">
                             <li><h6 class="dropdown-header">Tỉnh/Thành phố</h6></li>
-                            <li><a class="dropdown-item" href="#">Hà Nội</a></li>
-                            <li><a class="dropdown-item" href="#">TP. Hồ Chí Minh</a></li>
-                            <li><a class="dropdown-item" href="#">Đà Nẵng</a></li>
-                            <li><a class="dropdown-item" href="#">Cần Thơ</a></li>
+                            <li class="dropdown-item item_diachi">Hà Nội</li>
+                            <li class="dropdown-item item_diachi">TP. Hồ Chí Minh</li>
+                            <li class="dropdown-item item_diachi">Đà Nẵng</li>
+                            <li class="dropdown-item item_diachi">Cần Thơ</li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Khác...</a></li>
+                            <li class="dropdown-item item_diachi">Khác...</></li>
                         </ul>
                     </div>
                 </div>
@@ -74,8 +74,9 @@
                 </script>
                 <!--Liên hệ-->
                 <div class="col-auto">
-                    <a href="#"
+                    <a href="https://zalo.me/0333893870"
                        class="text-decoration-none text-light d-flex align-items-center gap-1">
+                        <i class="bi bi-telephone"></i>
                         <span>Liên hệ</span>
                     </a>
                 </div>
@@ -102,8 +103,8 @@
                         else
                         {
                             <div class="dropdown">
-                                <button class="btn dropdown-toggle" style="color:white;" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span class="bi bi-person-circle"></span>@Session["username"]
+                                <button class="btn dropdown-toggle fs-5 d-flex align-items-center" style="color:white;" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="bi bi-person-circle pe-2"></span>@Session["username"]
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <li><a class="dropdown-item" href="#">Quan ly tai khoan</a></li>
@@ -126,7 +127,7 @@
             <ul class="nav align-items-center justify-content-around w-100 ">
                 <!-- Dropdown danh mục -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle fw-bold text-black" href="@Url.Action("Index","Home")" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                    <a class="nav-link dropdown-toggle fw-bold text-black fs-5" href="@Url.Action("Index","Home")" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
                         <i class="bi bi-list"></i>
                         Tất cả danh mục
                     </a>
@@ -235,10 +236,10 @@
 
 
                 <!-- Chính sách -->
-                <li class="nav-item"><a class="nav-link text-black  fw-bold" href="@Url.Action("Index","Product")">Sản phẩm </a></li>
-                <li class="nav-item"><span class="nav-link text-black">100% chính hãng</span></li>
-                <li class="nav-item"><span class="nav-link text-black">Giá ưu đãi nhất</span></li>
-                <li class="nav-item"><span class="nav-link text-black">Hỗ trợ khách hàng</span></li>
+                <li class="nav-item fs-5"><a class="nav-link text-black  fw-bold" href="@Url.Action("Index","Product")">Sản phẩm </a></li>
+                <li class="nav-item fs-5"><span class="nav-link text-black">100% chính hãng</span></li>
+                <li class="nav-item fs-5"><span class="nav-link text-black">Giá ưu đãi nhất</span></li>
+                <li class="nav-item fs-5"><span class="nav-link text-black">Miễn phí giao hàng</span></li>
             </ul>
         </div>
     </div>

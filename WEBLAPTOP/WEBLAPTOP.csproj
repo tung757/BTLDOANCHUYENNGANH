@@ -191,6 +191,8 @@
     <Content Include="Images\Logo\banner6.jpg" />
     <Content Include="Images\Logo\logodarkthestore.jpg" />
     <Content Include="Images\Logo\logodarkthestorepreview.png" />
+    <Content Include="Images\Logo\logonew.png" />
+    <Content Include="Images\Logo\logonewww.jpg" />
     <Content Include="Images\Product_images\maytinh1.jpg" />
     <Content Include="Images\Product_images\maytinh2.jpg" />
     <Content Include="Scripts\bootstrap.bundle.js" />

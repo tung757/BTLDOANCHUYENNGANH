@@ -55,6 +55,72 @@
         color: #888;
         margin-top: 5px;
     }
+
+
+/*supportcallzalo*/
+
+    .support-header {
+        font-weight: 600;
+        font-size: 16px;
+    }
+
+    .support-time {
+        color: #555;
+        font-size: 13px;
+    }
+
+    .advisor {
+        display: flex;
+        align-items: center;
+        margin-top: 12px;
+    }
+
+        .advisor img {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 12px;
+        }
+
+    .advisor-info h6 {
+        margin: 0;
+        font-weight: 600;
+    }
+
+    .advisor-info p {
+        margin: 2px 0;
+        font-size: 13px;
+        color: #777;
+    }
+
+    .advisor-info .phone {
+        color: #000;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    .contact-buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 12px;
+    }
+
+    .btn-zalo {
+        flex: 1;
+        background-color: #0088cc;
+        color: #fff;
+        border-radius: 8px;
+        font-weight: 500;
+    }
+
+    .btn-messenger {
+        flex: 1;
+        background: linear-gradient(to right, #ff5ca1, #0078ff);
+        color: #fff;
+        border-radius: 8px;
+        font-weight: 500;
+    }
 </style>
 
 <!-- Container chính -->
@@ -233,6 +299,33 @@
                 <div class="d-flex align-items-center">
                     <div class="btn btn-warning w-100 fw-semibold">Mua ngay</div>
                     <div class="d-flex align-items-center p-2 text-secondary" style="font-size: 30px;" ><i class="bi bi-cart" style="cursor: pointer;"></i></div>
+                </div>
+
+                <!--ô support liên hệ và hỗ trợ-->
+
+                <div class="support-box">
+                    <div class="d-flex justify-content-between">
+                        <span class="support-header">Bạn cần tư vấn?</span>
+                        <span class="support-time fs-6">Thời gian tư vấn:<br /> 07:00 ~ 22:00</span>
+                    </div>
+
+                    <div class="advisor">
+                        <img src="~/Images/Icon/iconlogin.png" alt="Ảnh tư vấn viên">
+                        <div class="advisor-info">
+                            <h6>Thanh Tùng</h6>
+                            <p>Đã tư vấn 1,396</p>
+                            <div><i class="bi bi-telephone-fill text-warning"></i> <span class="phone">0123456789</span></div>
+                        </div>
+                    </div>
+
+                    <div class="contact-buttons">
+                        <a href="https://zalo.me/0123456789" target="_blank" class="btn btn-zalo">
+                            <i class="bi bi-chat-dots-fill"></i> Zalo
+                        </a>
+                        <a href="https://m.me/username" target="_blank" class="btn btn-messenger">
+                            <i class="bi bi-messenger"></i> Messenger
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
