@@ -1,7 +1,10 @@
 ﻿@model IEnumerable<WEBLAPTOP.Models.SANPHAM>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Sản Phẩm";
 }
+
+
+
 <script>
     var imageBaseUrl = '@Url.Content("~/Images/Product_images/")';
     var base_link='@Url.Action("Index", "Product")';
@@ -106,8 +109,8 @@
                     <div class="card h-100 shadow-lg product_style_scale card_product" onclick="location.href='@Url.Action("Details", "Product", new { id = sp.ID_SP })'">
                         <div class="badge bg-warning text-dark position-absolute" style="top: 10px; right: 10px;">
                             @{
-                                double? a = 1.0 * sp.Gia / sp.GiaBan;
-                                double? kq = (a - 1) * 100;
+                                double? a = 1.0 * sp.GiaBan / sp.Gia;
+                                double? kq = (1-a) * 100;
                                 decimal gia = Convert.ToDecimal(kq ?? 0);
                                 int sell = (int)gia;
                             }
@@ -193,8 +196,6 @@
                                     <!-- Tiêu đề & đánh giá -->
                                     <h4 id="modalName"></h4>
                                     <div class="mb-2">
-                                        <span class="text-warning fw-bold">5.4</span><span>/6.0</span>
-                                        <a href="#" class="ms-1 text-decoration-none">(33 đánh giá)</a>
                                         <span class="mx-1">|</span>
                                         <span id="soluongban"></span>
                                     </div>
