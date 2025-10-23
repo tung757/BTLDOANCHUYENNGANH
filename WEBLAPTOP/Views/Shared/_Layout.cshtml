@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -11,6 +11,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <link rel="stylesheet" href="@Url.Content("~/Content/new_css/stylehome.css")" />
+    <link rel="icon" type="image/png" href="~/Images/Logo/logodarkthestorepreview.png" />
 </head>
 @*@Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
     <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
@@ -39,8 +40,8 @@
 
                 <!-- Thanh tìm kiếm -->
                 <div class="col">
-                    <form class="d-flex justify-content-center" method="get" action="@Url.Action("Search","Home")">
-                        <input class="form-control me-2 " type="text" name="textSearch" placeholder="Tìm kiếm..." />
+                    <form class="d-flex justify-content-center" method="get" action="@Url.Action("Search_name","Product")">
+                        <input class="form-control me-2 " type="text" name="name" placeholder="Tìm kiếm..." />
                         <button class="btn btn-light" type="submit" name="submitSearch">
                             <i class="bi bi-search"></i>
                         </button>

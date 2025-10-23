@@ -86,5 +86,13 @@ namespace WEBLAPTOP.Controllers
             ViewBag.DSDanhGia = danhgia;
             return View(query);
         }
+
+        public async Task<ActionResult> Search_name(string name)
+        {
+            var query= await db.SANPHAMs.Where(sp=>sp.TenSP.ToUpper().Contains(name.ToUpper())).ToListAsync();
+            ViewBag.Name_Search = name;
+            ViewBag.SLSP = query.Count();
+            return View(query);
+        }
     }
 }
