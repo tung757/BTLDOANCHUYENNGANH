@@ -208,8 +208,6 @@
     <Content Include="Areas\Admin\Views\SANPHAMs\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\SANPHAMs\Index.cshtml" />
     <Content Include="Areas\Admin\Views\DANHMUCs\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\DANHMUCs\Delete.cshtml" />
-    <Content Include="Areas\Admin\Views\DANHMUCs\Details.cshtml" />
     <Content Include="Areas\Admin\Views\DANHMUCs\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\DANHMUCs\Index.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
