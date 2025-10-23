@@ -44,12 +44,12 @@
         <hr>
         <ul class="app-menu">
             <li>
-                <a class="app-menu__item" href="index.html">
+                <a class="app-menu__item" href="@Url.Action("Index", "DANHMUCs", new { area = "Admin" })">
                     <i class="app-menu__icon fas fa-bars"></i><span class="app-menu__label">Quản lý danh mục</span>
                 </a>
             </li>
             <li>
-                <a class="app-menu__item" href="table-data-product.html">
+                <a class="app-menu__item" href="@Url.Action("Index", "SANPHAMs", new { area = "Admin" })">
                     <i class="app-menu__icon bx bx-purchase-tag-alt"></i><span class="app-menu__label">Quản lý sản phẩm</span>
                 </a>
             </li>
@@ -60,7 +60,7 @@
             </li>
             </li>
             <li>
-                <a class="app-menu__item" href="quan-ly-bao-cao.html">
+                <a class="app-menu__item" href="@Url.Action("Index", "KHACHHANGs", new { area = "Admin" })">
                     <i class="app-menu__icon bx bx-user-voice"></i><span class="app-menu__label">Quản lý khách hàng</span>
                 </a>
             </li>
