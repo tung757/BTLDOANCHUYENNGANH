@@ -203,7 +203,6 @@
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Admin\Views\SANPHAMs\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\SANPHAMs\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\SANPHAMs\Details.cshtml" />
     <Content Include="Areas\Admin\Views\SANPHAMs\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\SANPHAMs\Index.cshtml" />

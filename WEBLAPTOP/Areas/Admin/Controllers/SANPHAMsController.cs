@@ -94,6 +94,7 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
 
 
         // GET: Admin/SANPHAMs/Edit/5
+        // GET: Admin/SANPHAMs/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -110,18 +111,66 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
         }
 
         // POST: Admin/SANPHAMs/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID_SP,MaSP,TenSP,Gia,GiaBan,Mota,Status_SP,NgayTao,SoLuong,SoLuongBan,Images_url,ID_DM")] SANPHAM sANPHAM)
+        public ActionResult Edit([Bind(Include = "ID_SP,MaSP,TenSP,Gia,GiaBan,Mota,Status_SP,NgayTao,SoLuong,SoLuongBan,ID_DM")] SANPHAM sANPHAM, HttpPostedFileBase ImagesFile)
         {
             if (ModelState.IsValid)
             {
+                // --- Xử lý ảnh ---
+
+                // 1. Lấy đường dẫn ảnh cũ từ DB để so sánh và xóa
+                string oldImagePath = null;
+                var existingProduct = db.SANPHAMs.AsNoTracking().FirstOrDefault(p => p.ID_SP == sANPHAM.ID_SP);
+                if (existingProduct != null)
+                {
+                    oldImagePath = existingProduct.Images_url;
+                }
+
+                // 2. Kiểm tra xem có file ảnh MỚI được tải lên không
+                if (ImagesFile != null && ImagesFile.ContentLength > 0)
+                {
+                    // Lấy tên file gốc (giống logic Create)
+                    string fileName = Path.GetFileName(ImagesFile.FileName);
+
+                    // Tạo thư mục (giống logic Create)
+                    string folderPath = Server.MapPath("~/Images/SanPham/");
+                    if (!Directory.Exists(folderPath))
+                    {
+                        Directory.CreateDirectory(folderPath);
+                    }
+
+                    string filePath = Path.Combine(folderPath, fileName);
+
+                    ImagesFile.SaveAs(filePath);
+
+                    sANPHAM.Images_url = "/Images/SanPham/" + fileName;
+
+                    if (!string.IsNullOrEmpty(oldImagePath) && oldImagePath != sANPHAM.Images_url)
+                    {
+                        string oldAbsoluteFile = Server.MapPath(oldImagePath);
+                        if (System.IO.File.Exists(oldAbsoluteFile))
+                        {
+                            try
+                            {
+                                System.IO.File.Delete(oldAbsoluteFile);
+                            }
+                            catch (Exception)
+                            {
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    sANPHAM.Images_url = oldImagePath;
+                }
+
                 db.Entry(sANPHAM).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
             ViewBag.ID_DM = new SelectList(db.DANHMUCs, "ID_DM", "TenDM", sANPHAM.ID_DM);
             return View(sANPHAM);
         }
