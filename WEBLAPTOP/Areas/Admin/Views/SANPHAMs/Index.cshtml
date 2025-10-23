@@ -1,92 +1,202 @@
 ﻿@model IEnumerable<WEBLAPTOP.Models.SANPHAM>
-@{
-    ViewBag.Title = "Index";
-}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<h2>Index</h2>
+    <!-- Main CSS -->
+    <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/fontawesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/jquery-confirm.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Areas/css/main.css" />
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.DANHMUC.TenDM)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.MaSP)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TenSP)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Gia)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.GiaBan)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Mota)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Status_SP)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NgayTao)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SoLuong)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SoLuongBan)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Images_url)
-        </th>
-        <th></th>
-    </tr>
+</head>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.DANHMUC.TenDM)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MaSP)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TenSP)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Gia)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.GiaBan)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Mota)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Status_SP)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NgayTao)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SoLuong)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SoLuongBan)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Images_url)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID_SP }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID_SP }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID_SP })
-        </td>
-    </tr>
-}
+<body>
+    <main class="app-content">
+        <div class="app-title">
+            <ul class="app-breadcrumb breadcrumb side">
+                <li class="breadcrumb-item active"><a href="#"><b>Danh sách danh mục</b></a></li>
+            </ul>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="tile">
+                    <div class="tile-body">
 
-</table>
+                        <div class="row element-button">
+                            <div class="col-sm-2">
+                                <a class="btn btn-add btn-sm" href="@Url.Action("Create", "SANPHAMs")" title="Thêm">
+                                    <i class="fas fa-plus"></i> Tạo mới sản phẩm
+                                </a>
+                            </div>
+                            <div class="col-sm-2">
+                                <a class="btn btn-delete btn-sm nhap-tu-file" title="Nhập" onclick="myFunction(this)">
+                                    <i class="fas fa-file-upload"></i> Tải từ file
+                                </a>
+                            </div>
+                            <div class="col-sm-2">
+                                <a class="btn btn-delete btn-sm print-file" title="In" onclick="myApp.printTable()">
+                                    <i class="fas fa-print"></i> In dữ liệu
+                                </a>
+                            </div>
+                            <div class="col-sm-2">
+                                <a class="btn btn-delete btn-sm print-file js-textareacopybtn" title="Sao chép">
+                                    <i class="fas fa-copy"></i> Sao chép
+                                </a>
+                            </div>
+                            <div class="col-sm-2">
+                                <a class="btn btn-excel btn-sm" href="#"><i class="fas fa-file-excel"></i> Xuất Excel</a>
+                            </div>
+                            <div class="col-sm-2">
+                                <a class="btn btn-delete btn-sm pdf-file" title="PDF" onclick="myFunction(this)">
+                                    <i class="fas fa-file-pdf"></i> Xuất PDF
+                                </a>
+                            </div>
+                        </div>
+
+                        <table class="table table-hover table-bordered" id="sampleTable">
+                            <thead class="table-light">
+                                <tr>
+                                    <th width="10"><input type="checkbox" id="all"></th>
+                                    <th>Mã Sản Phẩm</th>
+                                    <th>Tên Sản Phẩm</th>
+                                    <th>Giá</th>
+                                    <th>Mô tả</th>
+                                    <th>Hình ảnh</th>
+                                    <th>Danh mục</th>
+                                    <th>Số lượng</th>
+                                    <th>Trạng thái</th>
+                                    <th>Chức năng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td><input type="checkbox" name="check1" value="@item.MaSP"></td>
+                                        <td>@item.MaSP</td>
+                                        <td>@item.TenSP</td>
+                                        <td>@item.Gia</td>
+                                        <td>@item.Mota</td>
+                                        <td><img src="@item.Images_url" alt="Ảnh" width="70" /></td>
+                                        <td>@(item.DANHMUC != null ? item.DANHMUC.TenDM : "Không có danh mục")</td>
+                                        <td>@item.SoLuong</td>
+                                        <td>
+                                            @if (item.Status_SP == 1)
+                                            {
+                                                <span class="badge bg-success">Hiện</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-danger">Ẩn</span>
+                                            }
+                                        </td>
+                                        <td class="text-center">
+                                            <a class="btn btn-info btn-sm" title="Chi tiết"
+                                               href="@Url.Action("Details", "SANPHAMs", new { id = item.ID_SP })">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
+                                                    onclick="confirmDelete(@item.ID_SP)">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                            <a class="btn btn-warning btn-sm edit" title="Sửa"
+                                               href="@Url.Action("Edit", "SANPHAMs", new { id = item.ID_SP })">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- JS -->
+    <script src="@Url.Content("~/Scripts/jquery-3.6.0.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/bootstrap.bundle.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery-confirm.min.js")"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+    <script>
+    function confirmDelete(id) {
+        // Dùng cú pháp Swal.fire của SweetAlert 2
+        Swal.fire({
+            title: "Xác nhận xóa?",
+            text: "Bạn có chắc muốn xóa Sản phẩm này không?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Xóa',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            // Kiểm tra xem người dùng có bấm nút "Xóa" (confirm) không
+            if (result.isConfirmed) {
+                $.ajax({
+                    // Giả sử đây là Admin Area, nếu không phải, bỏ 'new { area = "Admin" }'
+                    url: '@Url.Action("Delete", "SANPHAMs", new { area = "Admin" })',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function (res) {
+                        if (res.success) {
+                            Swal.fire({
+                                title: "Đã xóa!",
+                                text: "Sản phẩm đã được xóa thành công.",
+                                icon: "success",
+                                timer: 1500,
+                                showConfirmButton: false
+                            });
+                            setTimeout(() => location.reload(), 1000);
+                        }
+                    },
+                    error: function () {
+                        Swal.fire({
+                            title: "Lỗi!",
+                            text: "Không thể xóa sản phẩm. Vui lòng thử lại.",
+                            icon: "error",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    }
+                });
+            }
+        });
+    }
+    </script>
+</body>
+<style>
+    /* Giảm chiều rộng bảng tổng thể */
+    #sampleTable {
+        width: 100%; /* bạn có thể chỉnh 50% hoặc 70% tùy ý */
+        margin-left: 0; /* canh trái */
+    }
+
+        /* Thu nhỏ riêng cột chức năng */
+        #sampleTable th:last-child,
+        #sampleTable td:last-child {
+            width: 150px; /* Giảm xuống 100px nếu muốn gọn hơn */
+            text-align: center; /* Căn giữa các nút */
+        }
+
+    /* Nút gọn gàng hơn */
+    .btn-primary.btn-sm,
+    .btn-warning.btn-sm {
+        min-width: 35px;
+        height: 32px;
+    }
+
+</style>
+</html>
+
