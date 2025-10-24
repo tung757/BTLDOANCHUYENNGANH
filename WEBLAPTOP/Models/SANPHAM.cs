@@ -30,7 +30,6 @@ namespace WEBLAPTOP.Models
 
         public int? GiaBan { get; set; }
 
-        [StringLength(255)]
         public string Mota { get; set; }
 
         public int? Status_SP { get; set; }
