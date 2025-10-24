@@ -1,7 +1,8 @@
-namespace WEBLAPTOP.Models
+﻿namespace WEBLAPTOP.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
@@ -19,6 +20,7 @@ namespace WEBLAPTOP.Models
         public int ID_DM { get; set; }
 
         [StringLength(255)]
+        [DisplayName("Tên Danh Mục")]
         public string TenDM { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
