@@ -78,8 +78,8 @@ namespace WEBLAPTOP.Controllers
         public async Task<ActionResult> Details(int id)
         {
             var query = await db.SANPHAMs.SingleOrDefaultAsync(sp => sp.ID_SP == id);
-            var danhgia=await db.DANHGIAs.Where(dg=>dg.ID_SP==id).Include(kh=>kh.KHACHHANG).ToListAsync();
-            var danhsach= await db.SANPHAMs.Where(sp=>sp.ID_DM==query.ID_DM).ToListAsync();
+            var danhgia = await db.DANHGIAs.Where(dg => dg.ID_SP == id).Include(kh => kh.KHACHHANG).ToListAsync();
+            var danhsach = await db.SANPHAMs.Where(sp => sp.ID_DM == query.ID_DM).ToListAsync();
             ViewBag.DSSPDanhMuc = danhsach;
             ViewBag.SLDM = danhsach.Count();
             ViewBag.SLDG = danhgia.Count();
@@ -89,7 +89,7 @@ namespace WEBLAPTOP.Controllers
 
         public async Task<ActionResult> Search_name(string name)
         {
-            var query= await db.SANPHAMs.Where(sp=>sp.TenSP.ToUpper().Contains(name.ToUpper())).ToListAsync();
+            var query = await db.SANPHAMs.Where(sp => sp.TenSP.ToUpper().Contains(name.ToUpper())).ToListAsync();
             ViewBag.Name_Search = name;
             ViewBag.SLSP = query.Count();
             return View(query);

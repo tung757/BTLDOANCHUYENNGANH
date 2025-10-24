@@ -34,7 +34,7 @@ namespace WEBLAPTOP.Models
         [StringLength(255)]
         public string Ten { get; set; }
 
-        [StringLength(255)]
+        [StringLength(4000)]
         public string DiaChiGiaoHang { get; set; }
 
         [StringLength(10)]
@@ -42,6 +42,9 @@ namespace WEBLAPTOP.Models
 
         [StringLength(255)]
         public string PhuongthucTT { get; set; }
+
+        [StringLength(1000)]
+        public string PhuongThucNhanHang { get; set; }
 
         public virtual KHACHHANG KHACHHANG { get; set; }
 
