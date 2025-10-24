@@ -114,6 +114,9 @@ insert into KHACHHANG values
 ('Admin','HaNoi','','Nam','','','admin','abc123','3')
 insert into KHACHHANG values
 ('tung','ThaiBinh','','Nam','','','tung2406','abc123','1')
+('Admin','HaNoi','','Nam','','','admin','abc123','3')
+insert into KHACHHANG values
+('tung','ThaiBinh','','Nam','','','tung2406','abc123','1')
 
 delete KHACHHANG
 where(ID_KH=5)

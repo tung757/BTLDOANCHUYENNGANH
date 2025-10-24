@@ -133,10 +133,13 @@
     <Compile Include="Areas\Admin\Controllers\DONHANGsController.cs" />
     <Compile Include="Areas\Admin\Controllers\KHACHHANGsController.cs" />
     <Compile Include="Areas\Admin\Controllers\KHUYENMAIsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\HomeAController.cs" />
+    <Compile Include="Areas\Admin\Controllers\KHACHHANGsController.cs" />
     <Compile Include="Areas\Admin\Controllers\SANPHAMsController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\PayBillsController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\SignUpController.cs" />
     <Compile Include="Global.asax.cs">
@@ -155,6 +158,7 @@
     <Compile Include="Models\SANPHAM.cs" />
     <Compile Include="Models\sysdiagram.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\GioHangView.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\css\main.css" />
@@ -187,8 +191,15 @@
     <Content Include="Images\Footer\tiktok.png" />
     <Content Include="Images\Icon\icondn2.png" />
     <Content Include="Images\Icon\iconlogin.png" />
+    <Content Include="Images\Logo\banner1.jpg" />
+    <Content Include="Images\Logo\banner2.jpg" />
+    <Content Include="Images\Logo\banner3.jpg" />
+    <Content Include="Images\Logo\banner5.jpg" />
+    <Content Include="Images\Logo\banner6.jpg" />
     <Content Include="Images\Logo\logodarkthestore.jpg" />
     <Content Include="Images\Logo\logodarkthestorepreview.png" />
+    <Content Include="Images\Logo\logonew.png" />
+    <Content Include="Images\Logo\logonewww.jpg" />
     <Content Include="Images\Product_images\maytinh1.jpg" />
     <Content Include="Images\Product_images\maytinh2.jpg" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -227,6 +238,12 @@
     <Content Include="Areas\Admin\Views\KHUYENMAIs\Details.cshtml" />
     <Content Include="Areas\Admin\Views\KHUYENMAIs\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\KHUYENMAIs\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\HomeA\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\KHACHHANGs\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\KHACHHANGs\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\KHACHHANGs\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\KHACHHANGs\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\KHACHHANGs\Delete.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -238,6 +255,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\new_script\detail_product.css" />
     <Content Include="Scripts\new_script\home_layout.js" />
     <Content Include="Scripts\new_script\product_js.js" />
     <Content Include="Web.config" />
@@ -257,11 +275,14 @@
     <Content Include="Views\Cart\Index.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Product\Details.cshtml" />
+    <Content Include="Views\PayBills\Index.cshtml" />
+    <Content Include="Views\Product\Search_name.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Images\Banner\" />
+    <Folder Include="Views\Default\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
