@@ -264,7 +264,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Images\Banner\" />
-    <Folder Include="Views\Default\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
