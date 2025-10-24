@@ -20,7 +20,7 @@ namespace WEBLAPTOP.Models
 
         public int? GiamGia { get; set; }
 
-        [StringLength(25)]
+        [StringLength(4000)]
         public string Mota { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
