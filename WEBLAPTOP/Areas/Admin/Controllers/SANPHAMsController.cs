@@ -52,27 +52,37 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                // --- Kiểm tra và lưu file ảnh ---
                 if (ImagesFile != null && ImagesFile.ContentLength > 0)
                 {
-                    string fileName = Path.GetFileName(ImagesFile.FileName);
-                    string folderPath = Server.MapPath("~/Images/SanPham/");
+
+                    string productName = sANPHAM.TenSP ?? "san-pham";
+
+                    string invalidChars = new string(Path.GetInvalidFileNameChars());
+                    string sanitizedName = new string(productName.Where(ch => !invalidChars.Contains(ch)).ToArray());
+                    sanitizedName = sanitizedName.Replace(" ", "-").ToLower(); 
+
+                    string extension = Path.GetExtension(ImagesFile.FileName);
+
+                    string fileName = $"{sanitizedName}-{Guid.NewGuid().ToString().Substring(0, 8)}{extension}";
+
+
+                    string folderPath = Server.MapPath("~/Images/Product_images/");
                     if (!Directory.Exists(folderPath))
                     {
                         Directory.CreateDirectory(folderPath);
                     }
+
                     string filePath = Path.Combine(folderPath, fileName);
 
                     ImagesFile.SaveAs(filePath);
 
-                    sANPHAM.Images_url = "/Images/SanPham/" + fileName;
+                    sANPHAM.Images_url = "/Images/Product_images/" + fileName;
                 }
                 else
                 {
-                    sANPHAM.Images_url = "/Images/SanPham/default.jpg";
+                    sANPHAM.Images_url = "/Images/Product_images/default.jpg";
                 }
 
-                // --- Lưu thông tin sản phẩm ---
                 sANPHAM.NgayTao = DateTime.Now;
                 db.SANPHAMs.Add(sANPHAM);
 
@@ -110,7 +120,6 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                // --- Xử lý ảnh ---
 
                 // 1. Lấy đường dẫn ảnh cũ từ DB
                 string oldImagePath = null;
@@ -123,20 +132,42 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
                 // 2. Kiểm tra xem có file ảnh MỚI được tải lên không
                 if (ImagesFile != null && ImagesFile.ContentLength > 0)
                 {
-                    string fileName = Path.GetFileName(ImagesFile.FileName);
-                    string folderPath = Server.MapPath("~/Images/SanPham/");
+
+                    // 1. Lấy tên sản phẩm
+                    string productName = sANPHAM.TenSP ?? "san-pham";
+
+                    // 2. "Làm sạch" tên
+                    string invalidChars = new string(Path.GetInvalidFileNameChars());
+                    string sanitizedName = new string(productName.Where(ch => !invalidChars.Contains(ch)).ToArray());
+                    sanitizedName = sanitizedName.Replace(" ", "-").ToLower();
+
+                    // 3. Lấy phần mở rộng file gốc
+                    string extension = Path.GetExtension(ImagesFile.FileName);
+
+                    // 4. Tạo tên file duy nhất
+                    string fileName = $"{sanitizedName}-{Guid.NewGuid().ToString().Substring(0, 8)}{extension}";
+
+
+                    // Tạo thư mục
+                    string folderPath = Server.MapPath("~/Images/Product_images/");
                     if (!Directory.Exists(folderPath))
                     {
                         Directory.CreateDirectory(folderPath);
                     }
+
+                    // Đường dẫn tuyệt đối
                     string filePath = Path.Combine(folderPath, fileName);
 
+                    // Lưu file mới
                     ImagesFile.SaveAs(filePath);
 
-                    sANPHAM.Images_url = "/Images/SanPham/" + fileName;
+                    // Gán đường dẫn MỚI vào DB
+                    sANPHAM.Images_url = "/Images/Product_images/" + fileName;
 
-                    // Xóa file ảnh cũ (nếu khác file mới)
-                    if (!string.IsNullOrEmpty(oldImagePath) && oldImagePath != sANPHAM.Images_url)
+                    // Xóa file ảnh cũ (nếu khác file mới và không phải là file default)
+                    if (!string.IsNullOrEmpty(oldImagePath) &&
+                         oldImagePath != sANPHAM.Images_url &&
+                         !oldImagePath.EndsWith("default.jpg")) // Không xóa file default
                     {
                         string oldAbsoluteFile = Server.MapPath(oldImagePath);
                         if (System.IO.File.Exists(oldAbsoluteFile))
@@ -151,15 +182,18 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
                 }
                 else
                 {
+                    // Nếu không tải file mới, giữ lại đường dẫn ảnh cũ
                     sANPHAM.Images_url = oldImagePath;
                 }
 
+                // Cập nhật thông tin sản phẩm vào DB
                 db.Entry(sANPHAM).State = EntityState.Modified;
-
                 await db.SaveChangesAsync();
+
                 return RedirectToAction("Index");
             }
 
+            // Nếu ModelState sai
             ViewBag.ID_DM = new SelectList(await db.DANHMUCs.ToListAsync(), "ID_DM", "TenDM", sANPHAM.ID_DM);
             return View(sANPHAM);
         }
