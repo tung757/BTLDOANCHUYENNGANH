@@ -1,0 +1,39 @@
+﻿@model IEnumerable<WEBLAPTOP.Models.KHUYENMAI>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.GiamGia)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Mota)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.GiamGia)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Mota)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID_KM }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID_KM }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID_KM })
+        </td>
+    </tr>
+}
+
+</table>

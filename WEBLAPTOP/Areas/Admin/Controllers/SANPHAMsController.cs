@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
+using System.Data.Entity; // Cần cho .ToListAsync(), .FindAsync(), ...
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
+using System.Threading.Tasks; // Cần cho Task<>
 using System.Web;
 using System.Web.Mvc;
 using WEBLAPTOP.Models;
@@ -17,19 +17,21 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
         private DARKTHESTORE db = new DARKTHESTORE();
 
         // GET: Admin/SANPHAMs
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
             var sANPHAMs = db.SANPHAMs.Include(s => s.DANHMUC);
-            return View(sANPHAMs.ToList());
+            return View(await sANPHAMs.ToListAsync());
         }
+
         // GET: Admin/SANPHAMs/Details/5
-        public ActionResult Details(int? id)
+        public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SANPHAM sANPHAM = db.SANPHAMs.Find(id);
+            // ĐÃ SỬA: Dùng FindAsync
+            SANPHAM sANPHAM = await db.SANPHAMs.FindAsync(id);
             if (sANPHAM == null)
             {
                 return HttpNotFound();
@@ -38,90 +40,81 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
         }
 
         // GET: Admin/SANPHAMs/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            ViewBag.ID_DM = new SelectList(db.DANHMUCs, "ID_DM", "TenDM");
+            ViewBag.ID_DM = new SelectList(await db.DANHMUCs.ToListAsync(), "ID_DM", "TenDM");
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID_SP,MaSP,TenSP,Gia,GiaBan,Mota,Status_SP,NgayTao,SoLuong,SoLuongBan,ID_DM")] SANPHAM sANPHAM, HttpPostedFileBase ImagesFile)
+        public async Task<ActionResult> Create([Bind(Include = "ID_SP,MaSP,TenSP,Gia,GiaBan,Mota,Status_SP,NgayTao,SoLuong,SoLuongBan,ID_DM")] SANPHAM sANPHAM, HttpPostedFileBase ImagesFile)
         {
             if (ModelState.IsValid)
             {
                 // --- Kiểm tra và lưu file ảnh ---
                 if (ImagesFile != null && ImagesFile.ContentLength > 0)
                 {
-                    // Lấy tên file gốc
                     string fileName = Path.GetFileName(ImagesFile.FileName);
-
-                    // Tạo thư mục lưu ảnh nếu chưa tồn tại
                     string folderPath = Server.MapPath("~/Images/SanPham/");
                     if (!Directory.Exists(folderPath))
                     {
                         Directory.CreateDirectory(folderPath);
                     }
-
-                    // Đường dẫn tuyệt đối trên server
                     string filePath = Path.Combine(folderPath, fileName);
 
-                    // Lưu file
                     ImagesFile.SaveAs(filePath);
 
-                    // Gán đường dẫn tương đối vào DB
                     sANPHAM.Images_url = "/Images/SanPham/" + fileName;
                 }
                 else
                 {
-                    // Nếu không chọn ảnh, gán ảnh mặc định (tùy bạn)
                     sANPHAM.Images_url = "/Images/SanPham/default.jpg";
                 }
 
                 // --- Lưu thông tin sản phẩm ---
                 sANPHAM.NgayTao = DateTime.Now;
                 db.SANPHAMs.Add(sANPHAM);
-                db.SaveChanges();
+
+                await db.SaveChangesAsync();
 
                 return RedirectToAction("Index");
             }
 
             // Nếu ModelState sai → render lại View
-            ViewBag.ID_DM = new SelectList(db.DANHMUCs, "ID_DM", "TenDM", sANPHAM.ID_DM);
+            ViewBag.ID_DM = new SelectList(await db.DANHMUCs.ToListAsync(), "ID_DM", "TenDM", sANPHAM.ID_DM);
             return View(sANPHAM);
         }
 
-
-
         // GET: Admin/SANPHAMs/Edit/5
-        // GET: Admin/SANPHAMs/Edit/5
-        public ActionResult Edit(int? id)
+        public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SANPHAM sANPHAM = db.SANPHAMs.Find(id);
+            SANPHAM sANPHAM = await db.SANPHAMs.FindAsync(id);
             if (sANPHAM == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.ID_DM = new SelectList(db.DANHMUCs, "ID_DM", "TenDM", sANPHAM.ID_DM);
+            // ĐÃ SỬA: Dùng ToListAsync()
+            ViewBag.ID_DM = new SelectList(await db.DANHMUCs.ToListAsync(), "ID_DM", "TenDM", sANPHAM.ID_DM);
             return View(sANPHAM);
         }
 
         // POST: Admin/SANPHAMs/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID_SP,MaSP,TenSP,Gia,GiaBan,Mota,Status_SP,NgayTao,SoLuong,SoLuongBan,ID_DM")] SANPHAM sANPHAM, HttpPostedFileBase ImagesFile)
+        public async Task<ActionResult> Edit([Bind(Include = "ID_SP,MaSP,TenSP,Gia,GiaBan,Mota,Status_SP,NgayTao,SoLuong,SoLuongBan,ID_DM")] SANPHAM sANPHAM, HttpPostedFileBase ImagesFile)
         {
             if (ModelState.IsValid)
             {
                 // --- Xử lý ảnh ---
 
-                // 1. Lấy đường dẫn ảnh cũ từ DB để so sánh và xóa
+                // 1. Lấy đường dẫn ảnh cũ từ DB
                 string oldImagePath = null;
-                var existingProduct = db.SANPHAMs.AsNoTracking().FirstOrDefault(p => p.ID_SP == sANPHAM.ID_SP);
+                var existingProduct = await db.SANPHAMs.AsNoTracking().FirstOrDefaultAsync(p => p.ID_SP == sANPHAM.ID_SP);
                 if (existingProduct != null)
                 {
                     oldImagePath = existingProduct.Images_url;
@@ -130,22 +123,19 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
                 // 2. Kiểm tra xem có file ảnh MỚI được tải lên không
                 if (ImagesFile != null && ImagesFile.ContentLength > 0)
                 {
-                    // Lấy tên file gốc (giống logic Create)
                     string fileName = Path.GetFileName(ImagesFile.FileName);
-
-                    // Tạo thư mục (giống logic Create)
                     string folderPath = Server.MapPath("~/Images/SanPham/");
                     if (!Directory.Exists(folderPath))
                     {
                         Directory.CreateDirectory(folderPath);
                     }
-
                     string filePath = Path.Combine(folderPath, fileName);
 
                     ImagesFile.SaveAs(filePath);
 
                     sANPHAM.Images_url = "/Images/SanPham/" + fileName;
 
+                    // Xóa file ảnh cũ (nếu khác file mới)
                     if (!string.IsNullOrEmpty(oldImagePath) && oldImagePath != sANPHAM.Images_url)
                     {
                         string oldAbsoluteFile = Server.MapPath(oldImagePath);
@@ -155,9 +145,7 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
                             {
                                 System.IO.File.Delete(oldAbsoluteFile);
                             }
-                            catch (Exception)
-                            {
-                            }
+                            catch (Exception) { /* Bỏ qua nếu không xóa được */ }
                         }
                     }
                 }
@@ -167,11 +155,12 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
                 }
 
                 db.Entry(sANPHAM).State = EntityState.Modified;
-                db.SaveChanges();
+
+                await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ID_DM = new SelectList(db.DANHMUCs, "ID_DM", "TenDM", sANPHAM.ID_DM);
+            ViewBag.ID_DM = new SelectList(await db.DANHMUCs.ToListAsync(), "ID_DM", "TenDM", sANPHAM.ID_DM);
             return View(sANPHAM);
         }
 
@@ -182,6 +171,17 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
             var sANPHAM = await db.SANPHAMs.FindAsync(id);
             if (sANPHAM == null)
                 return HttpNotFound();
+
+            // Ghi chú: Bạn có thể thêm logic xóa file ảnh ở đây
+            if (!string.IsNullOrEmpty(sANPHAM.Images_url))
+            {
+                string absolutePath = Server.MapPath(sANPHAM.Images_url);
+                if (System.IO.File.Exists(absolutePath))
+                {
+                    try { System.IO.File.Delete(absolutePath); }
+                    catch (Exception) { /* Bỏ qua */ }
+                }
+            }
 
             db.SANPHAMs.Remove(sANPHAM);
             await db.SaveChangesAsync();

@@ -1,137 +1,119 @@
 ﻿@model WEBLAPTOP.Models.DANHMUC
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>@ViewBag.Title</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<main class="app-content">
+    <div class="app-title">
+        <ul class="app-breadcrumb breadcrumb side">
+            <li class="breadcrumb-item active"><a href="#"><b>Thêm mới danh mục</b></a></li>
+        </ul>
+    </div>
 
-    <!-- Main CSS -->
-    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/fontawesome.min.css")" />
-    <link rel="stylesheet" href="@Url.Content("~/Content/bootstrap.min.css")" />
-    <link rel="stylesheet" href="@Url.Content("~/Content/all.min.css")" />
-    <link rel="stylesheet" href="@Url.Content("~/Content/jquery-confirm.min.css")" />
-    <link rel="stylesheet" href="@Url.Content("~/Areas/css/main.css")" />
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
 
-    <style>
-        .form-inline-custom {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            max-width: 500px;
-        }
+        <div class="form-horizontal">
+            <h4>Danh mục</h4>
+            <hr />
 
-            .form-inline-custom label {
-                font-weight: 600;
-                width: 120px;
-                margin-bottom: 0;
-            }
+            <div class="form-inline-custom">
+                @Html.LabelFor(model => model.TenDM, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.TenDM, new { htmlAttributes = new { @class = "form-control", placeholder = "Nhập tên danh mục..." } })
+                @Html.ValidationMessageFor(model => model.TenDM, "", new { @class = "text-danger" })
+            </div>
 
-            .form-inline-custom input.form-control {
-                flex: 1;
-                max-width: 300px;
-                display: inline-block;
-            }
-
-        .list-dm {
-            max-width: 400px;
-        }
-
-        .dm-container {
-            border: 1px solid #dee2e6;
-            border-radius: 6px;
-            padding: 10px 15px;
-            background: #f8f9fa;
-            max-height: 250px;
-            overflow-y: auto;
-        }
-
-        .dm-item {
-            display: flex;
-            align-items: center;
-            padding: 6px 0;
-            font-size: 15px;
-            color: #333;
-        }
-
-            .dm-item i {
-                color: #ffc107;
-            }
-
-            .dm-item:hover {
-                background-color: #f1f1f1;
-                border-radius: 4px;
-                padding-left: 6px;
-                transition: 0.2s;
-            }
-
-        .btn-create {
-            margin-left: 130px;
-        }
-    </style>
-</head>
-
-<body>
-    <main class="app-content">
-        <div class="app-title">
-            <ul class="app-breadcrumb breadcrumb side">
-                <li class="breadcrumb-item active"><a href="#"><b>Thêm mới danh mục</b></a></li>
-            </ul>
+            <div class="form-group mt-3">
+                <input type="submit" value="Tạo mới" class="btn btn-success btn-create" />
+            </div>
         </div>
+    }
 
-        @using (Html.BeginForm())
+    <div class="mt-3">
+        <a href="@Url.Action("Index")" class="text-decoration-none">
+            <i class="fa fa-arrow-left"></i> Quay lại Danh Sách Danh Mục
+        </a>
+    </div>
+
+    <div class="list-dm mt-4">
+        <h5><b>Danh mục hiện có:</b></h5>
+        @if (ViewBag.DanhMucList != null && ViewBag.DanhMucList.Count > 0)
         {
-            @Html.AntiForgeryToken()
-
-            <div class="form-horizontal">
-                <h4>Danh mục</h4>
-                <hr />
-
-                <div class="form-inline-custom">
-                    @Html.LabelFor(model => model.TenDM, htmlAttributes: new { @class = "control-label" })
-                    @Html.EditorFor(model => model.TenDM, new { htmlAttributes = new { @class = "form-control", placeholder = "Nhập tên danh mục..." } })
-                    @Html.ValidationMessageFor(model => model.TenDM, "", new { @class = "text-danger" })
-                </div>
-
-                <div class="form-group mt-3">
-                    <input type="submit" value="Tạo mới" class="btn btn-success btn-create" />
-                </div>
+            <div class="dm-container">
+                @foreach (var item in ViewBag.DanhMucList)
+                {
+                    <div class="dm-item">
+                        <i class="text-warning me-2"></i>
+                        <span>@item.TenDM</span>
+                    </div>
+                }
             </div>
         }
-
-        <div class="mt-3">
-            <a href="@Url.Action("Index")" class="text-decoration-none">
-                <i class="fas fa-arrow-left"></i> Quay lại Danh Sách Danh Mục
-            </a>
-        </div>
-
-        <div class="list-dm mt-4">
-            <h5><b>Danh mục hiện có:</b></h5>
-            @if (ViewBag.DanhMucList != null && ViewBag.DanhMucList.Count > 0)
-            {
-                <div class="dm-container">
-                    @foreach (var item in ViewBag.DanhMucList)
-                    {
-                        <div class="dm-item">
-                            <i class="text-warning me-2"></i>
-                            <span>@item.TenDM</span>
-                        </div>
-                    }
-                </div>
-            }
-            else
-            {
-                <p class="text-muted mt-2">Chưa có danh mục nào được tạo.</p>
-            }
-        </div>
+        else
+        {
+            <p class="text-muted mt-2">Chưa có danh mục nào được tạo.</p>
+        }
+    </div>
 
 
-    </main>
+</main>
 
-</body>
-</html>
+<style>
+    .form-inline-custom {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        max-width: 500px;
+    }
+
+        .form-inline-custom label {
+            font-weight: 600;
+            width: 120px;
+            margin-bottom: 0;
+        }
+
+        .form-inline-custom input.form-control {
+            flex: 1;
+            max-width: 300px;
+            display: inline-block;
+        }
+
+    .list-dm {
+        max-width: 400px;
+    }
+
+    .dm-container {
+        border: 1px solid #dee2e6;
+        border-radius: 6px;
+        padding: 10px 15px;
+        background: #f8f9fa;
+        max-height: 250px;
+        overflow-y: auto;
+    }
+
+    .dm-item {
+        display: flex;
+        align-items: center;
+        padding: 6px 0;
+        font-size: 15px;
+        color: #333;
+    }
+
+        .dm-item i {
+            color: #ffc107;
+        }
+
+        .dm-item:hover {
+            background-color: #f1f1f1;
+            border-radius: 4px;
+            padding-left: 6px;
+            transition: 0.2s;
+        }
+
+    .btn-create {
+        margin-left: 130px;
+    }
+</style>
+
+    
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
