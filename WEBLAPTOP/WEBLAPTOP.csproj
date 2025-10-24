@@ -133,8 +133,6 @@
     <Compile Include="Areas\Admin\Controllers\DONHANGsController.cs" />
     <Compile Include="Areas\Admin\Controllers\KHACHHANGsController.cs" />
     <Compile Include="Areas\Admin\Controllers\KHUYENMAIsController.cs" />
-    <Compile Include="Areas\Admin\Controllers\HomeAController.cs" />
-    <Compile Include="Areas\Admin\Controllers\KHACHHANGsController.cs" />
     <Compile Include="Areas\Admin\Controllers\SANPHAMsController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -223,11 +221,6 @@
     <Content Include="Areas\Admin\Views\DANHMUCs\Create.cshtml" />
     <Content Include="Areas\Admin\Views\DANHMUCs\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\DANHMUCs\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\KHACHHANGs\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\KHACHHANGs\Delete.cshtml" />
-    <Content Include="Areas\Admin\Views\KHACHHANGs\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\KHACHHANGs\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\KHACHHANGs\Index.cshtml" />
     <Content Include="Areas\Admin\Views\DONHANGs\Create.cshtml" />
     <Content Include="Areas\Admin\Views\DONHANGs\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\DONHANGs\Details.cshtml" />
@@ -238,12 +231,11 @@
     <Content Include="Areas\Admin\Views\KHUYENMAIs\Details.cshtml" />
     <Content Include="Areas\Admin\Views\KHUYENMAIs\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\KHUYENMAIs\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\HomeA\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\KHACHHANGs\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\KHACHHANGs\Details.cshtml" />
     <Content Include="Areas\Admin\Views\KHACHHANGs\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\KHACHHANGs\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\KHACHHANGs\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\KHACHHANGs\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\KHACHHANGs\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\KHACHHANGs\Index.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />

@@ -10,8 +10,6 @@ using WEBLAPTOP.Models;
 
 namespace WEBLAPTOP.Areas.Admin.Controllers
 {
-    // LƯU Ý: Bạn phải thay "Controller" bằng "BaseController" để kích hoạt bảo vệ!
-    // public class KHACHHANGsController : BaseController 
     public class KHACHHANGsController : Controller
     {
         private DARKTHESTORE db = new DARKTHESTORE();
@@ -19,7 +17,6 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
         // GET: Admin/KHACHHANGs
         public ActionResult Index()
         {
-            // Bảng KHACHHANG không có khóa ngoại nên không cần .Include
             return View(db.KHACHHANGs.ToList());
         }
 
@@ -41,7 +38,6 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
         // GET: Admin/KHACHHANGs/Create
         public ActionResult Create()
         {
-            // Bảng KHACHHANG không có khóa ngoại, không cần ViewBag
             return View();
         }
 
@@ -59,7 +55,6 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
 
-            // Không cần ViewBag
             return View(kHACHHANG);
         }
 
@@ -75,7 +70,6 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
-            // Không cần ViewBag
             return View(kHACHHANG);
         }
 
@@ -92,7 +86,6 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            // Không cần ViewBag
             return View(kHACHHANG);
         }
 
