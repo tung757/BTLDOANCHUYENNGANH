@@ -46,7 +46,7 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> UpdateTrangThai(int id, string trangThai) 
+        public async Task<JsonResult> UpdateTrangThai(int id, string trangThai)
         {
             try
             {
@@ -56,7 +56,7 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
                     return Json(new { success = false, message = "Trạng thái không hợp lệ." });
                 }
 
-                var dONHANG = await db.DONHANGs.FindAsync(id); 
+                var dONHANG = await db.DONHANGs.FindAsync(id);
 
                 if (dONHANG == null)
                 {
@@ -64,7 +64,7 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
                 }
 
                 dONHANG.TrangThai = trangThai;
-                await db.SaveChangesAsync(); 
+                await db.SaveChangesAsync();
 
                 return Json(new { success = true });
             }
@@ -75,13 +75,13 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
         }
 
         // GET: Admin/DONHANGs/Edit/5
-        public async Task<ActionResult> Edit(int? id) 
+        public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            DONHANG dONHANG = await db.DONHANGs.FindAsync(id); 
+            DONHANG dONHANG = await db.DONHANGs.FindAsync(id);
             if (dONHANG == null)
             {
                 return HttpNotFound();

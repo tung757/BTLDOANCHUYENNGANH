@@ -59,7 +59,7 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
 
                     string invalidChars = new string(Path.GetInvalidFileNameChars());
                     string sanitizedName = new string(productName.Where(ch => !invalidChars.Contains(ch)).ToArray());
-                    sanitizedName = sanitizedName.Replace(" ", "-").ToLower(); 
+                    sanitizedName = sanitizedName.Replace(" ", "-").ToLower();
 
                     string extension = Path.GetExtension(ImagesFile.FileName);
 
