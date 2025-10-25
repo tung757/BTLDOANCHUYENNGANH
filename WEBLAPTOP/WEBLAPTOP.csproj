@@ -134,6 +134,7 @@
     <Compile Include="Areas\Admin\Controllers\KHACHHANGsController.cs" />
     <Compile Include="Areas\Admin\Controllers\SANPHAMsController.cs" />
     <Compile Include="Controllers\CartController.cs" />
+    <Compile Include="Controllers\DonHangController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\PayBillsController.cs" />
@@ -264,7 +265,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Images\Banner\" />
-    <Folder Include="Views\Default\" />
+    <Folder Include="Views\DonHang\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
