@@ -94,5 +94,18 @@ namespace WEBLAPTOP.Controllers
             ViewBag.SLSP = query.Count();
             return View(query);
         }
+
+        [HttpPost]
+        public async Task<ActionResult> Create_review(string NoiDung, int Diem, int ID_KH, int ID_SP)
+        {
+            DANHGIA a = new DANHGIA();
+            a.NoiDung = NoiDung;
+            a.Diem = Diem;
+            a.ID_KH = ID_KH;
+            a.ID_SP = ID_SP;
+            db.DANHGIAs.Add(a);
+            await db.SaveChangesAsync();
+            return RedirectToAction("Details", "Product", new { id = ID_SP });
+        }
     }
 }
