@@ -1,81 +1,272 @@
 ﻿@model IEnumerable<WEBLAPTOP.Models.DONHANG>
 
-@{
-    ViewBag.Title = "Index";
-}
+<main class="app-content">
+    <div class="app-title">
+        <ul class="app-breadcrumb breadcrumb side">
+            <li class="breadcrumb-item active"><a href="#"><b>Danh sách đơn hàng</b></a></li>
+        </ul>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tile">
+                <div class="tile-body">
 
-<h2>Index</h2>
+                    <div class="row element-button">
+                        <div class="col-sm-2">
+                            <a class="btn btn-delete btn-sm nhap-tu-file" title="Nhập" onclick="myFunction(this)">
+                                <i class="fa fa-upload"></i> Tải từ file
+                            </a>
+                        </div>
+                        <div class="col-sm-2">
+                            <a class="btn btn-delete btn-sm print-file" title="In" onclick="myApp.printTable()">
+                                <i class="fa fa-print"></i> In dữ liệu
+                            </a>
+                        </div>
+                        <div class="col-sm-2">
+                            <a class="btn btn-delete btn-sm print-file js-textareacopybtn" title="Sao chép">
+                                <i class="fa fa-copy"></i> Sao chép
+                            </a>
+                        </div>
+                        <div class="col-sm-2">
+                            <a class="btn btn-excel btn-sm" href="#">
+                                <i class="fa fa-file-excel-o"></i> Xuất Excel
+                            </a>
+                        </div>
+                        <div class="col-sm-2">
+                            <a class="btn btn-delete btn-sm pdf-file" title="PDF" onclick="myFunction(this)">
+                                <i class="fa fa-file-pdf-o"></i> Xuất PDF
+                            </a>
+                        </div>
+                    </div>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.KHACHHANG.TenKH)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.KHUYENMAI.Mota)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NgayLap)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.GhiChu)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TrangThai)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Ten)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DiaChiGiaoHang)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SDT)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PhuongthucTT)
-        </th>
-        <th></th>
-    </tr>
+                    <table class="table table-hover table-bordered" id="sampleTable">
+                        <thead class="table-light">
+                            <tr>
+                                <th width="10"><input type="checkbox" id="all"></th>
+                                <th>Tên Khách Hàng</th>
+                                <th>Ngày lập</th>
+                                <th>Ghi chú</th>
+                                <th>Tên người đặt</th>
+                                <th>Địa chỉ giao hàng</th>
+                                <th>Số điện thoại</th>
+                                <th>Phương thức thanh toán</th>
+                                <th>Phương thức nhận hàng</th>
+                                <th style="min-width: 150px;">Trạng thái</th>
+                                <th>Chức năng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td><input type="checkbox" name="check1"></td>
+                                    <td>@(item.KHACHHANG != null ? item.KHACHHANG.TenKH: "Không có tên khác hàng")</td>
+                                    <td>@item.NgayLap</td>
+                                    <td>@item.GhiChu</td>
+                                    <td>@item.Ten</td>
+                                    <td>@item.DiaChiGiaoHang</td>
+                                    <td>@item.SDT</td>
+                                    <td>@item.PhuongthucTT</td>
+                                    <td>@item.PhuongThucNhanHang</td>
+                                    <td class="align-middle">
+                                        @{
+                                            // Thêm logic để gán class CSS dựa trên trạng thái string
+                                            string cssClass = "";
+                                            if (item.TrangThai == "Đang xác nhận") { cssClass = "trangthai-1"; }
+                                            else if (item.TrangThai == "Đang giao") { cssClass = "trangthai-2"; }
+                                            else if (item.TrangThai == "Đã giao") { cssClass = "trangthai-3"; }
+                                            else if (item.TrangThai == "Đã huỷ") { cssClass = "trangthai-4"; }
+                                        }
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.KHACHHANG.TenKH)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.KHUYENMAI.Mota)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NgayLap)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.GhiChu)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TrangThai)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Ten)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DiaChiGiaoHang)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SDT)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PhuongthucTT)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID_DH }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID_DH }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID_DH })
-        </td>
-    </tr>
-}
+                                        <select class="form-select trangthai-dropdown @cssClass" data-id="@item.ID_DH">
+                                            <option value="Đang xác nhận" @(item.TrangThai == "Đang xác nhận" ? "selected" : "")>Đang xác nhận</option>
+                                            <option value="Đang giao" @(item.TrangThai == "Đang giao" ? "selected" : "")>Đang giao</option>
+                                            <option value="Đã giao" @(item.TrangThai == "Đã giao" ? "selected" : "")>Đã giao</option>
+                                            <option value="Đã huỷ" @(item.TrangThai == "Đã huỷ" ? "selected" : "")>Đã huỷ</option>
+                                        </select>
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="btn btn-info btn-sm" title="Chi tiết"
+                                           href="@Url.Action("Details", "DONHANGs", new { id = item.ID_DH })">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                        <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
+                                                onclick="confirmDelete(@item.ID_DH)">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
 
-</table>
+                                        <a class="btn btn-warning btn-sm edit" title="Sửa"
+                                           href="@Url.Action("Edit", "DONHANGs", new { id = item.ID_DH })">
+                                            <i class="fa fa-pencil-square-o"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<script>
+    function confirmDelete(id) {
+        // Dùng cú pháp Swal.fire của SweetAlert 2
+        Swal.fire({
+            title: "Xác nhận xóa?",
+            text: "Bạn có chắc muốn xóa đơn hàng này không?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Xóa',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            // Kiểm tra xem người dùng có bấm nút "Xóa" (confirm) không
+            if (result.isConfirmed) {
+                $.ajax({
+                    // Giả sử đây là Admin Area, nếu không phải, bỏ 'new { area = "Admin" }'
+                    url: '@Url.Action("Delete", "DONHANGs", new { area = "Admin" })',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function (res) {
+                        if (res.success) {
+                            Swal.fire({
+                                title: "Đã xóa!",
+                                text: "Đơn hàng đã được xóa thành công.",
+                                icon: "success",
+                                timer: 1500,
+                                showConfirmButton: false
+                            });
+                            setTimeout(() => location.reload(), 1000);
+                        }
+                    },
+                    error: function () {
+                        Swal.fire({
+                            title: "Lỗi!",
+                            text: "Không thể xóa Đơn hàng. Vui lòng thử lại.",
+                            icon: "error",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    }
+                });
+            }
+        });
+    }
+    $(document).ready(function () {
+        $('.trangthai-dropdown').change(function () {
+            var dropdown = $(this);
+            var orderId = dropdown.data('id');
+            var newStatus = dropdown.val();
+
+            // Gửi yêu cầu AJAX
+            $.ajax({
+                // ---- SỬA LỖI Ở DÒNG NÀY ----
+                url: '@Url.Action("UpdateTrangThai", "DONHANGs", new { area = "Admin" })',
+                type: 'POST',
+                data: {
+                    id: orderId,
+                    trangThai: newStatus
+                },
+                success: function (response) {
+                    if (response.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Đã cập nhật!',
+                            text: 'Trạng thái đơn hàng đã được thay đổi.',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+
+                        // ---- PHẦN CẬP NHẬT MÀU SẮC ----
+                        dropdown.removeClass('trangthai-1 trangthai-2 trangthai-3 trangthai-4');
+
+                        if (newStatus == "Đang xác nhận") {
+                            dropdown.addClass('trangthai-1');
+                        } else if (newStatus == "Đang giao") {
+                            dropdown.addClass('trangthai-2');
+                        } else if (newStatus == "Đã giao") {
+                            dropdown.addClass('trangthai-3');
+                        } else if (newStatus == "Đã huỷ") {
+                            dropdown.addClass('trangthai-4');
+                        }
+                        // ---- HẾT PHẦN CẬP NHẬT MÀU SẮC ----
+
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi từ máy chủ',
+                            text: response.message
+                        });
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi kết nối',
+                        text: 'Không thể gửi yêu cầu. (Kiểm tra URL hoặc Area)'
+                    });
+                }
+            });
+        });
+    });
+</script>
+</body>
+<style>
+    /* Giảm chiều rộng bảng tổng thể */
+    #sampleTable {
+        width: 100%; /* bạn có thể chỉnh 50% hoặc 70% tùy ý */
+        margin-left: 0; /* canh trái */
+    }
+
+        /* Thu nhỏ riêng cột chức năng */
+        #sampleTable th:last-child,
+        #sampleTable td:last-child {
+            width: 150px; /* Giảm xuống 100px nếu muốn gọn hơn */
+            text-align: center; /* Căn giữa các nút */
+        }
+
+    /* Nút gọn gàng hơn */
+    .btn-primary.btn-sm,
+    .btn-warning.btn-sm {
+        min-width: 35px;
+        height: 32px;
+    }
+
+    .form-select.trangthai-1 {
+        background-color: #fff8e1; 
+        border-color: #ffc107;
+        color: #664d03;
+        font-weight: 500;
+    }
+
+    .form-select.trangthai-2 {
+        background-color: #e0f7fa; 
+        border-color: #0dcaf0;
+        color: #055160;
+        font-weight: 500;
+    }
+
+    .form-select.trangthai-3 {
+        background-color: #e8f5e9; 
+        border-color: #198754;
+        color: #0a3622;
+        font-weight: 500;
+    }
+
+    .form-select.trangthai-4 {
+        background-color: #fce8e6;
+        border-color: #dc3545;
+        color: #58151c;
+        font-weight: 500;
+    }
+
+    .form-select:focus {
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+</style>
+

@@ -59,18 +59,16 @@
 </main>
 <script>
     function confirmDelete(id) {
-        // Dùng Swal.fire (cú pháp của SweetAlert 2)
         Swal.fire({
             title: "Xác nhận xóa?",
             text: "Bạn có chắc muốn xóa danh mục này không?",
             icon: "warning",
-            showCancelButton: true, // Hiển thị nút Hủy
+            showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Xóa', // Đổi chữ nút
-            cancelButtonText: 'Hủy'  // Đổi chữ nút
-        }).then((result) => { // SweetAlert 2 trả về 'result'
-            // Kiểm tra xem người dùng có bấm nút "Xóa" không
+            confirmButtonText: 'Xóa',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
                     url: '@Url.Action("Delete", "DANHMUCs", new { area = "Admin" })',
@@ -78,25 +76,35 @@
                     data: { id: id },
                     success: function (res) {
                         if (res.success) {
-                            // Dùng Swal.fire cho thông báo thành công
+                            // THÀNH CÔNG
                             Swal.fire({
                                 title: "Đã xóa!",
                                 text: "Danh mục đã được xóa thành công.",
                                 icon: "success",
                                 timer: 1500,
-                                showConfirmButton: false // Ẩn nút OK
+                                showConfirmButton: false
                             });
+                            // Tải lại trang sau 1 giây
                             setTimeout(() => location.reload(), 1000);
+                        } else {
+                            // *** PHẦN SỬA LỖI QUAN TRỌNG ***
+                            // THẤT BẠI (do controller trả về success = false)
+                            Swal.fire({
+                                title: "Lỗi!",
+                                text: res.message, // Hiển thị thông báo cụ thể từ controller
+                                icon: "error",
+                                showConfirmButton: true // Hiện nút OK để người dùng đọc lỗi
+                            });
                         }
                     },
                     error: function () {
-                        // Dùng Swal.fire cho thông báo lỗi
+                        // Lỗi này chỉ xảy ra khi server sập, mất mạng,
+                        // hoặc controller bị lỗi 500 mà không được catch
                         Swal.fire({
-                            title: "Lỗi!",
-                            text: "Không thể xóa danh mục. Vui lòng thử lại.",
+                            title: "Lỗi nghiêm trọng!",
+                            text: "Không thể kết nối tới máy chủ. Vui lòng thử lại.",
                             icon: "error",
-                            timer: 2000,
-                            showConfirmButton: false // Ẩn nút OK
+                            showConfirmButton: true
                         });
                     }
                 });

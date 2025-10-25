@@ -1,4 +1,6 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -71,14 +73,31 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
         [HttpPost]
         public async Task<ActionResult> Delete(int id)
         {
-            var dANHMUC = await db.DANHMUCs.FindAsync(id);
-            if (dANHMUC == null)
-                return HttpNotFound();
+            try
+            {
+                var dANHMUC = await db.DANHMUCs.FindAsync(id);
+                if (dANHMUC == null)
+                {
+                    // Trả về JSON để AJAX xử lý, thay vì HttpNotFound
+                    return Json(new { success = false, message = "Không tìm thấy danh mục để xóa." });
+                }
 
-            db.DANHMUCs.Remove(dANHMUC);
-            await db.SaveChangesAsync();
+                db.DANHMUCs.Remove(dANHMUC);
+                await db.SaveChangesAsync();
 
-            return Json(new { success = true });
+                // Xóa thành công
+                return Json(new { success = true });
+            }
+            catch (DbUpdateException) // Bắt lỗi do khóa ngoại (DbUpdateConcurrencyException là lỗi khác)
+            {
+                // Lỗi này xảy ra khi DANHMUC vẫn còn SANPHAMs
+                return Json(new { success = false, message = "Không thể xóa! Danh mục này vẫn còn sản phẩm." });
+            }
+            catch (Exception ex) // Bắt các lỗi chung khác
+            {
+                // Ghi log lỗi ex.Message ở đây nếu cần
+                return Json(new { success = false, message = "Lỗi hệ thống: " + ex.Message });
+            }
         }
 
         protected override void Dispose(bool disposing)

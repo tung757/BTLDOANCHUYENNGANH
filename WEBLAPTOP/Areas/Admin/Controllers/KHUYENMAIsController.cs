@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
+using System.Data.Entity; // Cần thiết cho .ToListAsync() và .FindAsync()
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks; // Cần thiết cho Task
 using System.Web;
 using System.Web.Mvc;
 using WEBLAPTOP.Models;
+using System.Data.Entity.Infrastructure;
 
 namespace WEBLAPTOP.Areas.Admin.Controllers
 {
@@ -15,19 +17,21 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
         private DARKTHESTORE db = new DARKTHESTORE();
 
         // GET: Admin/KHUYENMAIs
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View(db.KHUYENMAIs.ToList());
+            // Chuyển sang ToListAsync()
+            return View(await db.KHUYENMAIs.ToListAsync());
         }
 
         // GET: Admin/KHUYENMAIs/Details/5
-        public ActionResult Details(int? id)
+        public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            KHUYENMAI kHUYENMAI = db.KHUYENMAIs.Find(id);
+            // Chuyển sang FindAsync()
+            KHUYENMAI kHUYENMAI = await db.KHUYENMAIs.FindAsync(id);
             if (kHUYENMAI == null)
             {
                 return HttpNotFound();
@@ -42,16 +46,14 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
         }
 
         // POST: Admin/KHUYENMAIs/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID_KM,GiamGia,Mota")] KHUYENMAI kHUYENMAI)
+        public async Task<ActionResult> Create([Bind(Include = "ID_KM,GiamGia,Mota")] KHUYENMAI kHUYENMAI)
         {
             if (ModelState.IsValid)
             {
                 db.KHUYENMAIs.Add(kHUYENMAI);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
@@ -59,13 +61,14 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
         }
 
         // GET: Admin/KHUYENMAIs/Edit/5
-        public ActionResult Edit(int? id)
+        public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            KHUYENMAI kHUYENMAI = db.KHUYENMAIs.Find(id);
+            // Chuyển sang FindAsync()
+            KHUYENMAI kHUYENMAI = await db.KHUYENMAIs.FindAsync(id);
             if (kHUYENMAI == null)
             {
                 return HttpNotFound();
@@ -74,45 +77,46 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
         }
 
         // POST: Admin/KHUYENMAIs/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID_KM,GiamGia,Mota")] KHUYENMAI kHUYENMAI)
+        public async Task<ActionResult> Edit([Bind(Include = "ID_KM,GiamGia,Mota")] KHUYENMAI kHUYENMAI)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(kHUYENMAI).State = EntityState.Modified;
-                db.SaveChanges();
+                // Chuyển sang SaveChangesAsync()
+                await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             return View(kHUYENMAI);
         }
 
         // GET: Admin/KHUYENMAIs/Delete/5
-        public ActionResult Delete(int? id)
+        [HttpPost]
+        public async Task<ActionResult> Delete(int id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            KHUYENMAI kHUYENMAI = db.KHUYENMAIs.Find(id);
-            if (kHUYENMAI == null)
-            {
-                return HttpNotFound();
-            }
-            return View(kHUYENMAI);
-        }
+                var kHUYENMAI = await db.KHUYENMAIs.FindAsync(id);
+                if (kHUYENMAI == null)
+                {
+                    return Json(new { success = false, message = "Không tìm thấy khuyến mãi." });
+                }
 
-        // POST: Admin/KHUYENMAIs/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            KHUYENMAI kHUYENMAI = db.KHUYENMAIs.Find(id);
-            db.KHUYENMAIs.Remove(kHUYENMAI);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+                db.KHUYENMAIs.Remove(kHUYENMAI);
+                await db.SaveChangesAsync();
+
+                return Json(new { success = true });
+            }
+            catch (DbUpdateException) // Bắt lỗi do khóa ngoại
+            {
+                // Trả về success = false, AJAX sẽ nhảy vào khối 'else'
+                return Json(new { success = false, message = "Không thể xóa! Khuyến mãi này đang được đơn hàng sử dụng!" });
+            }
+            catch (Exception ex) // Bắt các lỗi chung khác
+            {
+                return Json(new { success = false, message = "Lỗi hệ thống: " + ex.Message });
+            }
         }
 
         protected override void Dispose(bool disposing)

@@ -15,7 +15,7 @@
     <link rel="stylesheet" type="text/css" href="~/Content/jquery-confirm.min.css" />
     <link rel="stylesheet" type="text/css" href="~/Areas/css/main.css" />
 
-    <script src="@Url.Content("~/Scripts/jquery-3.6.0.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery-3.7.0.min.js")"></script>
     <script src="@Url.Content("~/Scripts/bootstrap.bundle.min.js")"></script>
     <script src="@Url.Content("~/Scripts/jquery-confirm.min.js")"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -31,7 +31,7 @@
             <div id="clock" style="color:white; margin-right:20px; text-align:center; margin-top:15px"></div>
             <li>
                 <a class="app-nav__item" href="@Url.Action("Login", "Account", new { area = "" })">
-                    <i class='bx bx-log-out bx-rotate-180'></i>
+                    <i class="fa fa-sign-in"></i>
                 </a>
             </li>
         </ul>
@@ -73,17 +73,18 @@
                 </a>
             </li>
             <li>
+                <a class="app-menu__item" href="@Url.Action("Index", "KHUYENMAIs")">
+                    <i class="app-menu__icon fa fa-ticket"></i>
+                    <span class="app-menu__label">Quản lý khuyến mại</span>
+                </a>
+            </li>
+            <li>
                 <a class="app-menu__item" href="#">
                     <i class="app-menu__icon fa fa-pie-chart"></i>
                     <span class="app-menu__label">Thống kê báo cáo</span>
                 </a>
             </li>
-            <li>
-                <a class="app-menu__item" href="#">
-                    <i class="app-menu__icon fa fa-ticket"></i>
-                    <span class="app-menu__label">Quản lý khuyến mại</span>
-                </a>
-            </li>
+
             <li>
                 <a class="app-menu__item" href="#">
                     <i class="app-menu__icon fa fa-cog"></i>
