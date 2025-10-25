@@ -1,0 +1,133 @@
+﻿@model IEnumerable<WEBLAPTOP.Models.DANHMUC>
+
+<main class="app-content">
+    <div class="app-title">
+        <ul class="app-breadcrumb breadcrumb side">
+            <li class="breadcrumb-item active"><a href="#"><b>Danh sách danh mục</b></a></li>
+        </ul>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tile">
+                <div class="tile-body">
+                    <div class="row element-button">
+                        <div class="col-sm-2">
+                            <a class="btn btn-add btn-sm" href="@Url.Action("Create", "DANHMUCs")" title="Thêm">
+                                <i class="fa fa-plus"></i> Tạo mới danh mục
+                            </a>
+                        </div>
+                    </div>
+                    <table class="table table-hover table-bordered" id="sampleTable">
+                        <thead>
+                            <tr>
+                                <th width="10"><input type="checkbox" id="all"></th>
+                                <th>Tên danh mục</th>
+                                <th>Chức năng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td width="10">
+                                        <input type="checkbox" name="check1" value="@item.ID_DM">
+                                    </td>
+
+                                    <td>
+                                        @item.TenDM
+                                    </td>
+
+                                    <td>
+                                        <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
+                                                onclick="confirmDelete(@item.ID_DM)">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+
+                                        <a class="btn btn-primary btn-sm edit" title="Sửa"
+                                           href="@Url.Action("Edit", "DANHMUCs", new { id = item.ID_DM })">
+                                            <i class="fa fa-pencil-square-o"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script>
+    function confirmDelete(id) {
+        Swal.fire({
+            title: "Xác nhận xóa?",
+            text: "Bạn có chắc muốn xóa danh mục này không?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Xóa',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '@Url.Action("Delete", "DANHMUCs", new { area = "Admin" })',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function (res) {
+                        if (res.success) {
+                            // THÀNH CÔNG
+                            Swal.fire({
+                                title: "Đã xóa!",
+                                text: "Danh mục đã được xóa thành công.",
+                                icon: "success",
+                                timer: 1500,
+                                showConfirmButton: false
+                            });
+                            // Tải lại trang sau 1 giây
+                            setTimeout(() => location.reload(), 1000);
+                        } else {
+                            // *** PHẦN SỬA LỖI QUAN TRỌNG ***
+                            // THẤT BẠI (do controller trả về success = false)
+                            Swal.fire({
+                                title: "Lỗi!",
+                                text: res.message, // Hiển thị thông báo cụ thể từ controller
+                                icon: "error",
+                                showConfirmButton: true // Hiện nút OK để người dùng đọc lỗi
+                            });
+                        }
+                    },
+                    error: function () {
+                        // Lỗi này chỉ xảy ra khi server sập, mất mạng,
+                        // hoặc controller bị lỗi 500 mà không được catch
+                        Swal.fire({
+                            title: "Lỗi nghiêm trọng!",
+                            text: "Không thể kết nối tới máy chủ. Vui lòng thử lại.",
+                            icon: "error",
+                            showConfirmButton: true
+                        });
+                    }
+                });
+            }
+        });
+    }
+</script>
+
+<style>
+    #sampleTable {
+        width: 60%;
+        margin-left: 0;
+    }
+
+        #sampleTable th:last-child,
+        #sampleTable td:last-child {
+            width: 180px;
+            text-align: center;
+        }
+
+    .btn.btn-primary.btn-sm {
+        padding: 4px 6px;
+        font-size: 13px;
+    }
+</style>
+

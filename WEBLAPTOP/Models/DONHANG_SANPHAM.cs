@@ -20,6 +20,8 @@ namespace WEBLAPTOP.Models
 
         public int? SoLuong { get; set; }
 
+        public int? DonGia { get; set; }
+
         public virtual DONHANG DONHANG { get; set; }
 
         public virtual SANPHAM SANPHAM { get; set; }

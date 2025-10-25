@@ -1,0 +1,509 @@
+﻿@model WEBLAPTOP.Models.SANPHAM
+@{
+    ViewBag.Title = Model.TenSP;
+}
+@{
+    string[] images = Model.Images_url.Split(';');
+}
+
+<style>
+    .thumb {
+        width: 70px;
+        cursor: pointer;
+        border: 2px solid transparent;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        transition: 0.2s;
+    }
+
+    .thumb.active {
+        border-color: #ffc107;
+    }
+
+    .review-item {
+        border-top: 1px solid #eee;
+        padding: 15px 0;
+    }
+
+    .review-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: #ddd;
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    .review-name {
+        font-weight: 600;
+        font-size: 16px;
+    }
+
+    .review-stars i {
+        color: #f6c542;
+        font-size: 15px;
+    }
+
+    .review-content {
+        margin-top: 5px;
+        font-size: 15px;
+    }
+
+    .review-date {
+        font-size: 13px;
+        color: #888;
+        margin-top: 5px;
+    }
+
+
+    /*supportcallzalo*/
+
+    .support-header {
+        font-weight: 600;
+        font-size: 16px;
+    }
+
+    .support-time {
+        color: #555;
+        font-size: 13px;
+    }
+
+    .advisor {
+        display: flex;
+        align-items: center;
+        margin-top: 12px;
+    }
+
+        .advisor img {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 12px;
+        }
+
+    .advisor-info h6 {
+        margin: 0;
+        font-weight: 600;
+    }
+
+    .advisor-info p {
+        margin: 2px 0;
+        font-size: 13px;
+        color: #777;
+    }
+
+    .advisor-info .phone {
+        color: #000;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    .contact-buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 12px;
+    }
+
+    .btn-zalo {
+        flex: 1;
+        background-color: #0088cc;
+        color: #fff;
+        border-radius: 8px;
+        font-weight: 500;
+    }
+
+    .btn-messenger {
+        flex: 1;
+        background: linear-gradient(to right, #ff5ca1, #0078ff);
+        color: #fff;
+        border-radius: 8px;
+        font-weight: 500;
+    }
+</style>
+
+<!-- Container chính -->
+<div class="container my-4">
+
+    <div class="row">
+        <div class="col-md-9">
+            <div class="row">
+                <!-- Carousel ảnh sản phẩm -->
+                <div class="col-md-7">
+                    <div id="productCarousel" class="carousel slide">
+                        <div class="carousel-inner rounded">
+                            <div class="carousel-item active">
+                                <img src="~/Images/Product_images/@images[0]" class="d-block w-100">
+                            </div>
+                            @{
+                                for (int i = 1; i < images.Count(); i++)
+                                {
+                                    <div class="carousel-item">
+                                        <img src="~/Images/Product_images/@images[i]" class="d-block w-100">
+                                    </div>
+                                }
+                            }
+
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon"></span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon"></span>
+                        </button>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        @{
+                            <div class="thumb active" data-bs-target="#productCarousel" data-bs-slide-to="0">
+                                <img src="~/Images/Product_images/@images[0]" class="w-100">
+                            </div>
+                            for (int i = 1; i < images.Count(); i++)
+                            {
+                                <div class="thumb" data-bs-target="#productCarousel" data-bs-slide-to="@i">
+                                    <img src="~/Images/Product_images/@images[i]" class="w-100">
+                                </div>
+                            }
+                        }
+
+                    </div>
+                </div>
+
+                <!-- Thông tin sản phẩm giữa -->
+                <div class="col-md-5">
+                    <!-- Tiêu đề sản phẩm -->
+                    <div class="mb-3">
+                        <div class="fs-4 fw-semibold">@Model.TenSP</div>
+                        <div class="d-flex align-items-center text-warning">
+                            <div class="me-1">
+                                ⭐ @{
+                                    double diem_dg = 0;
+                                    foreach (var x in ViewBag.DSDanhGia)
+                                    {
+                                        diem_dg = diem_dg + x.Diem;
+                                    }
+                                    double kqq = diem_dg / ViewBag.SLDG;
+                                    kqq = Math.Round(kqq, 1);
+                                }@kqq/5.0
+                            </div>
+                            <div class="text-secondary">@ViewBag.SLDG Đánh giá</div>
+                            <div class="ms-3 text-secondary">| @Model.SoLuongBan Đã bán</div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="fs-3 fw-bold text-warning me-2">@Convert.ToDecimal(Model.GiaBan).ToString("C0", System.Globalization.CultureInfo.GetCultureInfo("vi-VN"))</div>
+                        <div class="text-decoration-line-through text-muted me-2">@Convert.ToDecimal(Model.Gia).ToString("C0", System.Globalization.CultureInfo.GetCultureInfo("vi-VN"))</div>
+                        <div class="badge bg-warning text-dark">
+                            @{
+                                double giam = 0;
+                                if (Model.Gia.HasValue)
+                                {
+                                    giam = ((double)(Model.Gia - Model.GiaBan) / Model.Gia) * 100 ?? 0;
+                                }
+                                int giam_s = (int)giam;
+                            }
+                            -@giam_s%
+                        </div>
+                    </div>
+
+                    <div class="fw-semibold mb-2">Chi tiết</div>
+                    <div class="text-secondary small">
+                        <div>• Màu sắc: Đen</div>
+                        <div>• Chip: AMDREZEN5</div>
+                        <div>• Bộ nhớ: SSD512</div>
+                        <div>• RAM: 8GB</div>
+                        <div>• Kiểu dáng sản phẩm: Truyền thống</div>
+                        <div>• Chất liệu: Nhôm</div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Đẩy ra đánh giá và mô tả-->
+            <div class="row border-bottom border-2 pt-3">
+                <div class="col-6 border-end border-2 fs-5" style="text-align:right; cursor:pointer;" id="description">Mô tả</div>
+                <div class="col-6 fs-5 text-muted" style="cursor: pointer;" id="reviewer">Đánh giá</div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div id="hienmota">
+                        @{  string dsmota = @Model.Mota;
+                            string[] ds_des = dsmota.Split(';');
+                            int sla = images.Count();
+                        }
+                        @for(int i = 0; i < ds_des.Count(); i++)
+                        {
+                            <div class="d-flex justify-content-center text-center">@ds_des[i]</div>
+                            <div class="d-flex justify-content-center">
+                                @if (i < sla)
+                                {
+                                <img src="~/Images/Product_images/@images[i]" class="w-75 mt-3 mb-3" />
+                                }
+                            </div>
+                        }
+
+                    </div>
+                    <div class="container mt-3" style="display:none;" id="hiendanhgia">
+                        @{
+                            var ds = ViewBag.DSDanhGia;
+                            foreach (var gt in ds)
+                            {
+                                <div class="review-item d-flex flex-column">
+                                    <div class="d-flex align-items-center">
+                                        <div class="review-avatar"><img src="~/Images/Icon/iconlogin.png" class="w-100 h-auto" /></div>
+                                        <div>
+                                            <div class="review-name">@gt.KHACHHANG.TenKH</div>
+                                            <div class="review-stars">
+                                                @for (int i = 0; i < gt.Diem; i++)
+                                                {
+                                                    <i class="bi bi-star-fill"></i>
+                                                }
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="review-content">
+                                        @gt.NoiDung
+                                    </div>
+                                    <div class="review-date">
+                                        30/06/2025 09:18
+                                    </div>
+                                </div>
+                            }
+
+
+}
+                        <div class="container">
+                            <div class="row">
+                                <div class="col d-flex justify-content-center">
+                                    @{
+                                        if (Session["username"] != null)
+                                        {
+                                            <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#danhGiaModal">Thêm đánh giá</button>
+                                        }
+                                        else
+                                        {
+                                            <button class="btn btn-secondary" onclick="window.location.href='@Url.Action("Index","Login")'">Đăng nhập để thêm đánh giá</button>
+                                        }
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+
+        <!-- Khung bên phải (mua hàng) -->
+        <div class="col-md-3 ">
+
+            <div class="bg-light rounded p-3 position-sticky" style="top: 100px;">
+                <div class="fw-semibold mb-2">Số lượng</div>
+                <div class="d-flex mb-3">
+                    <div class="btn btn-outline-secondary" id="giamsl">-</div>
+                    <div class="px-3 border d-flex align-items-center" id="soluong">1</div>
+                    <div class="btn btn-outline-secondary" id="tangsl">+</div>
+                </div>
+
+                <div class="fw-semibold mb-2">Vận chuyển <span class="text-muted" title="Phí ship"><i class="bi bi-info-circle"></i></span></div>
+                <div class="mb-3">
+                    <span class="text-decoration-line-through text-muted me-2">606.000đ</span>
+                    <span class="badge bg-dark">Freeship</span>
+                </div>
+
+                <div class="d-flex align-items-center mb-3">
+                    <div class="fs-5 fw-bold text-warning me-1">@Convert.ToDecimal(Model.GiaBan).ToString("C0", System.Globalization.CultureInfo.GetCultureInfo("vi-VN"))</div>
+                    <div class="text-decoration-line-through text-muted me-1">@Convert.ToDecimal(Model.Gia).ToString("C0", System.Globalization.CultureInfo.GetCultureInfo("vi-VN"))</div>
+                    <div class="badge bg-warning text-dark">-@giam_s%</div>
+                </div>
+
+                <div class="d-flex align-items-center">
+                    <div class="btn btn-warning w-100 fw-semibold">Mua ngay</div>
+                    <div class="d-flex align-items-center p-2 text-secondary" style="font-size: 30px;"><i class="bi bi-cart" style="cursor: pointer;"></i></div>
+                </div>
+
+                <!--ô support liên hệ và hỗ trợ-->
+
+                <div class="support-box">
+                    <div class="d-flex justify-content-between">
+                        <span class="support-header">Bạn cần tư vấn?</span>
+                        <span class="support-time fs-6">Thời gian tư vấn:<br /> 07:00 ~ 22:00</span>
+                    </div>
+
+                    <div class="advisor">
+                        <img src="~/Images/Icon/iconlogin.png" alt="Ảnh tư vấn viên">
+                        <div class="advisor-info">
+                            <h6>Thanh Tùng</h6>
+                            <p>Đã tư vấn 1,396</p>
+                            <div><i class="bi bi-telephone-fill text-warning"></i> <span class="phone">0123456789</span></div>
+                        </div>
+                    </div>
+
+                    <div class="contact-buttons">
+                        <a href="https://zalo.me/0123456789" target="_blank" class="btn btn-zalo">
+                            <i class="bi bi-chat-dots-fill"></i> Zalo
+                        </a>
+                        <a href="https://m.me/username" target="_blank" class="btn btn-messenger">
+                            <i class="bi bi-messenger"></i> Messenger
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <div class="container my-4">
+                <h5 class="fw-bold mb-4">Có thể bạn cũng thích</h5>
+                <div class="row row-cols-1 row-cols-md-5 g-3">
+
+                    @{
+                        var dssp = ViewBag.DSSPDanhMuc;
+                        int n = ViewBag.SLDM;
+                        if (n > 5)
+                        {
+                            n = 5;
+                        }
+                        for (int i = 0; i < n; i++)
+                        {
+                            string[] image_ds = dssp[i].Images_url.Split(';');
+                            <div class="col">
+                                <div class="card border-0 shadow-sm h-100" onclick="window.location.href='@Url.Action("Details","Product", new { id = dssp[i].ID_SP })'">
+                                    <img src="~/Images/Product_images/@image_ds[0]" class="card-img-top rounded" alt="Sản phẩm">
+                                    <div class="card-body">
+                                        <h6 class="card-title">@dssp[i].TenSP</h6>
+                                        <div class="mb-2">
+                                            <span class="badge bg-dark"><i class="bi bi-truck me-1"></i>Freeship</span>
+                                        </div>
+                                        <div class="mb-2">
+                                            <span class="fw-bold text-warning">@Convert.ToDecimal(dssp[i].GiaBan).ToString("C0", System.Globalization.CultureInfo.GetCultureInfo("vi-VN"))</span>
+                                            @{
+                                                double giamm = 0;
+                                                giamm = ((double)(dssp[i].Gia - dssp[i].GiaBan) / dssp[i].Gia) * 100 ?? 0;
+                                                int giam_sm = (int)giamm;
+                                            }
+                                            <span class="badge bg-warning text-dark ms-1">-@giam_sm%</span>
+                                        </div>
+                                        <div class="text-muted small">
+                                            <i class="bi bi-star-fill text-warning"></i> Đã bán @dssp[i].SoLuongBan
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    }
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- Modal thong tin danh giá -->
+<div class="modal fade" id="danhGiaModal" tabindex="-1" aria-labelledby="danhGiaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="danhGiaModalLabel">Nhập đánh giá</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+
+            <div class="modal-body">
+                <form id="formDanhGia" action="~/Product/Create_review" method="post">
+                    <div class="mb-3">
+                        <label for="noiDung" class="form-label">Nội dung</label>
+                        <textarea class="form-control" name="NoiDung" rows="3" placeholder="Nhập nội dung đánh giá..."></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="diemDanhGia" class="form-label">Điểm</label>
+                        <select class="form-select" name="Diem">
+                            <option value="1">1 sao</option>
+                            <option value="2">2 sao</option>
+                            <option value="3">3 sao</option>
+                            <option value="4">4 sao</option>
+                            <option value="5">5 sao</option>
+                        </select>
+                    </div>
+                    <div>
+                        <input type="text" name="ID_KH" value="@Session["id"]" class="d-none" />
+                    </div>
+                    <div>
+                        <input type="text" name="ID_SP" value="@Model.ID_SP" class="d-none" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="submit" class="btn btn-success" >Lưu</button>
+                    </div>
+                </form>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<script>
+    const carousel = document.getElementById('productCarousel');
+    const thumbnails = document.querySelectorAll('.thumb');
+
+    carousel.addEventListener('slid.bs.carousel', function (event) {
+        thumbnails.forEach(thumb => thumb.classList.remove('active'));
+        thumbnails[event.to].classList.add('active');
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        let soluong = parseInt($("#soluong").text());
+        $("#giamsl").click(function () {
+            if (soluong >= 2) {
+                soluong = soluong - 1;
+            }
+            $("#soluong").text(soluong);
+        });
+        $("#tangsl").click(function () {
+            soluong = soluong + 1;
+            $("#soluong").text(soluong);
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#reviewer").click(function () {
+            $("#hiendanhgia").show();
+            $("#hienmota").hide();
+            $("#description").addClass("text-muted");
+            $("#reviewer").removeClass("text-muted");
+        });
+        $("#description").click(function () {
+            $("#hienmota").show();
+            $("#hiendanhgia").hide();
+            $("#description").removeClass("text-muted");
+            $("#reviewer").addClass("text-muted");
+        });
+    });
+</script>
+
+

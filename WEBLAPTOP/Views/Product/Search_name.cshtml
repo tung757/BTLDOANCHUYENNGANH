@@ -1,0 +1,52 @@
+﻿@model IEnumerable<WEBLAPTOP.Models.SANPHAM> 
+@{
+    ViewBag.Title = "Tìm kiếm";
+
+
+}
+<div class="container my-4">
+    <h5 class="fw-bold mb-4">Kết quả tìm kiếm của : @ViewBag.Name_Search</h5>
+    <div class="row row-cols-1 row-cols-md-5 g-3">
+        @{if (ViewBag.SLSP!=0)
+          {
+                foreach (var a in Model)
+                {
+                    string[] ds_image = a.Images_url.Split(';');
+                    <!-- Sản phẩm 1 -->
+                    <div class="col">
+                        <div class="card border-0 shadow-sm h-100" onclick="window.location.href='@Url.Action("Details","Product",new {id=a.ID_SP})'">
+                            <img src="~/Images/Product_images/@ds_image[0]" class="card-img-top rounded" alt="Sản phẩm">
+                            <div class="card-body">
+                                <h6 class="card-title">@a.TenSP</h6>
+                                <div class="mb-2">
+                                    <span class="badge bg-dark"><i class="bi bi-truck me-1"></i>Freeship</span>
+                                </div>
+                                <div class="mb-2">
+                                    <span class="fw-bold text-warning">@a.GiaBan</span>
+                                    @{
+                                        double giam = 0;
+                                        if (a.Gia.HasValue)
+                                        {
+                                            giam = ((double)(a.Gia - a.GiaBan) / a.Gia) * 100 ?? 0;
+                                        }
+                                        int giam_s = (int)giam;
+                                    }
+
+                                    <span class="badge bg-warning text-dark ms-1">-@giam_s%</span>
+                                </div>
+                                <div class="text-muted small">
+                                    <i class="bi bi-star-fill text-warning"></i>| Đã bán @a.SoLuongBan
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+          }
+          else
+          {
+                <div class="col d-flex justify-content-center">Không tìm thấy dữ liệu</div>
+          }
+        }
+    </div>
+</div>
+

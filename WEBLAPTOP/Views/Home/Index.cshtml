@@ -1,33 +1,271 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@model IEnumerable<WEBLAPTOP.Models.SANPHAM>
+@{
+    ViewBag.Title = "Trang Chủ";
 }
+<style>
+    .btn-ghost {
+        position: relative;
+        background: transparent;
+        border: none;
+        color: white;
+        background-color: #F4B41A;
+        font-size: 16px;
+        padding: 8px 6px;
+        cursor: pointer;
+        border-radius: 10px;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+        transition: 0.2s;
+    }
+        .btn-ghost .underline {
+            position: absolute;
+            left: 0;
+            top: 110%;
+            right: 0;
+            bottom: 2px;
+            height: 2px;
+            background: #0b74de;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform .25s ease;
+            border-radius: 2px;
+        }
 
-<main>
-    <section class="row" aria-labelledby="aspnetTitle">
-        <h1 id="title">ASP.NET</h1>
-        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-        <p><a href="https://asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
-    </section>
+        .btn-ghost:hover .underline {
+            transform: scaleX(1);
+        }
 
+        .btn-ghost:focus {
+            outline: 3px solid rgba(11,116,222,0.15);
+            outline-offset: 4px;
+        }
+</style>
+<div class="container">
     <div class="row">
-        <section class="col-md-4" aria-labelledby="gettingStartedTitle">
-            <h2 id="gettingStartedTitle">Getting started</h2>
-            <p>
-                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-                enables a clean separation of concerns and gives you full control over markup
-                for enjoyable, agile development.
-            </p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="librariesTitle">
-            <h2 id="librariesTitle">Get more libraries</h2>
-            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="hostingTitle">
-            <h2 id="hostingTitle">Web Hosting</h2>
-            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-        </section>
+        <div class="col">
+            <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+                <!-- Các chấm tròn điều hướng -->
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="0" class="active"></button>
+                    <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="1"></button>
+                    <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="2"></button>
+                </div>
+
+                <!-- Các ảnh banner -->
+                <div class="carousel-inner rounded-4 shadow " >
+                    <div class="carousel-item active">
+                        <img src="~/Images/Logo/banner3.jpg" class="d-block w-100 h-auto" alt="Banner 1">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="~/Images/Logo/banner2.jpg" class="d-block w-100 h-auto" alt="Banner 2">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="~/Images/Logo/banner1.jpg" class="d-block w-100 h-auto" alt="Banner 3">
+                    </div>
+                </div>
+
+                <!-- Nút mũi tên trái phải -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon bg-dark rounded-circle p-2"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon bg-dark rounded-circle p-2"></span>
+                </button>
+            </div>
+        </div>
     </div>
-</main>
+    <div class="row">
+        <div class="col">
+            <p class="text-center fs-4 mt-5" style="font-weight: bold;">DARKTHE LAPTOP - HÀNH TRÌNH TẠO NÊN SỨC MẠNH VÀ KHẢ NĂNG KHÔNG GIỚI HẠN</p>
+            <p class="text-center fs-6">
+                Trong từng linh kiện, từng thông số, chúng tôi gửi gắm câu chuyện về tốc độ và sự đột phá. DarkThe không đơn thuần là cửa hàng -
+                đó là hành trình của những người đam mê công nghệ, chăm chút từng chi tiết để mang đến sản phẩm khơi nguồn mọi ý tưởng và thành công.
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="container my-5">
+                <h4 class="fw-bold mb-4 text-center">Danh mục nổi bật</h4>
+                <div class="row g-4">
+                    <!-- Ảnh 1 -->
+                    <div class="col-md-4 col-sm-12 text-center danhmuc_hover" style="position: relative;">
+                        <div class="card border-0 shadow-sm h-100">
+                            <img src="~/Images/Product_images/maytinh1.jpg" class="card-img-top rounded-3" alt="Ảnh 1">
+                            <div class="card-body">
+                                <h5 class="card-title fw-semibold">Laptop Hiệu Năng Cao</h5>
+                                <p class="card-text text-muted">Tuyển tập các dòng máy Gaming và máy trạm, sở hữu cấu hình mạnh mẽ, giúp bạn chiến mọi tựa game và xử lý tác vụ đồ họa chuyên nghiệp.</p>
+                            </div>
+                        </div>
+                        <div class="danhmuc" style="height: 100%; width: 100%; background-color: aliceblue; position: absolute; top:0px; display: none;">
+                            <p class="p-2 mt-2 fs-5" style="font-weight: bold; color: #14B8A6;">LAPTOP HIỆU NĂNG CAO</p>
+                            <p class="p-3 text-secondary">
+                                Dòng sản phẩm Laptop Hiệu Năng Cao của DarkThe mang
+                                đến không gian làm việc và giải trí đầy uy lực cho bạn.
+                                Cấu hình phần cứng cao cấp không chỉ bền bỉ với thời gian mà còn
+                                toát lên vẻ tinh tế từ những công nghệ tản nhiệt độc đáo. Với thiết kế
+                                tối ưu nhưng đầy mạnh mẽ, sản phẩm dễ dàng cân mọi tựa game và ứng dụng đồ
+                                họa nặng. Hiệu suất vượt trội cùng hệ thống làm mát đỉnh cao đảm bảo trải
+                                nghiệm chiến đấu trọn vẹn.
+                            </p>
+                            <div>
+                                <button class="btn-ghost" aria-label="Khám phá ngay" onclick="window.location.href='@Url.Action("Details","Product", new {id=1})'">
+                                    Khám phá ngay
+                                    <span class="underline"></span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+
+
+                    <!-- Ảnh 2 -->
+                    <div class="col-md-4 col-sm-12 text-center danhmuc_hover" style="position: relative;">
+                        <div class="card border-0 shadow-sm h-100">
+                            <img src="~/Images/Product_images/maytinh2.jpg" class="card-img-top rounded-3" alt="Ảnh 2">
+                            <div class="card-body">
+                                <h5 class="card-title fw-semibold">Laptop Văn Phòng & Học Tập</h5>
+                                <p class="card-text text-muted">Thiết kế mỏng nhẹ, pin trâu, tạo không gian làm việc và học tập linh hoạt, lý tưởng cho công việc di chuyển và giải trí hằng ngày.</p>
+                            </div>
+                        </div>
+                        <div class="danhmuc" style="height: 100%; width: 100%; background-color: aliceblue; position: absolute; top: 0px; display: none;">
+                            <p class="p-2 mt-2 fs-5" style="font-weight: bold; color: #14B8A6;">LAPTOP VĂN PHÒNG & HỌC TẬP</p>
+                            <p class="p-3 text-secondary">
+                                Dòng sản phẩm Laptop Văn Phòng & Học Tập của
+                                DarkThe mang đến không gian làm việc linh hoạt và
+                                hiệu quả cho người dùng. Chất liệu cao cấp không chỉ
+                                bền đẹp mà còn toát lên vẻ tinh tế từ những đường nét
+                                thiết kế tối giản. Với thiết kế mỏng nhẹ nhưng đầy đủ
+                                chức năng, sản phẩm dễ dàng kết hợp với mọi phong cách
+                                làm việc. Thời lượng pin ấn tượng cùng bàn phím tối ưu
+                                đảm bảo mọi công việc diễn ra suôn sẻ và tiện lợi.
+                            </p>
+                            <div>
+                                <button class="btn-ghost" aria-label="Khám phá ngay" onclick="window.location.href='@Url.Action("Details","Product", new {id=2})'">
+                                    Khám phá ngay
+                                    <span class="underline"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ảnh 3 -->
+                    <div class="col-md-4 col-sm-12 text-center danhmuc_hover" style="position: relative;">
+                        <div class="card border-0 shadow-sm h-100">
+                            <img src="~/Images/Product_images/maytinh1.jpg" class="card-img-top rounded-3" alt="Ảnh 3">
+                            <div class="card-body">
+                                <h5 class="card-title fw-semibold">Laptop Thiết Kế Tinh Tế</h5>
+                                <p class="card-text text-muted">Các mẫu Ultrabook sang trọng, màn hình sắc nét, đáp ứng tiêu chuẩn thẩm mỹ cao, giúp tăng sự tự tin và sáng tạo trong mọi cuộc họp.</p>
+                            </div>
+                        </div>
+                        <div class="danhmuc" style="height: 100%; width: 100%; background-color: aliceblue; position: absolute; top:0px; display: none;">
+                            <p class="p-2 mt-2 fs-5" style="font-weight: bold; color: #14B8A6;">LAPTOP THIẾT KẾ TINH TẾ</p>
+                            <p class="p-3 text-secondary">
+                                Dòng sản phẩm Laptop Thiết Kế Tinh Tế của DarkThe
+                                mang đến không gian làm việc sang trọng và đẳng cấp cho
+                                bạn. Chất liệu kim loại nguyên khối cao cấp không chỉ bền
+                                bỉ mà còn toát lên vẻ tinh tế từ những đường cắt vát hoàn hảo.
+                                Với thiết kế tối giản nhưng đầy cuốn hút, sản phẩm dễ dàng thể
+                                hiện cá tính riêng. Màn hình sắc nét cùng hiệu năng ổn định đảm
+                                bảo mọi ý tưởng được truyền tải trọn vẹn.
+                            </p>
+                            <div>
+                                <button class="btn-ghost" aria-label="Khám phá ngay" onclick="window.location.href='@Url.Action("Details","Product", new {id=3})'">
+                                    Khám phá ngay
+                                    <span class="underline"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="container my-4">
+                <h5 class="fw-bold mb-4">Có thể bạn cũng thích</h5>
+                <div class="row row-cols-1 row-cols-md-5 g-3">
+                    @{ int i = 0;
+                        foreach (var a in Model)
+                        {
+                            string[] ds_image = a.Images_url.Split(';');
+                            if (i == 5)
+                            {
+                                break;
+                            }
+                            <!-- Sản phẩm 1 -->
+                            <div class="col">
+                                <div class="card border-0 shadow-sm h-100" onclick="window.location.href='@Url.Action("Details","Product",new {id=a.ID_SP})'">
+                                    <img src="~/Images/Product_images/@ds_image[0]" class="card-img-top rounded" alt="Sản phẩm">
+                                    <div class="card-body">
+                                        <h6 class="card-title">@a.TenSP</h6>
+                                        <div class="mb-2">
+                                            <span class="badge bg-dark"><i class="bi bi-truck me-1"></i>Freeship</span>
+                                        </div>
+                                        <div class="mb-2">
+                                            <span class="fw-bold text-warning">@a.GiaBan</span>
+                                            @{
+                                                double giam = 0;
+                                                if (a.Gia.HasValue)
+                                                {
+                                                    giam = ((double)(a.Gia - a.GiaBan) / a.Gia) * 100 ?? 0;
+                                                }
+                                                int giam_s = (int)giam;
+                                            }
+                                            
+                                        <span class="badge bg-warning text-dark ms-1">-@giam_s%</span>
+                                        </div>
+                                        <div class="text-muted small">
+                                            <i class="bi bi-star-fill text-warning"></i>| Đã bán @a.SoLuongBan
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            i++;
+                        }
+                    }
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <img src="~/Images/Logo/banner5.jpg" class="w-100 h-auto" id="banner_duoi"/>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $(".danhmuc_hover").hover(function () {
+            $(this).find(".danhmuc").stop(true, true).slideDown();
+        },
+            function () {
+                $(this).find(".danhmuc").stop(true, true).slideUp();
+            }
+        );
+
+    });
+</script>
+<script>
+    $(document).ready(function () {
+
+        var images = [
+            "/Images/Logo/banner5.jpg",
+            "/Images/Logo/banner6.jpg"
+        ];
+
+        var index = 0;
+
+        // Hàm đổi ảnh
+        setInterval(function () {
+            index = (index + 1) % images.length; 
+            $("#banner_duoi").fadeOut(500, function () {
+                $(this).attr("src", images[index]).fadeIn(500);
+            });
+        }, 3000); 
+    });
+</script>

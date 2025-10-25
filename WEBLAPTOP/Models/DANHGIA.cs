@@ -12,7 +12,7 @@ namespace WEBLAPTOP.Models
         [Key]
         public int ID_GH { get; set; }
 
-        [StringLength(255)]
+        [StringLength(2000)]
         public string NoiDung { get; set; }
 
         public int? Diem { get; set; }

@@ -8,7 +8,7 @@ namespace WEBLAPTOP.Models
     public partial class DARKTHESTORE : DbContext
     {
         public DARKTHESTORE()
-            : base("name=DARKTHESTORE1")
+            : base("name=DARKTHESTORE")
         {
         }
 
