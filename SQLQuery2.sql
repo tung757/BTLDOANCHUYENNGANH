@@ -101,6 +101,12 @@ ALTER COLUMN Mota NVARCHAR(MAX);
 ALTER TABLE DANHGIA
 ALTER COLUMN NoiDung NVARCHAR(2000);
 
+ALTER TABLE DONHANG_SANPHAM
+ADD DonGia int
+
+ALTER TABLE KHUYENMAI
+ADD TrangThai int
+
 select * from DANHGIA
 select * from SANPHAM
 select * from DANHMUC
@@ -114,3 +120,9 @@ insert into KHACHHANG values
 ('Admin','HaNoi','','Nam','','','admin','abc123','3')
 insert into KHACHHANG values
 ('tung','ThaiBinh','','Nam','','','tung2406','abc123','1')
+('Admin','HaNoi','','Nam','','','admin','abc123','3')
+insert into KHACHHANG values
+('tung','ThaiBinh','','Nam','','','tung2406','abc123','1')
+
+delete KHACHHANG
+where(ID_KH=5)
