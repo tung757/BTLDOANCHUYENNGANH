@@ -3,37 +3,367 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="@Url.Content("~/Content/new_css/stylehome.css")" />
+    <link rel="icon" type="image/png" href="~/Images/Logo/logodarkthestorepreview.png" />
 </head>
+@*@Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+    <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
+        <ul class="navbar-nav flex-grow-1">
+            <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+            <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+            <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+        </ul>
+    </div>*@
 <body>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
-        <div class="container">
-            @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                </ul>
+    <nav class="header navbar" style="background-color: #ef2a2a; ">
+        <!-- Header Top -->
+        <div class="header_top container-fluid">
+            <div class="row align-items-center w-100 " style="margin:0 40px">
+
+                <!-- Logo -->
+                <div class="col-3 d-flex justify-content-center">
+                    <a href="@Url.Action("Index","Home")">
+                        <img src="~/Images/Logo/logodarkthestorepreview.png" width="100" alt="Logo" />
+                    </a>
+                </div>
+
+                <!-- Thanh tìm kiếm -->
+                <div class="col">
+                    <form class="d-flex justify-content-center" method="get" action="@Url.Action("Search_name","Product")">
+                        <input class="form-control me-2 " type="text" name="name" placeholder="Tìm kiếm..." />
+                        <button class="btn btn-light" type="submit" name="submitSearch">
+                            <i class="bi bi-search "></i>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Chọn địa chỉ -->
+                <div class="col-auto">
+                    <div class="dropdown">
+                        <a class="btn btn-light dropdown-toggle d-flex align-items-center gap-1"
+                           href="#" role="button" id="dropdownLocation"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-geo-alt"></i>
+                            <span class="diachi_ht">Chọn địa chỉ</span>
+                        </a>
+
+                        <ul class="dropdown-menu" aria-labelledby="dropdownLocation">
+                            <li><h6 class="dropdown-header">Tỉnh/Thành phố</h6></li>
+                            <li class="dropdown-item item_diachi">Hà Nội</li>
+                            <li class="dropdown-item item_diachi">TP. Hồ Chí Minh</li>
+                            <li class="dropdown-item item_diachi">Đà Nẵng</li>
+                            <li class="dropdown-item item_diachi">Cần Thơ</li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li class="dropdown-item item_diachi">Khác...</></li>
+                        </ul>
+                    </div>
+                </div>
+                <script>
+                    $
+                </script>
+                <!--Liên hệ-->
+                <div class="col-auto">
+                    <a href="https://zalo.me/0333893870"
+                       class="text-decoration-none text-light d-flex align-items-center gap-1">
+                        <i class="bi bi-telephone"></i>
+                        <span>Liên hệ</span>
+                    </a>
+                </div>
+
+                <!-- Giỏ hàng -->
+                <div class="col-auto">
+                    <a href="@Url.Action("Index","Cart")"
+                       class="text-decoration-none text-light d-flex align-items-center gap-1">
+                        <i class="bi bi-cart"></i>
+                        <span>Giỏ hàng</span>
+                    </a>
+                </div>
+
+                <!-- Người dùng -->
+                <div class="col-auto">
+                    @{
+                        if (Session["username"] == null)
+                        {
+                            <a href="@Url.Action("Index","Login")"
+                               class="text-decoration-none text-light d-flex align-items-center gap-1">
+                                <i class="bi bi-person-circle"></i>
+                            </a>
+                        }
+                        else
+                        {
+                            <div class="dropdown">
+                                <button class="btn dropdown-toggle fs-5 d-flex align-items-center" style="color:white;" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="bi bi-person-circle pe-2"></span>@Session["username"]
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <li><a class="dropdown-item" href="#">Quan ly tai khoan</a></li>
+                                    <li><a class="dropdown-item" href="#">Theo doi don hang</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("Logout","Login")">Dang xuat</a></li>
+                                </ul>
+                            </div>
+                        }
+                    }
+
+
+                </div>
+
             </div>
         </div>
     </nav>
+    <!-- Header Bottom -->
+    <div class="header-bottom bg-light">
+        <div class="container-fluid">
+            <ul class="nav align-items-center justify-content-around w-100 ">
+                <!-- Dropdown danh mục -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle fw-bold text-black fs-5" href="@Url.Action("Index","Home")" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-list"></i>
+                        Tất cả danh mục
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                        <!-- Laptop theo hãng -->
+                        <li><h6 class="dropdown-header text-black">Laptop theo hãng</h6></li>
+
+                        <!-- Dell -->
+                        <li class="dropdown-submenu">
+                            <a class="dropdown-item dropdown-toggle" href="#">Dell</a>
+                            <ul class="dropdown-menu" style="margin:0px;">
+                                <li><a class="dropdown-item" href="#">Dell Inspiron</a></li>
+                                <li><a class="dropdown-item" href="#">Dell Vostro</a></li>
+                                <li><a class="dropdown-item" href="#">Dell Latitude</a></li>
+                                <li><a class="dropdown-item" href="#">Dell XPS</a></li>
+                                <li><a class="dropdown-item" href="#">Dell Alienware (Gaming)</a></li>
+                                <li><a class="dropdown-item" href="#">Dell G-Series (Gaming)</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- HP -->
+                        <li class="dropdown-submenu">
+                            <a class="dropdown-item dropdown-toggle" href="#">HP</a>
+                            <ul class="dropdown-menu " style="margin:0px" ;>
+                                <li><a class="dropdown-item" href="#">HP Pavilion</a></li>
+                                <li><a class="dropdown-item" href="#">HP Envy</a></li>
+                                <li><a class="dropdown-item" href="#">HP Spectre</a></li>
+                                <li><a class="dropdown-item" href="#">HP EliteBook</a></li>
+                                <li><a class="dropdown-item" href="#">HP ProBook</a></li>
+                                <li><a class="dropdown-item" href="#">HP Omen (Gaming)</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Lenovo -->
+                        <li class="dropdown-submenu">
+                            <a class="dropdown-item dropdown-toggle" href="#">Lenovo</a>
+                            <ul class="dropdown-menu" style="margin:0px" ;>
+                                <li><a class="dropdown-item" href="#">Lenovo IdeaPad</a></li>
+                                <li><a class="dropdown-item" href="#">Lenovo ThinkPad</a></li>
+                                <li><a class="dropdown-item" href="#">Lenovo Yoga</a></li>
+                                <li><a class="dropdown-item" href="#">Lenovo Legion (Gaming)</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Asus -->
+                        <li class="dropdown-submenu">
+                            <a class="dropdown-item dropdown-toggle" href="#">Asus</a>
+                            <ul class="dropdown-menu" style="margin:0px" ;>
+                                <li><a class="dropdown-item" href="#">Asus VivoBook</a></li>
+                                <li><a class="dropdown-item" href="#">Asus ZenBook</a></li>
+                                <li><a class="dropdown-item" href="#">Asus ExpertBook</a></li>
+                                <li><a class="dropdown-item" href="#">Asus TUF Gaming</a></li>
+                                <li><a class="dropdown-item" href="#">Asus ROG (Republic of Gamers)</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Acer -->
+                        <li class="dropdown-submenu">
+                            <a class="dropdown-item dropdown-toggle" href="#">Acer</a>
+                            <ul class="dropdown-menu" style="margin:0px" ;>
+                                <li><a class="dropdown-item" href="#">Acer Aspire</a></li>
+                                <li><a class="dropdown-item" href="#">Acer Swift</a></li>
+                                <li><a class="dropdown-item" href="#">Acer Spin</a></li>
+                                <li><a class="dropdown-item" href="#">Acer Nitro (Gaming)</a></li>
+                                <li><a class="dropdown-item" href="#">Acer Predator (Gaming)</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Apple -->
+                        <li class="dropdown-submenu">
+                            <a class="dropdown-item dropdown-toggle" href="#">Apple</a>
+                            <ul class="dropdown-menu" style="margin:0px" ;>
+                                <li><a class="dropdown-item" href="#">MacBook Air M1/M2</a></li>
+                                <li><a class="dropdown-item" href="#">MacBook Pro 13"</a></li>
+                                <li><a class="dropdown-item" href="#">MacBook Pro 14"</a></li>
+                                <li><a class="dropdown-item" href="#">MacBook Pro 16"</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- MSI -->
+                        <li class="dropdown-submenu">
+                            <a class="dropdown-item dropdown-toggle" href="#">MSI</a>
+                            <ul class="dropdown-menu" style="margin:0px" ;>
+                                <li><a class="dropdown-item" href="#">MSI Modern</a></li>
+                                <li><a class="dropdown-item" href="#">MSI Prestige</a></li>
+                                <li><a class="dropdown-item" href="#">MSI Creator</a></li>
+                                <li><a class="dropdown-item" href="#">MSI Gaming GF/GL/GP</a></li>
+                                <li><a class="dropdown-item" href="#">MSI Stealth / Raider</a></li>
+                                <li><a class="dropdown-item" href="#">MSI Titan (Cao cấp)</a></li>
+                            </ul>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+
+                        <!-- Laptop theo nhu cầu -->
+                        <li><h6 class="dropdown-header text-black ">Laptop theo nhu cầu</h6></li>
+                        <li><a class="dropdown-item" href="#">Laptop văn phòng - học tập</a></li>
+                        <li><a class="dropdown-item" href="#">Laptop gaming</a></li>
+                        <li><a class="dropdown-item" href="#">Laptop đồ họa - kỹ thuật</a></li>
+                        <li><a class="dropdown-item" href="#">Laptop mỏng nhẹ - cao cấp</a></li>
+                        <li><a class="dropdown-item" href="#">Laptop cảm ứng - 2 trong 1</a></li>
+
+                        <li><hr class="dropdown-divider"></li>
+                    </ul>
+                </li>
+
+
+                <!-- Chính sách -->
+                <li class="nav-item fs-5"><a class="nav-link text-black  fw-bold" href="@Url.Action("Index","Product")">Sản phẩm </a></li>
+                <li class="nav-item fs-5"><span class="nav-link text-black">100% chính hãng</span></li>
+                <li class="nav-item fs-5"><span class="nav-link text-black">Giá ưu đãi nhất</span></li>
+                <li class="nav-item fs-5"><span class="nav-link text-black">Miễn phí giao hàng</span></li>
+            </ul>
+        </div>
+    </div>
+
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <!-- Cột 1 -->
+                    <div class="col-md-3">
+                        <h5>Tổng đài hỗ trợ miễn phí</h5>
+                        <p>Mua hàng - bảo hành <a href="#">1800.2097</a> (7h30 - 22h00)</p>
+                        <p>Khiếu nại <a href="#">1800.2063</a> (8h00 - 21h30)</p>
+
+                        <h5>Phương thức thanh toán</h5>
+                        <div class="pay-methods">
+                            <a href="#"><img src="~/Images/Footer/mb.png" alt="Mb Bank"></a>
+                            <a href="#"><img src="~/Images/Footer/vnpay.png" alt="VNPay"></a>
+                            <a href="#"><img src="~/Images/Footer/logo-momo.jpg" alt="Momo"></a>
+                            <a href="#"><img src="~/Images/Footer/zalopay.png" alt="ZaloPay"></a>
+                        </div>
+
+                        <h5>Đăng ký nhận tin khuyến mãi</h5>
+                        <form class="newsletter">
+                            <small class="text-danger">Nhận ngay voucher 10% (chỉ áp dụng khách hàng mới)</small>
+                            <input type="email" class="form-control" placeholder="Nhập email của bạn">
+                            <input type="text" class="form-control" placeholder="Nhập số điện thoại của bạn">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" checked>
+                                <label class="form-check-label"> Tôi đồng ý với điều khoản của DarkTheStore</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100 mt-2">ĐĂNG KÝ NGAY</button>
+                        </form>
+                    </div>
+
+                    <!-- Cột 2 -->
+                    <div class="col-md-3">
+                        <h5>Thông tin và chính sách</h5>
+                        <ul>
+                            <li><a href="#">Mua hàng và thanh toán Online</a></li>
+                            <li><a href="#">Mua hàng trả góp Online</a></li>
+                            <li><a href="#">Mua hàng trả góp bằng thẻ tín dụng</a></li>
+                            <li><a href="#">Chính sách giao hàng</a></li>
+                            <li><a href="#">Chính sách đổi trả</a></li>
+                            <li><a href="#">Tra điểm TMember</a></li>
+                            <li><a href="#">Xem ưu đãi TMember</a></li>
+                            <li><a href="#">Tra thông tin bảo hành</a></li>
+                            <li><a href="#">Tra cứu hoá đơn điện tử</a></li>
+                            <li><a href="#">Trung tâm bảo hành chính hãng</a></li>
+                            <li><a href="#">Quy định về sao lưu dữ liệu</a></li>
+                            <li><a href="#">Chính sách Apple</a></li>
+                            <li><a href="#">VAT Refund</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Cột 3 -->
+                    <div class="col-md-3">
+                        <h5>Dịch vụ và thông tin khác</h5>
+                        <ul>
+                            <li><a href="#">Khách hàng doanh nghiệp (B2B)</a></li>
+                            <li><a href="#">Ưu đãi thanh toán</a></li>
+                            <li><a href="#">Quy chế hoạt động</a></li>
+                            <li><a href="#">Chính sách bảo mật</a></li>
+                            <li><a href="#">Chính sách bảo hành</a></li>
+                            <li><a href="#">Liên hệ hợp tác</a></li>
+                            <li><a href="#">Tuyển dụng</a></li>
+                            <li><a href="#">Dịch vụ bảo hành mở rộng</a></li>
+                        </ul>
+                        <h5>Mua sắm dễ dàng - Ưu đãi ngập tràn</h5>
+                        <div class="apps" style="display: flex;">
+                            <a href="#"><img style="width: 150px; height: auto;" src="~/Images/Footer/gg.png" alt="Google Play"></a>
+                            <a href="#"><img style="width: 150px; height: auto;" src="~/Images/Footer/as.png" alt="App Store"></a>
+                        </div>
+                    </div>
+
+                    <!-- Cột 4 -->
+                    <div class="col-md-3">
+                        <h5>Kết nối với DarkTheStore</h5>
+                        <div class="socials">
+                            <a href="#"><img src="~/Images/Footer/yt.png" alt="YouTube"></a>
+                            <a href="#"><img src="~/Images/Footer/fb.png" alt="Facebook"></a>
+                            <a href="#"><img src="~/Images/Footer/tiktok.png" alt="TikTok"></a>
+                            <a href="#"><img src="~/Images/Footer/haui.png" alt="Haui"></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-bottom">
+                    T
+                    <p>© 2025 Công ty TNHH Nhóm 12</p>
+                    <p>Địa chỉ: 298 Phố Nhổn | Điện thoại: 028.7148.9626</p>
+                </div>
+            </div>
         </footer>
+    </div>
+
+
+    <!-- Nút tư vấn -->
+    <div id="chatbotBtn">
+        <button id="chatbotBtnClose" class="chatbot-btn-close">X</button>
+        <img src="~/Images/Logo/logodarkthestorepreview.png" alt="Bot">
+        <span>Tư vấn</span>
+    </div>
+
+    <!-- Khung Chat -->
+    <div id="chatbotBox">
+        <div id="chatHeader">
+            <span>Chatbot Tư vấn</span>
+            <button id="chatbotClose" class="btn btn-sm btn-light text-primary fw-bold">X</button>
+        </div>
+        <div id="chatContent">
+            <p><b>Bot:</b> Xin chào, tôi có thể giúp gì cho bạn?</p>
+        </div>
+        <div id="chatInputBox">
+            <input type="text" id="chatInput" class="form-control" placeholder="Nhập tin nhắn...">
+            <button id="sendBtn" class="btn btn-primary">Gửi</button>
+        </div>
     </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <script src="~/Scripts/new_script/home_layout.js"></script>
 </body>
 </html>
