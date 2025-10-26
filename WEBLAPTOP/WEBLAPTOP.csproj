@@ -278,8 +278,6 @@
     <Content Include="Areas\Admin\Views\KHUYENMAIs\Create.cshtml" />
     <Content Include="Areas\Admin\Views\KHUYENMAIs\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\KHUYENMAIs\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\KHACHHANGs\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\KHACHHANGs\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\KHACHHANGs\Details.cshtml" />
     <Content Include="Areas\Admin\Views\KHACHHANGs\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\KHACHHANGs\Index.cshtml" />
