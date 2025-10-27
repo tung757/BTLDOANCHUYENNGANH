@@ -1,9 +1,312 @@
 ﻿
+@model List<WEBLAPTOP.Models.CartItem>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Giỏ hàng";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<style>
+    .cart-page-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px;
+        font-family: Arial, sans-serif;
+        max-width: 1200px;
+        margin: 20px auto;
+        padding: 10px;
+    }
+    .cart-items-panel {
+        flex: 2;
+        min-width: 300px;
+    }
+    .cart-summary-panel {
+        flex: 1;
+        background-color: #fdfdfd;
+        padding: 25px;
+        border: 1px solid #f0f0f0;
+        border-radius: 8px;
+        height: fit-content;
+        min-width: 280px;
+    }
+    .cart-header {
+        display: grid;
+        grid-template-columns: 1fr 2fr 1.5fr 1fr 0.5fr;
+        color: #888;
+        font-weight: bold;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+        font-size: 0.9em;
+        text-transform: uppercase;
+    }
+        .cart-header .header-info {
+            grid-column: span 2;
+        }
+        .cart-header .header-qty {
+            text-align: center;
+        }
+        .cart-header .header-price {
+            text-align: right;
+        }
+    .cart-item {
+        display: grid;
+        grid-template-columns: 1fr 2fr 1.5fr 1fr 0.5fr;
+        align-items: center;
+        padding: 20px 0;
+        border-bottom: 1px solid #f0f0f0;
+    }
+        .cart-item .item-image img {
+            width: 90px;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        .cart-item .item-info h4 {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin: 0 0 5px 0;
+        }
+        .cart-item .item-info a {
+            font-size: 0.9em;
+            color: #555;
+            text-decoration: underline;
+        }
+        .cart-item .item-quantity {
+            text-align: center;
+        }
+    .quantity-form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        width: fit-content;
+        margin: 0 auto;
+    }
+        .quantity-form .quantity-btn {
+            background: none;
+            border: none;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 5px 12px;
+            color: #777;
+        }
+        .quantity-form input[name="so_luong"] {
+            width: 40px;
+            text-align: center;
+            border: none;
+            font-size: 1.1em;
+            font-weight: 500;
+            padding: 5px 0;
+            -moz-appearance: textfield;
+        }
+            .quantity-form input[name="so_luong"]::-webkit-outer-spin-button,
+            .quantity-form input[name="so_luong"]::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+    .cart-item .item-price {
+        font-size: 1.1em;
+        font-weight: 600;
+        text-align: right;
+    }
+    .cart-item .item-remove {
+        text-align: right;
+    }
+    .remove-btn {
+        font-size: 1.4em;
+        font-weight: bold;
+        color: #d9534f;
+        text-decoration: none;
+        padding: 5px;
+    }
+        .remove-btn:hover {
+            color: #c9302c;
+        }
+    .cart-summary-panel h3 {
+        font-size: 1.3em;
+        font-weight: 700;
+        margin-top: 0;
+        margin-bottom: 25px;
+    }
+    .summary-line {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 15px;
+        font-size: 1em;
+        color: #555;
+    }
+    .summary-total {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px dashed #ccc;
+        font-size: 1.2em;
+        font-weight: 600;
+    }
+        .summary-total .final-price {
+            font-size: 1.25em;
+            color: #d9534f;
+            font-weight: 700;
+        }
+    .btn-dat-hang {
+        display: block;
+        width: 100%;
+        padding: 15px;
+        background-color: #d9534f;
+        color: #fff;
+        text-align: center;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 1.1em;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-top: 25px;
+        box-sizing: border-box;
+    }
+        .btn-dat-hang:hover {
+            background-color: #c9302c;
+            color: #fff;
+        }
+    .btn-mua-them {
+        display: block;
+        width: 100%;
+        padding: 15px;
+        background-color: #f7f7f7;
+        color: #333;
+        text-align: center;
+        text-decoration: none;
+        font-weight: 500;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-top: 10px;
+        box-sizing: border-box;
+    }
+        .btn-mua-them:hover {
+            background-color: #eee;
+        }
+    .empty-cart-message {
+        padding: 40px;
+        text-align: center;
+        background-color: #f9f9f9;
+        border: 1px solid #eee;
+        border-radius: 8px;
+    }
+</style>
+@if (Model != null && Model.Count > 0)
+{
+    <div class="cart-page-container">
+        <div class="cart-items-panel">
+
+            <div class="cart-header">
+                <div class="header-info">Hình ảnh & Thông tin</div>
+                <div class="header-qty">Số lượng</div>
+                <div class="header-price">Giá tiền</div>
+                <div></div>
+            </div>
+
+            @foreach (var item in Model)
+            {
+                <div class="cart-item">
+                    <div class="item-image">
+                        @{
+                            var imagePath = !string.IsNullOrEmpty(item.Images_url)
+                                ? "~/Images/Product_images/" + item.Images_url
+                                : "~/Images/no-image.png";
+                        }
+                        <img src="@Url.Content(imagePath)" alt="@item.TenSP" />
+                    </div>
+
+                    <div class="item-info">
+                        <h4>@item.TenSP</h4>
+                        <a href="@Url.Action("Details", "Product", new { id = item.ID_SP })">Xem lại</a>
+                    </div>
+
+                    <div class="item-quantity">
+                        @using (Html.BeginForm("UpdateCart", "Cart", FormMethod.Post, new { @class = "quantity-form" }))
+                        {
+                            @Html.Hidden("id_sp", item.ID_SP)
+
+                            <button type="button" class="quantity-btn decrease" onclick="changeQty(this, -1)">-</button>
+
+                            <input type="number" name="so_luong" value="@item.SoLuong.GetValueOrDefault(0)" min="1"
+                                   onchange="this.form.submit()" />
+
+                            <button type="button" class="quantity-btn increase" onclick="changeQty(this, 1)">+</button>
+                        }
+                    </div>
+
+                    <div class="item-price">
+                        @item.TongTien.GetValueOrDefault(0).ToString("N0")đ
+                    </div>
+
+                    <div class="item-remove">
+                        @Html.ActionLink("X", "RemoveFromCart", "Cart", new { id = item.ID_SP }, new { @class = "remove-btn" })
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="cart-summary-panel">
+            <h3>Tóm tắt đơn hàng</h3>
+
+            <div class="summary-line">
+                <span>Tổng tiền hàng:</span>
+                <span>@ViewBag.TotalPrice.ToString("N0")đ</span>
+            </div>
+
+            <div class="summary-line">
+                <span>Giảm giá:</span>
+                <span>- 0đ</span>
+            </div>
+
+            <div class="summary-line">
+                <span>Tạm tính:</span>
+                <span>@ViewBag.TotalPrice.ToString("N0")đ</span>
+            </div>
+
+            <div class="summary-total">
+                <span>Tổng tiền:</span>
+                <span class="final-price">@ViewBag.TotalPrice.ToString("N0")đ</span>
+            </div>
+
+            @Html.ActionLink("TIẾN HÀNH ĐẶT HÀNG", "Checkout", "DonHang", null, new { @class = "btn-dat-hang" })
+
+            @Html.ActionLink("MUA THÊM SẢN PHẨM", "Index", "Home", null, new { @class = "btn-mua-them" })
+        </div>
+    </div>
+}
+else
+{
+    <div class="empty-cart-message">
+        <h3>Giỏ hàng của bạn đang trống</h3>
+        <p>Hãy quay lại trang chủ để bắt đầu mua sắm.</p>
+        <a href="@Url.Action("Index", "Home")" class="btn-mua-them" style="width: 200px; margin: 20px auto 0 auto;">Quay lại trang chủ</a>
+    </div>
+}
+
+<script type="text/javascript">
+    function changeQty(button, amount) {
+        var form = button.closest('.quantity-form');
+        var qtyInput = form.querySelector('input[name="so_luong"]');
+
+        var currentValue = parseInt(qtyInput.value);
+        if (isNaN(currentValue)) {
+            currentValue = 1;
+        }
+
+        var newValue = currentValue + amount;
+
+        if (newValue < 1) {
+            newValue = 1;
+        }
+        qtyInput.value = newValue;
+        var event = new Event('change');
+        qtyInput.dispatchEvent(event);
+    }
+</script>
 
 <a href="@Url.Action("Index","PayBills")">Thanh toán</a>
