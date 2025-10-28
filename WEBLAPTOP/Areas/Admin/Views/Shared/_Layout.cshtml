@@ -1,135 +1,128 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
-    <link rel="stylesheet" type="text/css" href="~/Areas/css/main.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
-    <!-- or -->
-    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title Trang quản trị</title>
 
-    <!-- Font-icon css-->
-    <link rel="stylesheet" type="text/css"
-          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!-- scriptmoi -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    @Styles.Render("~/Content/css")
+
+    <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/all.min.css" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" type="text/css" href="~/Content/jquery-confirm.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Areas/css/main.css" />
+
+    <script src="@Url.Content("~/Scripts/jquery-3.7.0.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/bootstrap.bundle.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery-confirm.min.js")"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    @Scripts.Render("~/bundles/modernizr")
 </head>
 
 <body onload="time()" class="app sidebar-mini rtl">
+
     <header class="app-header">
-        <a class="app-sidebar__toggle" href="#" data-bs-toggle="sidebar"
-           aria-label="Hide Sidebar"></a>
+        <a class="app-sidebar__toggle" href="#" data-bs-toggle="sidebar" aria-label="Hide Sidebar"></a>
         <ul class="app-nav">
-            <div style="color:white; margin-right:20px; text-align: center; margin-top:15px" id="clock"></div>
+            <div id="clock" style="color:white; margin-right:20px; text-align:center; margin-top:15px"></div>
             <li>
-                <a class="app-nav__item" href="/index.html"><i class='bx bx-log-out bx-rotate-180'></i> </a>
+                <a class="app-nav__item" href="@Url.Action("Login", "Account", new { area = "" })">
+                    <i class="fa fa-sign-in"></i>
+                </a>
             </li>
         </ul>
     </header>
+
     <div class="app-sidebar__overlay" data-bs-toggle="sidebar"></div>
     <aside class="app-sidebar">
         <div class="app-sidebar__user">
-            <img src="~/Areas/Image/logodarkthestore.jpg" class="app-sidebar__user-avatar" width="50px"
-                 alt="User Image">
+            <img src="@Url.Content("~/Areas/Image/logodarkthestore.jpg")" class="app-sidebar__user-avatar" width="50px" alt="User Image" />
             <div>
                 <p class="app-sidebar__user-name"><b>Admin</b></p>
                 <p class="app-sidebar__user-designation">Chào mừng bạn trở lại</p>
             </div>
         </div>
-        <hr>
+        <hr />
         <ul class="app-menu">
             <li>
-                <a class="app-menu__item" href="@Url.Action("Index", "DANHMUCs", new { area = "Admin" })">
-                    <i class="app-menu__icon fas fa-bars"></i><span class="app-menu__label">Quản lý danh mục</span>
+                <a class="app-menu__item" href="@Url.Action("Index", "DANHMUCs")">
+                    <i class="app-menu__icon fa fa-bars"></i>
+                    <span class="app-menu__label">Quản lý danh mục</span>
                 </a>
             </li>
             <li>
-                <a class="app-menu__item" href="@Url.Action("Index", "SANPHAMs", new { area = "Admin" })">
-                    <i class="app-menu__icon bx bx-purchase-tag-alt"></i><span class="app-menu__label">Quản lý sản phẩm</span>
+                <a class="app-menu__item" href="@Url.Action("Index", "SANPHAMs")">
+                    <i class="app-menu__icon fa fa-archive"></i>
+                    <span class="app-menu__label">Quản lý sản phẩm</span>
                 </a>
             </li>
             <li>
-                <a class="app-menu__item" href="table-data-oder.html">
-                    <i class="app-menu__icon bx bx-task"></i><span class="app-menu__label">Quản lý đơn hàng</span>
-                </a>
-            </li>
-            </li>
-            <li>
-                <a class="app-menu__item" href="@Url.Action("Index", "KHACHHANGs", new { area = "Admin" })">
-                    <i class="app-menu__icon bx bx-user-voice"></i><span class="app-menu__label">Quản lý khách hàng</span>
+                <a class="app-menu__item" href="@Url.Action("Index", "DONHANGs")">
+                    <i class="app-menu__icon fa fa-list-alt"></i>
+                    <span class="app-menu__label">Quản lý đơn hàng</span>
                 </a>
             </li>
             <li>
-                <a class="app-menu__item" href="quan-ly-bao-cao.html">
-                    <i class="app-menu__icon bx bx-pie-chart-alt-2"></i><span class="app-menu__label">Thống kê báo cáo</span>
+                <a class="app-menu__item" href="@Url.Action("Index", "KHACHHANGs")">
+                    <i class="app-menu__icon fa fa-users"></i>
+                    <span class="app-menu__label">Quản lý khách hàng</span>
                 </a>
             </li>
             <li>
-                <a class="app-menu__item" href="quan-ly-bao-cao.html">
-                    <i class="app-menu__icon fas fa-ticket-alt"></i><span class="app-menu__label">Quản lý khuyến mại</span>
+                <a class="app-menu__item" href="@Url.Action("Index", "KHUYENMAIs")">
+                    <i class="app-menu__icon fa fa-ticket"></i>
+                    <span class="app-menu__label">Quản lý khuyến mại</span>
                 </a>
             </li>
             <li>
-                <a class="app-menu__item" href="quan-ly-bao-cao.html">
-                    <i class="app-menu__icon fa fa-cog"></i><span class="app-menu__label">Cài đặt hệ thống</span>
+                <a class="app-menu__item" href="#">
+                    <i class="app-menu__icon fa fa-pie-chart"></i>
+                    <span class="app-menu__label">Thống kê báo cáo</span>
+                </a>
+            </li>
+
+            <li>
+                <a class="app-menu__item" href="#">
+                    <i class="app-menu__icon fa fa-cog"></i>
+                    <span class="app-menu__label">Cài đặt hệ thống</span>
                 </a>
             </li>
         </ul>
     </aside>
 
-    <div class="container body-content">
+    <main class="container-fluid" style="margin-left: 0; padding-left: 0;">
         @RenderBody()
-    </div>
+    </main>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     @RenderSection("scripts", required: false)
 
+    <script>
+        function time() {
+            var today = new Date();
+            var weekday = ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"];
+            var day = weekday[today.getDay()];
+            var dd = today.getDate().toString().padStart(2, '0');
+            var mm = (today.getMonth() + 1).toString().padStart(2, '0');
+            var yyyy = today.getFullYear();
+            var h = today.getHours().toString().padStart(2, '0');
+            var m = today.getMinutes().toString().padStart(2, '0');
+            var s = today.getSeconds().toString().padStart(2, '0');
+            var nowTime = `${h} giờ ${m} phút ${s} giây`;
+            var todayText = `${day}, ${dd}/${mm}/${yyyy}`;
+            document.getElementById("clock").innerHTML = `<span class="date">${todayText} - ${nowTime}</span>`;
+            setTimeout(time, 1000);
+        }
+    </script>
 </body>
-<script>
-    function time() {
-        var today = new Date();
-        var weekday = new Array(7);
-        weekday[0] = "Chủ Nhật";
-        weekday[1] = "Thứ Hai";
-        weekday[2] = "Thứ Ba";
-        weekday[3] = "Thứ Tư";
-        weekday[4] = "Thứ Năm";
-        weekday[5] = "Thứ Sáu";
-        weekday[6] = "Thứ Bảy";
-        var day = weekday[today.getDay()];
-        var dd = today.getDate();
-        var mm = today.getMonth() + 1;
-        var yyyy = today.getFullYear();
-        var h = today.getHours();
-        var m = today.getMinutes();
-        var s = today.getSeconds();
-        m = checkTime(m);
-        s = checkTime(s);
-        nowTime = h + " giờ " + m + " phút " + s + " giây";
-        if (dd < 10) {
-            dd = '0' + dd
-        }
-        if (mm < 10) {
-            mm = '0' + mm
-        }
-        today = day + ', ' + dd + '/' + mm + '/' + yyyy;
-        tmp = '<span class="date"> ' + today + ' - ' + nowTime +
-            '</span>';
-        document.getElementById("clock").innerHTML = tmp;
-        clocktime = setTimeout("time()", "1000", "Javascript");
-
-        function checkTime(i) {
-            if (i < 10) {
-                i = "0" + i;
-            }
-            return i;
-        }
-    }
-</script>
 </html>

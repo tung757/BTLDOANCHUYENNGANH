@@ -85,6 +85,28 @@ ADD Ten nvarchar(255),
 ALTER TABLE KHUYENMAI
 ADD Mota nvarchar(25)
 
+
+ALTER TABLE DONHANG
+ADD PhuongThucNhanHang nvarchar(1000)
+
+ALTER TABLE KHUYENMAI
+ALTER COLUMN Mota NVARCHAR(4000);
+
+ALTER TABLE DONHANG
+ALTER COLUMN DiaChiGiaoHang NVARCHAR(4000);
+
+ALTER TABLE SANPHAM
+ALTER COLUMN Mota NVARCHAR(MAX);
+
+ALTER TABLE DANHGIA
+ALTER COLUMN NoiDung NVARCHAR(2000);
+
+ALTER TABLE DONHANG_SANPHAM
+ADD DonGia int
+
+ALTER TABLE KHUYENMAI
+ADD TrangThai int
+
 select * from DANHGIA
 select * from SANPHAM
 select * from DANHMUC
@@ -96,3 +118,11 @@ select * from KHUYENMAI
 select * from KHACHHANG
 insert into KHACHHANG values
 ('Admin','HaNoi','','Nam','','','admin','abc123','3')
+insert into KHACHHANG values
+('tung','ThaiBinh','','Nam','','','tung2406','abc123','1')
+('Admin','HaNoi','','Nam','','','admin','abc123','3')
+insert into KHACHHANG values
+('tung','ThaiBinh','','Nam','','','tung2406','abc123','1')
+
+delete KHACHHANG
+where(ID_KH=5)

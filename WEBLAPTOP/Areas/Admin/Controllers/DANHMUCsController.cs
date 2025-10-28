@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
-using System.Linq;
+using System.Data.Entity.Infrastructure;
 using System.Net;
-using System.Web;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using WEBLAPTOP.Models;
 
@@ -12,115 +10,100 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
 {
     public class DANHMUCsController : Controller
     {
-        private DARKTHESTORE db = new DARKTHESTORE();
+        private readonly DARKTHESTORE db = new DARKTHESTORE();
 
         // GET: Admin/DANHMUCs
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View(db.DANHMUCs.ToList());
-        }
-
-        // GET: Admin/DANHMUCs/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            DANHMUC dANHMUC = db.DANHMUCs.Find(id);
-            if (dANHMUC == null)
-            {
-                return HttpNotFound();
-            }
-            return View(dANHMUC);
+            var danhMucs = await db.DANHMUCs.ToListAsync();
+            return View(danhMucs);
         }
 
         // GET: Admin/DANHMUCs/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
+            ViewBag.DanhMucList = await db.DANHMUCs.ToListAsync();
             return View();
         }
 
         // POST: Admin/DANHMUCs/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID_DM,TenDM")] DANHMUC dANHMUC)
+        public async Task<ActionResult> Create([Bind(Include = "ID_DM,TenDM")] DANHMUC dANHMUC)
         {
             if (ModelState.IsValid)
             {
                 db.DANHMUCs.Add(dANHMUC);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
+            ViewBag.DanhMucList = await db.DANHMUCs.ToListAsync();
             return View(dANHMUC);
         }
 
         // GET: Admin/DANHMUCs/Edit/5
-        public ActionResult Edit(int? id)
+        public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            DANHMUC dANHMUC = db.DANHMUCs.Find(id);
+
+            var dANHMUC = await db.DANHMUCs.FindAsync(id);
             if (dANHMUC == null)
-            {
                 return HttpNotFound();
-            }
+
             return View(dANHMUC);
         }
 
         // POST: Admin/DANHMUCs/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID_DM,TenDM")] DANHMUC dANHMUC)
+        public async Task<ActionResult> Edit([Bind(Include = "ID_DM,TenDM")] DANHMUC dANHMUC)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(dANHMUC).State = EntityState.Modified;
-                db.SaveChanges();
+                await db.SaveChangesAsync();
                 return RedirectToAction("Index");
-            }
-            return View(dANHMUC);
-        }
-
-        // GET: Admin/DANHMUCs/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            DANHMUC dANHMUC = db.DANHMUCs.Find(id);
-            if (dANHMUC == null)
-            {
-                return HttpNotFound();
             }
             return View(dANHMUC);
         }
 
         // POST: Admin/DANHMUCs/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        [HttpPost]
+        public async Task<ActionResult> Delete(int id)
         {
-            DANHMUC dANHMUC = db.DANHMUCs.Find(id);
-            db.DANHMUCs.Remove(dANHMUC);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+                var dANHMUC = await db.DANHMUCs.FindAsync(id);
+                if (dANHMUC == null)
+                {
+                    // Trả về JSON để AJAX xử lý, thay vì HttpNotFound
+                    return Json(new { success = false, message = "Không tìm thấy danh mục để xóa." });
+                }
+
+                db.DANHMUCs.Remove(dANHMUC);
+                await db.SaveChangesAsync();
+
+                // Xóa thành công
+                return Json(new { success = true });
+            }
+            catch (DbUpdateException) // Bắt lỗi do khóa ngoại (DbUpdateConcurrencyException là lỗi khác)
+            {
+                // Lỗi này xảy ra khi DANHMUC vẫn còn SANPHAMs
+                return Json(new { success = false, message = "Không thể xóa! Danh mục này vẫn còn sản phẩm." });
+            }
+            catch (Exception ex) // Bắt các lỗi chung khác
+            {
+                // Ghi log lỗi ex.Message ở đây nếu cần
+                return Json(new { success = false, message = "Lỗi hệ thống: " + ex.Message });
+            }
         }
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
-            {
                 db.Dispose();
-            }
             base.Dispose(disposing);
         }
     }
