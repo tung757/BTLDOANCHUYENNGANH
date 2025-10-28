@@ -20,8 +20,10 @@ namespace WEBLAPTOP.Models
 
         public int? GiamGia { get; set; }
 
-        [StringLength(25)]
+        [StringLength(4000)]
         public string Mota { get; set; }
+
+        public int? TrangThai { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DONHANG> DONHANGs { get; set; }

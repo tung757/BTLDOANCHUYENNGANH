@@ -31,7 +31,7 @@ namespace WEBLAPTOP.Controllers
             else
             {
                 Session["username"] = username;
-
+                Session["id"] = query.ID_KH;
                 Session["Role"] = query.PhanQuyen;
 
                 if (query.PhanQuyen == 3)

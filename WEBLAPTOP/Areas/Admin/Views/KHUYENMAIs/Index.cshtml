@@ -1,9 +1,9 @@
-﻿@model IEnumerable<WEBLAPTOP.Models.DANHMUC>
+﻿@model IEnumerable<WEBLAPTOP.Models.KHUYENMAI>
 
 <main class="app-content">
     <div class="app-title">
         <ul class="app-breadcrumb breadcrumb side">
-            <li class="breadcrumb-item active"><a href="#"><b>Danh sách danh mục</b></a></li>
+            <li class="breadcrumb-item active"><a href="#"><b>Danh sách khuyến mãi</b></a></li>
         </ul>
     </div>
     <div class="row">
@@ -12,8 +12,8 @@
                 <div class="tile-body">
                     <div class="row element-button">
                         <div class="col-sm-2">
-                            <a class="btn btn-add btn-sm" href="@Url.Action("Create", "DANHMUCs")" title="Thêm">
-                                <i class="fa fa-plus"></i> Tạo mới danh mục
+                            <a class="btn btn-add btn-sm" href="@Url.Action("Create", "KHUYENMAIs")" title="Thêm">
+                                <i class="fa fa-plus"></i> Tạo mới khuyến mãi
                             </a>
                         </div>
                     </div>
@@ -21,7 +21,8 @@
                         <thead>
                             <tr>
                                 <th width="10"><input type="checkbox" id="all"></th>
-                                <th>Tên danh mục</th>
+                                <th>Giảm Giá</th>
+                                <th>Mô tả</th>
                                 <th>Chức năng</th>
                             </tr>
                         </thead>
@@ -30,21 +31,21 @@
                             {
                                 <tr>
                                     <td width="10">
-                                        <input type="checkbox" name="check1" value="@item.ID_DM">
+                                        <input type="checkbox" name="check1" value="@item.ID_KM">
                                     </td>
 
                                     <td>
-                                        @item.TenDM
+                                        @item.GiamGia
                                     </td>
-
+                                    <td>@item.Mota</td>
                                     <td>
                                         <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
-                                                onclick="confirmDelete(@item.ID_DM)">
+                                                onclick="confirmDelete(@item.ID_KM)">
                                             <i class="fa fa-trash"></i>
                                         </button>
 
                                         <a class="btn btn-primary btn-sm edit" title="Sửa"
-                                           href="@Url.Action("Edit", "DANHMUCs", new { id = item.ID_DM })">
+                                           href="@Url.Action("Edit", "KHUYENMAIs", new { id = item.ID_KM })">
                                             <i class="fa fa-pencil-square-o"></i>
                                         </a>
                                     </td>
@@ -61,7 +62,7 @@
     function confirmDelete(id) {
         Swal.fire({
             title: "Xác nhận xóa?",
-            text: "Bạn có chắc muốn xóa danh mục này không?",
+            text: "Bạn có chắc muốn xóa Mã khuyến mãi này không?",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -71,42 +72,39 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: '@Url.Action("Delete", "DANHMUCs", new { area = "Admin" })',
+                    url: '@Url.Action("Delete", "KHUYENMAIs", new { area = "Admin" })',
                     type: 'POST',
                     data: { id: id },
                     success: function (res) {
                         if (res.success) {
-                            // THÀNH CÔNG
+                            // THÀNH CÔNG: Xóa được
                             Swal.fire({
                                 title: "Đã xóa!",
-                                text: "Danh mục đã được xóa thành công.",
+                                text: "Khuyến mãi đã được xóa thành công.",
                                 icon: "success",
                                 timer: 1500,
                                 showConfirmButton: false
                             });
-                            // Tải lại trang sau 1 giây
                             setTimeout(() => location.reload(), 1000);
                         } else {
-                            // *** PHẦN SỬA LỖI QUAN TRỌNG ***
-                            // THẤT BẠI (do controller trả về success = false)
                             Swal.fire({
-                                title: "Lỗi!",
-                                text: res.message, // Hiển thị thông báo cụ thể từ controller
+                                title: "Lỗi logic!",
+                                text: res.message,
                                 icon: "error",
-                                showConfirmButton: true // Hiện nút OK để người dùng đọc lỗi
+                                showConfirmButton: true
                             });
                         }
                     },
                     error: function () {
-                        // Lỗi này chỉ xảy ra khi server sập, mất mạng,
-                        // hoặc controller bị lỗi 500 mà không được catch
+                        // LỖI KẾT NỐI (Lỗi 404, 500...)
                         Swal.fire({
-                            title: "Lỗi nghiêm trọng!",
-                            text: "Không thể kết nối tới máy chủ. Vui lòng thử lại.",
+                            title: "Lỗi kết nối!",
+                            text: "Không thể gửi yêu cầu. (Kiểm tra [HttpPost] trong Controller).",
                             icon: "error",
                             showConfirmButton: true
                         });
                     }
+                    // --- HẾT KHỐI BỊ THIẾU ---
                 });
             }
         });
