@@ -3,146 +3,146 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <div class="container my-4" style="background-color: rgb(251, 251, 251)">
     <h2 class="text-center mb-4">Thanh toán</h2>
 
-            <!-- sản phẩm trong giỏ hàng -->
-            <div class="SPGioHang mb-4 p-4 border rounded">
-                <h4 class="mb-3">Sản phẩm trong giỏ hàng</h4>
+    <!-- sản phẩm trong giỏ hàng -->
+    <div class="SPGioHang mb-4 p-4 border rounded">
+        <h4 class="mb-3">Sản phẩm trong giỏ hàng</h4>
 
-                @foreach (var item in Model)
-                {
-                    <div class="row border mb-2 sanpham p-1" data-giaban="@item.GiaBan">
-                        <div class="col-2 text-center">
-                            <a href="#">
-                                <img src="~/Images/Product_images/@item.Images_url"
-                                     alt="@item.Images_url"
-                                     class="img-fluid rounded"
-                                     style="max-height:100px" />
-                            </a>
-                        </div>
+        @foreach (var item in Model)
+        {
+            <div class="row border mb-2 sanpham p-1" data-idsp="@item.ID_SP" data-giaban="@item.GiaBan">
+                <div class="col-2 text-center">
+                    <a href="#">
+                        <img src="~/Images/Product_images/@item.Images_url"
+                             alt="@item.Images_url"
+                             class="img-fluid rounded"
+                             style="max-height:100px" />
+                    </a>
+                </div>
 
-                        <!-- Tên sản phẩm -->
-                        <div class="col ">
-                            <a href="#" class="fw-semibold text-decoration-none text-dark mb-1">@item.TenSP</a>
-                        </div>
+                <!-- Tên sản phẩm -->
+                <div class="col ">
+                    <a href="#" class="fw-semibold text-decoration-none text-dark mb-1">@item.TenSP</a>
+                </div>
 
-                        <!-- Số lượng -->
-                        <div class="col-2 d-flex justify-content-center align-items-center ">
-                            <input class="form-control text-center " id="SoLuong"
-                                   type="number"
-                                   min="1"
-                                   value="@item.SoLuong"
-                                   data-soluong="@item.SoLuong"
-                                   style="max-width: 80px; margin: auto; font-size:16px;" />
-                        </div>
+                <!-- Số lượng -->
+                <div class="col-2 d-flex justify-content-center align-items-center ">
+                    <input class="form-control text-center input-soluong" 
+                           type="number"
+                           min="1"
+                           value="@item.SoLuong"
+                           data-soluong="@item.SoLuong"
+                           style="max-width: 80px; margin: auto; font-size:16px;" />
+                </div>
 
-                        <!-- Thành tiền -->
-                        <div class="col-3 d-flex justify-content-end align-items-center">
-                            <b class="text-danger thanhtien">@String.Format("{0:N0} đ", (item.GiaBan ?? 0) * item.SoLuong)</b>
-                        </div>
-                    </div>
-                }
-            </div>
-
-            <!-- Người đặt -->
-            <div class="NguoiDat mb-4 p-4 border rounded">
-                <h4>Người đặt hàng</h4>
-                <div class="row p-1">
-                    <div class="mb-2">
-                        <label for="inputTenKH">Họ tên</label>
-                        <input type="text" id="inputTenKH" class="form-control" placeholder="Nhập tên khách hàng" value="@ViewBag.TenKH" />
-                    </div>
-                    <div class="mb-3">
-                        <label for="inputSDT">Số điện thoại</label>
-                        <input type="text" id="inputSDT" class="form-control" placeholder="Nhập số điện thoại" value="@ViewBag.SDT" />
-                    </div>
+                <!-- Thành tiền -->
+                <div class="col-3 d-flex justify-content-end align-items-center">
+                    <b class="text-danger thanhtien">@String.Format("{0:N0} đ", (item.GiaBan ?? 0) * item.SoLuong)</b>
                 </div>
             </div>
-            <!--Hình Thức nhận hàng-->
-            <div class="HinhThucNhanHang mb-4 p-3 border rounded">
-                <h4>Hình thức nhận hàng</h4>
-                <div>
-                    <input type="radio"
-                           name="hinhthuc"
-                           id="rdoGiaoHang"
-                           value="giaohang"
-                           checked />
-                    Giao hàng tận nơi<br />
-                    <input type="radio"
-                           name="hinhthuc"
-                           id="rdoNhanTaiCuaHang"
-                           value="taicuahang" />
-                    Nhận tại cửa hàng<br />
-
-                    <div id="txtDiaChi">
-                        <input type="text"
-                               class="form-control my-2"
-                               value="@ViewBag.DiaChi" />
-                    </div>
-                    <div id="txtGhiChu">
-                        <input type="text"
-                               class="form-control"
-                               placeholder="Ghi chú (VD: Hãy gọi cho tôi khi chuẩn bị hàng xong)" />
-                    </div>
-                </div>
-            </div>
-
-            <!-- Phương thức thanh toán -->
-            <div class="PhuongThucThanhToan mb-4 p-3 border rounded">
-                <h4>Phương thức thanh toán</h4>
-                <input type="radio" name="PhuongThuc" checked /> Thanh toán khi nhận
-                hàng<br />
-                <input type="radio" name="PhuongThuc" /> Chuyển khoản ngân hàng
-            </div>
-
-
-            <div class="border rounded p-3 shadow-sm bg-light">
-                <!-- Mã ưu đãi -->
-                <h5 class="fw-bold mb-3 text-uppercase">Mã ưu đãi</h5>
-
-                <div class="row align-items-center border rounded p-2 mb-4 bg-white hover-shadow " id="ChonMa" style="cursor:pointer;margin:0" >
-                    <div id="MaKhuyenMai" class="col text-secondary ">Chọn mã ưu đãi</div>
-                    <div class="col-auto"><i class="bi bi-chevron-right fs-5 text-secondary"></i></div>
-                </div>
-                <div id="DanhSachMaKM" class="border p-2" style="display:none;">
-                    @foreach (var item in ViewBag.KhuyenMai)
-                    {
-                       <div class="KhuyenMai border mb-2 p-2" data-id="@item.ID_KM" data-giamgia="@item.GiamGia" style="cursor:pointer">
-                         <span class="fw-bold">@item.Mota</span> 
-                       </div>
-                    }
-                </div>
-                <!-- Tổng kết đơn hàng -->
-                <div class="border p-3 rounded bg-white">
-                    <div class="row mb-2">
-                        <div class="col-8 text-secondary">Tổng tiền</div>
-                        <div class="col-4 text-end fw-semibold " id="TongTien">@String.Format("{0:N0} đ", ViewBag.TongTienHang)</div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-8 text-secondary">Voucher</div>
-                        <div class="col-4 text-end fw-semibold text-success" id="Voucher">0 đ</div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-8 text-secondary">Phí vận chuyển</div>
-                        <div class="col-4 text-end fw-semibold text-success">Miễn phí</div>
-                    </div>
-                    <div class="row border-top pt-3 mt-2">
-                        <div class="col-8 fw-bold">Cần thanh toán</div>
-                        <div class="col-4 text-end fw-bold text-danger fs-5 " id="CanThanhToan">@String.Format("{0:N0} đ", ViewBag.TongTienHang)</div>
-                    </div>
-                </div>
-
-                <!-- Nút đặt hàng -->
-                <div class="text-center mt-4">
-                    <button type="button" class="btn btn-danger w-100 py-2 fw-bold text-uppercase">
-                        Đặt hàng
-                    </button>
-                </div>
-            </div>
-
+        }
     </div>
+
+    <!-- Người đặt -->
+    <div class="NguoiDat mb-4 p-4 border rounded">
+        <h4>Người đặt hàng</h4>
+        <div class="row p-1">
+            <div class="mb-2">
+                <label for="inputTenKH">Họ tên</label>
+                <input type="text" id="inputTenKH" class="form-control" placeholder="Nhập tên khách hàng" value="@ViewBag.TenKH" />
+            </div>
+            <div class="mb-3">
+                <label for="inputSDT">Số điện thoại</label>
+                <input type="text" id="inputSDT" class="form-control" placeholder="Nhập số điện thoại" value="@ViewBag.SDT" />
+            </div>
+        </div>
+    </div>
+    <!--Hình Thức nhận hàng-->
+    <div class="HinhThucNhanHang mb-4 p-3 border rounded">
+        <h4>Hình thức nhận hàng</h4>
+        <div>
+            <input type="radio"
+                   name="hinhthuc"
+                   id="rdoGiaoHang"
+                   value="Giao hàng"
+                   checked />
+            Giao hàng tận nơi<br />
+            <input type="radio"
+                   name="hinhthuc"
+                   id="rdoNhanTaiCuaHang"
+                   value="Tại cửa hàng" />
+            Nhận tại cửa hàng<br />
+
+            <div id="txtDiaChi">
+                <input type="text"
+                       class="form-control my-2"
+                       value="@ViewBag.DiaChi" />
+            </div>
+            <div id="txtGhiChu">
+                <input type="text"
+                       class="form-control"
+                       placeholder="Ghi chú (VD: Hãy gọi cho tôi khi chuẩn bị hàng xong)" />
+            </div>
+        </div>
+    </div>
+
+    <!-- Phương thức thanh toán -->
+    <div class="PhuongThucThanhToan mb-4 p-3 border rounded">
+        <h4>Phương thức thanh toán</h4>
+        <input type="radio" name="PhuongThuc" value="Thanh toán khi nhận hàng" checked /> Thanh toán khi nhận hàng<br />
+        <input type="radio" name="PhuongThuc" value="Chuyển khoản ngân hàng" /> Chuyển khoản ngân hàng
+    </div>
+
+
+    <div class="border rounded p-3 shadow-sm bg-light">
+        <!-- Mã ưu đãi -->
+        <h5 class="fw-bold mb-3 text-uppercase">Mã ưu đãi</h5>
+
+        <div class="row align-items-center border rounded p-2 mb-4 bg-white hover-shadow " id="ChonMa" style="cursor:pointer;margin:0">
+            <div id="MaKhuyenMai" class="col text-secondary ">Chọn mã ưu đãi</div>
+            <div class="col-auto"><i class="bi bi-chevron-right fs-5 text-secondary"></i></div>
+        </div>
+        <div id="DanhSachMaKM" class="border p-2" style="display:none;">
+            @foreach (var item in ViewBag.KhuyenMai)
+            {
+                <div class="KhuyenMai border mb-2 p-2" data-idkm="@item.ID_KM" data-giamgia="@item.GiamGia" style="cursor:pointer">
+                    <span class="fw-bold">@item.Mota</span>
+                </div>
+            }
+        </div>
+        <!-- Tổng kết đơn hàng -->
+        <div class="border p-3 rounded bg-white">
+            <div class="row mb-2">
+                <div class="col-8 text-secondary">Tổng tiền</div>
+                <div class="col-4 text-end fw-semibold " id="TongTien">@String.Format("{0:N0} đ", ViewBag.TongTienHang)</div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-8 text-secondary">Voucher</div>
+                <div class="col-4 text-end fw-semibold text-success" id="Voucher">0 đ</div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-8 text-secondary">Phí vận chuyển</div>
+                <div class="col-4 text-end fw-semibold text-success">Miễn phí</div>
+            </div>
+            <div class="row border-top pt-3 mt-2">
+                <div class="col-8 fw-bold">Cần thanh toán</div>
+                <div class="col-4 text-end fw-bold text-danger fs-5 " id="CanThanhToan">@String.Format("{0:N0} đ", ViewBag.TongTienHang)</div>
+            </div>
+        </div>
+
+        <!-- Nút đặt hàng -->
+        <div class="text-center mt-4">
+            <button type="button" class="btnDatHang btn btn-danger w-100 py-2 fw-bold text-uppercase">
+                Đặt hàng
+            </button>
+        </div>
+    </div>
+
+</div>
 <script>
         //Ẩn hiện địa chỉ giao hàng
         var GiaoHang = document.getElementById("rdoGiaoHang");
@@ -159,6 +159,7 @@
         var ChonMa = document.getElementById("ChonMa");
         var DSKhuyenMai = document.getElementById("DanhSachMaKM");
         var MaKhuyenMai = document.getElementById("MaKhuyenMai");
+        var IDMaKM = null;
 
         var TongTien = parseFloat('@ViewBag.TongTienHang');
         var voucher = document.getElementById("Voucher");
@@ -171,6 +172,7 @@
             item.addEventListener("click", () => {
                 var Mota = item.querySelector("span").innerText;
                 MaKhuyenMai.textContent = Mota;
+                IDMaKM = item.dataset.idkm;
                 DSKhuyenMai.style.display = "none";
                 // Tính tien
                 var GiamGia1 = parseFloat(item.dataset.giamgia) / 100 * TongTien;
@@ -203,6 +205,11 @@
         input.addEventListener('input', e => {
             const row = e.target.closest(".sanpham");
             var soLuong = parseInt(e.target.value);
+            if (soLuong <= 0) {
+                row.remove();
+                CapNhatTien();
+                return;
+            }
             var giaBan = parseFloat(row.dataset.giaban);
             var tong = soLuong * giaBan;
             var thanhtien = row.querySelector(".thanhtien");
@@ -210,6 +217,74 @@
             CapNhatTien();
         })
     })
+    //Xử lý đặt hàng
+    document.querySelector(".btnDatHang").addEventListener("click", function () {
+        var tenKH = document.getElementById("inputTenKH").value;
+        var sdtKH = document.getElementById("inputSDT").value;
+        var hinhThucGH = document.querySelector("input[name='hinhthuc']:checked").value;
+        var diaChiGH = document.querySelector("#txtDiaChi input").value;
+        var ghiChu = document.querySelector("#txtGhiChu input").value;
+        var phuongThuc = document.querySelector("input[name='PhuongThuc']:checked").value;
+        var idKM = IDMaKM;
+
+        //lấy danh sách sản phẩm
+        var dsSP = [];
+        document.querySelectorAll(".sanpham").forEach(x => {
+            var idSP = x.dataset.idsp;
+            var soLuong = x.querySelector(".input-soluong").value;
+            dsSP.push({
+                ID_SP: idSP,
+                SoLuong: soLuong
+            });
+        });
+        //Ajax
+        $.ajax({
+            url: '/PayBills/DatHang',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+            DONHANG: {
+                    Ten: tenKH,
+                    SDT: sdtKH,
+                    HinhThucGH: hinhThucGH,
+                    DiaChiGiaoHang: diaChiGH,
+                    GhiChu: ghiChu,
+                    PhuongThucTT: phuongThuc,
+                    ID_KM: idKM
+                },
+            DONHANG_SANPHAM: dsSP
+            }),
+            success: function (result) {
+                if (result.success) {
+                    Swal.fire({
+                        title: '🎉 Đặt hàng thành công!',
+                        text: 'Cảm ơn bạn đã mua hàng tại DarkTheStore!',
+                        icon: 'success',
+                        confirmButtonText: 'Về trang chủ',
+                        confirmButtonColor: '#d33'
+                    }).then(() => {
+                        window.location.href = '/Home/Index';
+                    });
+                }
+                else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        text: result.message || 'Đặt hàng thất bại, vui lòng thử lại!'
+                    });
+                }
+            },
+            error: function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi kết nối!',
+                    text: 'Không thể kết nối đến máy chủ!'
+                });
+            }
+        })
+
+    })
+
 </script>
 <style>
     .sanpham:hover {
@@ -217,6 +292,7 @@
         transition: 0.3s;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
     }
+
     .KhuyenMai:hover {
         background-color: darkgray;
         transition: 0.3s;
