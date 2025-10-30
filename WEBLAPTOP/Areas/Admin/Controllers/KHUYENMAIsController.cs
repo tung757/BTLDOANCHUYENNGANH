@@ -75,7 +75,32 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
             }
             return View(kHUYENMAI);
         }
+        [HttpPost] // <-- Bắt buộc
+        public async Task<ActionResult> ToggleTrangThai(int id)
+        {
+            try
+            {
+                var kHUYENMAI = await db.KHUYENMAIs.FindAsync(id);
+                if (kHUYENMAI == null)
+                {
+                    return Json(new { success = false, message = "Không tìm thấy mã." });
+                }
 
+                // Logic đảo ngược trạng thái:
+                // Nếu đang là 1 (Đang chạy) -> đổi thành 0 (Đã tắt)
+                // Nếu đang là 0 (hoặc khác 1) -> đổi thành 1 (Đang chạy)
+                kHUYENMAI.TrangThai = (kHUYENMAI.TrangThai == 1) ? 0 : 1;
+
+                await db.SaveChangesAsync();
+
+                // Trả về trạng thái mới để JS cập nhật giao diện
+                return Json(new { success = true, newStatus = kHUYENMAI.TrangThai });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Lỗi hệ thống: " + ex.Message });
+            }
+        }
         // POST: Admin/KHUYENMAIs/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
