@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
+using System.Data.Entity; 
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks; 
 using System.Web;
 using System.Web.Mvc;
 using WEBLAPTOP.Models;
+using System.Data.Entity.Infrastructure; 
 
 namespace WEBLAPTOP.Areas.Admin.Controllers
 {
@@ -14,20 +16,37 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
     {
         private DARKTHESTORE db = new DARKTHESTORE();
 
-        // GET: Admin/KHACHHANGs
-        public ActionResult Index()
+        // GET: Admin/KHACHHANGs (Async)
+        public async Task<ActionResult> Index() 
         {
-            return View(db.KHACHHANGs.ToList());
+            // Dùng ToListAsync()
+            return View(await db.KHACHHANGs.ToListAsync());
         }
 
-        // GET: Admin/KHACHHANGs/Details/5
-        public ActionResult Details(int? id)
+        // GET: Admin/KHACHHANGs/Details/5 (Async)
+        public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            KHACHHANG kHACHHANG = db.KHACHHANGs.Find(id);
+            // Dùng FindAsync()
+            KHACHHANG kHACHHANG = await db.KHACHHANGs.FindAsync(id); 
+            if (kHACHHANG == null)
+            {
+                return HttpNotFound();
+            }
+            return View(kHACHHANG);
+        }
+        // GET: Admin/KHACHHANGs/Edit/5 (Async)
+        public async Task<ActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            // Dùng FindAsync()
+            KHACHHANG kHACHHANG = await db.KHACHHANGs.FindAsync(id); 
             if (kHACHHANG == null)
             {
                 return HttpNotFound();
@@ -35,86 +54,59 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
             return View(kHACHHANG);
         }
 
-        // GET: Admin/KHACHHANGs/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Admin/KHACHHANGs/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Admin/KHACHHANGs/Edit/5 (Async)
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID_KH,TenKH,DiaChi,SDT,GioTinh,NgaySinh,Email,TK,MK,PhanQuyen")] KHACHHANG kHACHHANG)
+        public async Task<ActionResult> Edit([Bind(Include = "ID_KH,TenKH,DiaChi,SDT,GioTinh,NgaySinh,Email,TK,MK,PhanQuyen")] KHACHHANG kHACHHANG)
         {
             if (ModelState.IsValid)
             {
-                db.KHACHHANGs.Add(kHACHHANG);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+                // Xử lý Mật khẩu: Chỉ cập nhật nếu có nhập mới
+                if (string.IsNullOrEmpty(kHACHHANG.MK))
+                {
+                    db.Entry(kHACHHANG).State = EntityState.Modified;
+                    db.Entry(kHACHHANG).Property(x => x.MK).IsModified = false; // Không sửa MK
+                }
+                else
+                {
+                    // (!!! LƯU Ý BẢO MẬT: Nên mã hóa MK mới ở đây !!!)
+                    db.Entry(kHACHHANG).State = EntityState.Modified; // Sửa bình thường (bao gồm MK)
+                }
 
-            return View(kHACHHANG);
-        }
-
-        // GET: Admin/KHACHHANGs/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            KHACHHANG kHACHHANG = db.KHACHHANGs.Find(id);
-            if (kHACHHANG == null)
-            {
-                return HttpNotFound();
-            }
-            return View(kHACHHANG);
-        }
-
-        // POST: Admin/KHACHHANGs/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID_KH,TenKH,DiaChi,SDT,GioTinh,NgaySinh,Email,TK,MK,PhanQuyen")] KHACHHANG kHACHHANG)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(kHACHHANG).State = EntityState.Modified;
-                db.SaveChanges();
+                await db.SaveChangesAsync(); 
                 return RedirectToAction("Index");
             }
             return View(kHACHHANG);
         }
 
-        // GET: Admin/KHACHHANGs/Delete/5
-        public ActionResult Delete(int? id)
+        // POST: Admin/KHACHHANGs/Delete/5 (Đã Async từ trước)
+        [HttpPost]
+        public async Task<ActionResult> Delete(int id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                var kHACHHANG = await db.KHACHHANGs.FindAsync(id);
+                if (kHACHHANG == null)
+                {
+                    return Json(new { success = false, message = "Không tìm thấy khách hàng." });
+                }
+
+                db.KHACHHANGs.Remove(kHACHHANG);
+                await db.SaveChangesAsync();
+
+                return Json(new { success = true });
             }
-            KHACHHANG kHACHHANG = db.KHACHHANGs.Find(id);
-            if (kHACHHANG == null)
+            catch (DbUpdateException) // Lỗi khóa ngoại
             {
-                return HttpNotFound();
+                return Json(new { success = false, message = "Không thể xóa! Khách hàng này đã có dữ liệu liên quan (đơn hàng, giỏ hàng, đánh giá)." });
             }
-            return View(kHACHHANG);
+            catch (Exception ex) // Lỗi chung
+            {
+                return Json(new { success = false, message = "Lỗi hệ thống: " + ex.Message });
+            }
         }
 
-        // POST: Admin/KHACHHANGs/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            KHACHHANG kHACHHANG = db.KHACHHANGs.Find(id);
-            db.KHACHHANGs.Remove(kHACHHANG);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
+        // Dispose (Không đổi)
         protected override void Dispose(bool disposing)
         {
             if (disposing)
