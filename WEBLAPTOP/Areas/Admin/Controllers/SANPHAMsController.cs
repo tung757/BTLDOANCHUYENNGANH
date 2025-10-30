@@ -76,11 +76,11 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
 
                     ImagesFile.SaveAs(filePath);
 
-                    sANPHAM.Images_url = "/Images/Product_images/" + fileName;
+                    sANPHAM.Images_url =  fileName;
                 }
                 else
                 {
-                    sANPHAM.Images_url = "/Images/Product_images/default.jpg";
+                    sANPHAM.Images_url = "default.jpg";
                 }
 
                 sANPHAM.NgayTao = DateTime.Now;
