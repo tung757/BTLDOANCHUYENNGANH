@@ -141,6 +141,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\PayBillsController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\SignUpController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -329,6 +330,8 @@
     <Content Include="Views\Product\Details.cshtml" />
     <Content Include="Views\PayBills\Index.cshtml" />
     <Content Include="Views\Product\Search_name.cshtml" />
+    <Content Include="Views\Profile\Khachhang.cshtml" />
+    <Content Include="Views\Profile\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
