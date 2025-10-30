@@ -67,7 +67,8 @@
                                     <td>@Html.DisplayFor(modelItem => item.DiaChi)</td>
                                     <td>@Html.DisplayFor(modelItem => item.SDT)</td>
                                     <td>@Html.DisplayFor(modelItem => item.GioTinh)</td>
-                                    <td>@(item.NgaySinh.HasValue ? item.NgaySinh.Value.ToString("dd/MM/yyyy") : "")</td>                                    <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                                    <td>@(item.NgaySinh.HasValue ? item.NgaySinh.Value.ToString("dd/MM/yyyy") : "")</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Email)</td>
                                     <td>@Html.DisplayFor(modelItem => item.TK)</td>
                                     <td>
                                         @if (item.PhanQuyen == 1)
