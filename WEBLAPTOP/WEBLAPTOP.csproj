@@ -161,6 +161,7 @@
     <Compile Include="Models\sysdiagram.cs" />
     <Compile Include="obj\Debug\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\CartItem.cs" />
     <Compile Include="ViewModel\DonHangView.cs" />
     <Compile Include="ViewModel\GioHangView.cs" />
   </ItemGroup>
@@ -330,8 +331,6 @@
     <Content Include="Views\Product\Details.cshtml" />
     <Content Include="Views\PayBills\Index.cshtml" />
     <Content Include="Views\Product\Search_name.cshtml" />
-    <Content Include="Views\DonHang\Checkout.cshtml" />
-    <Content Include="Views\DonHang\OrderSuccess.cshtml" />
     <Content Include="Views\DonHang\Index.cshtml" />
     <Content Include="Views\DonHang\Details.cshtml" />
   </ItemGroup>
