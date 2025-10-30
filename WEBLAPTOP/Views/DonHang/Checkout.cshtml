@@ -1,0 +1,174 @@
+﻿@{
+    ViewBag.Title = "Thanh toán";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    // Lấy dữ liệu Controller gửi sang
+    var kh = (WEBLAPTOP.Models.KHACHHANG)ViewBag.KhachHang;
+    var cartItems = (List<WEBLAPTOP.Models.CartItem>)ViewBag.CartItems;
+    var khuyenMais = (List<WEBLAPTOP.Models.KHUYENMAI>)ViewBag.KhuyenMai;
+    var totalPrice = (int)ViewBag.TotalPrice;
+}
+
+<style>
+    .checkout-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px;
+        max-width: 1200px;
+        margin: 20px auto;
+    }
+
+    .checkout-form {
+        flex: 2;
+        min-width: 300px;
+    }
+
+    .order-summary {
+        flex: 1;
+        min-width: 280px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        height: fit-content;
+    }
+
+    .summary-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 15px;
+    }
+
+        .summary-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+    .summary-item-info {
+        flex: 1;
+    }
+
+        .summary-item-info h5 {
+            font-size: 0.9em;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .summary-item-info p {
+            font-size: 0.8em;
+            color: #777;
+            margin: 0;
+        }
+
+    .summary-item-price {
+        font-weight: 600;
+    }
+
+    .total-line {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px solid #ddd;
+    }
+
+        .total-line.grand-total {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #d9534f;
+        }
+</style>
+
+<div class="container">
+    <h2>Xác nhận đơn hàng</h2>
+    <hr />
+
+    @if (TempData["CheckoutError"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["CheckoutError"]
+        </div>
+    }
+
+    @using (Html.BeginForm("PlaceOrder", "DonHang", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="checkout-container">
+
+            <div class="checkout-form">
+                <h4>Thông tin giao hàng</h4>
+
+                <div class="form-group mb-3">
+                    <label for="Ten">Họ và tên người nhận</label>
+                    <input type="text" name="Ten" class="form-control" value="@kh.TenKH" required />
+                </div>
+                <div class="form-group mb-3">
+                    <label for="SDT">Số điện thoại</label>
+                    <input type="tel" name="SDT" class="form-control" value="@kh.SDT" required />
+                </div>
+                <div class="form-group mb-3">
+                    <label for="DiaChiGiaoHang">Địa chỉ nhận hàng</label>
+                    <input type="text" name="DiaChiGiaoHang" class="form-control" value="@kh.DiaChi" required />
+                </div>
+                <div class="form-group mb-3">
+                    <label for="GhiChu">Ghi chú (tùy chọn)</label>
+                    <textarea name="GhiChu" class="form-control" rows="3"></textarea>
+                </div>
+                <hr />
+                <h4>Phương thức thanh toán</h4>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="PhuongthucTT" id="cod" value="COD" checked>
+                    <label class="form-check-label" for="cod">
+                        Thanh toán khi nhận hàng (COD)
+                    </label>
+                </div>
+                <hr />
+                <h4>Chọn khuyến mãi</h4>
+                <select name="ID_KM" class="form-control">
+                    <option value="0">-- Không áp dụng --</option>
+                    @foreach (var km in khuyenMais)
+                    {
+                        <option value="@km.ID_KM">@km.Mota (Giảm @km.GiamGia.GetValueOrDefault(0)%)</option>
+                    }
+                </select>
+            </div>
+
+            <div class="order-summary">
+                <h4>Đơn hàng của bạn (@ViewBag.TotalQuantity sản phẩm)</h4>
+                <hr />
+                @foreach (var item in cartItems)
+                {
+                    <div class="summary-item">
+                        <img src="@Url.Content("~/Images/Product_images/" + item.Images_url)" />
+                        <div class="summary-item-info">
+                            <h5>@item.TenSP</h5>
+                            <p>SL: @item.SoLuong</p>
+                        </div>
+                        <span class="summary-item-price">@item.TongTien.GetValueOrDefault(0).ToString("N0")đ</span>
+                    </div>
+                }
+
+                <div class="total-line">
+                    <span>Tạm tính:</span>
+                    <strong>@totalPrice.ToString("N0")đ</strong>
+                </div>
+                <div class="total-line">
+                    <span>Phí vận chuyển:</span>
+                    <strong>Miễn phí</strong>
+                </div>
+                <div class="total-line grand-total">
+                    <span>Tổng cộng:</span>
+                    <span>@totalPrice.ToString("N0")đ</span>
+                </div>
+
+                <button type="submit" class="btn btn-danger w-100 mt-4" style="font-size: 1.2em; padding: 10px;">
+                    ĐẶT HÀNG
+                </button>
+            </div>
+        </div>
+    }
+</div>

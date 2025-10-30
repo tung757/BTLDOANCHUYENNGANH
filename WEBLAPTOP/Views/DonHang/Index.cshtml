@@ -1,0 +1,30 @@
+﻿@model IEnumerable<WEBLAPTOP.Models.DONHANG>
+@{
+    ViewBag.Title = "Lịch sử đơn hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Lịch sử đơn hàng</h2>
+<table class="table table-hover">
+    <tr>
+        <th>Mã ĐH</th>
+        <th>Ngày đặt</th>
+        <th>Người nhận</th>
+        <th>Địa chỉ</th>
+        <th>Trạng thái</th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>#@item.ID_DH</td>
+            <td>@item.NgayLap.Value.ToString("dd/MM/yyyy")</td>
+            <td>@Html.DisplayFor(modelItem => item.Ten)</td>
+            <td>@Html.DisplayFor(modelItem => item.DiaChiGiaoHang)</td>
+            <td>@Html.DisplayFor(modelItem => item.TrangThai)</td>
+            <td>
+                @Html.ActionLink("Xem chi tiết", "Details", new { id = item.ID_DH }, new { @class = "btn btn-info btn-sm" })
+            </td>
+        </tr>
+    }
+</table>
