@@ -49,7 +49,7 @@ namespace WEBLAPTOP.Controllers
         public ActionResult Logout()
         {
             Session.Clear();
-            return View("Index");
+            return RedirectToAction("Index", "Home");
         }
 
     }
