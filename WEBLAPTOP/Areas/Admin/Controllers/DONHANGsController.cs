@@ -34,7 +34,6 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
             DONHANG dONHANG = await db.DONHANGs
                 .Include(d => d.KHACHHANG)
                 .Include(d => d.KHUYENMAI)
-                // SỬA LỖI Ở ĐÂY: Dùng "DONHANG_SANPHAM" (không có "s")
                 .Include(d => d.DONHANG_SANPHAM.Select(dsp => dsp.SANPHAM))
                 .FirstOrDefaultAsync(d => d.ID_DH == id);
 
