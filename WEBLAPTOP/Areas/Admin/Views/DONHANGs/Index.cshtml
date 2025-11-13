@@ -61,7 +61,8 @@
                                 <tr>
                                     <td><input type="checkbox" name="check1"></td>
                                     <td>@(item.KHACHHANG != null ? item.KHACHHANG.TenKH: "Không có tên khác hàng")</td>
-                                    <td>@(item.NgayLap.HasValue ? item.NgayLap.Value.ToString("dd/MM/yyyy") : "")</td>                                    <td>@item.GhiChu</td>
+                                    <td>@item.NgayLap</td>
+                                    <td>@item.GhiChu</td>
                                     <td>@item.Ten</td>
                                     <td>@item.DiaChiGiaoHang</td>
                                     <td>@item.SDT</td>
