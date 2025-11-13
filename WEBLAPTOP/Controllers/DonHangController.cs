@@ -11,6 +11,7 @@ namespace WEBLAPTOP.Controllers
     public class DonHangController : Controller
     {
         // GET: DonHang
+        private readonly DARKTHESTORE db = new DARKTHESTORE();
         public ActionResult Index()
         {
             int? id_kh = Session["id"] as int?;
