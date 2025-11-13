@@ -255,7 +255,6 @@
     <Content Include="Images\Logo\logonew.png" />
     <Content Include="Images\Logo\logonewww.jpg" />
     <Content Include="Images\Product_images\maytinh1.jpg" />
-    <Content Include="Images\Product_images\maytinh2.jpg" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
