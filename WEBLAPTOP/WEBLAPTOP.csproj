@@ -142,7 +142,6 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\PayBillsController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
-    <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\SignUpController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -162,7 +161,6 @@
     <Compile Include="Models\sysdiagram.cs" />
     <Compile Include="obj\Debug\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModel\CartItem.cs" />
     <Compile Include="ViewModel\DonHangView.cs" />
     <Compile Include="ViewModel\GioHangView.cs" />
   </ItemGroup>
@@ -283,6 +281,8 @@
     <Content Include="Areas\Admin\Views\KHUYENMAIs\Create.cshtml" />
     <Content Include="Areas\Admin\Views\KHUYENMAIs\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\KHUYENMAIs\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\KHACHHANGs\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\KHACHHANGs\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\KHACHHANGs\Details.cshtml" />
     <Content Include="Areas\Admin\Views\KHACHHANGs\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\KHACHHANGs\Index.cshtml" />
@@ -332,8 +332,10 @@
     <Content Include="Views\Product\Details.cshtml" />
     <Content Include="Views\PayBills\Index.cshtml" />
     <Content Include="Views\Product\Search_name.cshtml" />
-    <Content Include="Views\Profile\Khachhang.cshtml" />
-    <Content Include="Views\Profile\Edit.cshtml" />
+    <Content Include="Views\DonHang\Checkout.cshtml" />
+    <Content Include="Views\DonHang\OrderSuccess.cshtml" />
+    <Content Include="Views\DonHang\Index.cshtml" />
+    <Content Include="Views\DonHang\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
