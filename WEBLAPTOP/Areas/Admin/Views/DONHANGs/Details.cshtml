@@ -45,7 +45,7 @@
                             </p>
                             <p>
                                 <strong>Ngày lập:</strong>
-                                @(Model.NgayLap.HasValue ? Model.NgayLap.Value.ToString("dd/MM/yyyy HH:mm") : "Không rõ")
+                                @(Model.NgayLap.HasValue ? Model.NgayLap.Value.ToString("dd/MM/yyyy") : "Không rõ")
                             </p>
                             <p>
                                 <strong>Trạng thái:</strong>
@@ -84,7 +84,7 @@
                             </p>
                         </div>
                         <hr class="mt-4" /> <h4 class="mt-4 mb-3">Chi tiết sản phẩm đã mua</h4>
-                        <!--<table class="table table-hover table-bordered">
+                        <table class="table table-hover table-bordered">
                             <thead class="table-light">
                                 <tr>
                                     <th>Tên sản phẩm</th>
@@ -93,11 +93,7 @@
                                     <th class="text-end" width="150">Thành tiền</th>
                                 </tr>
                             </thead>
-                            <tbody>-->
-                                 @*LỖI CÓ THỂ XẢY RA: 
-                                  Hãy chắc chắn tên thuộc tính là "Model.DONHANG_SANPHAM" (không có 's')
-                                  Nếu bạn bị lỗi ở @foreach, hãy sửa nó thành "Model.DONHANG_SANPHAM"
-                                
+                            <tbody>
                                 @foreach (var item in Model.DONHANG_SANPHAM)
                                 {
                                     <tr>
@@ -105,13 +101,13 @@
                                             @(item.SANPHAM != null ? item.SANPHAM.TenSP : "Sản phẩm không tồn tại")
                                         </td>
                                         <td class="text-center">
-                                            @item.SoLuong
+                                            @(item.SoLuong ?? 0)
                                         </td>
                                         <td class="text-end">
-                                            @item.DonGia.ToString("N0") đ
+                                            @((item.DonGia ?? 0).ToString("N0")) đ
                                         </td>
                                         <td class="text-end">
-                                            @((item.SoLuong * item.DonGia).ToString("N0")) đ
+                                            @(((item.SoLuong ?? 0) * (item.DonGia ?? 0)).ToString("N0")) đ
                                         </td>
                                     </tr>
                                 }
@@ -121,14 +117,14 @@
                                     <th colspan="3" class="text-end">Tổng tiền hàng</th>
                                     <th class="text-end h5">
                                         @{
-                                            // Sửa lại tên thuộc tính ở đây (không có 's')
-                                            var tongTien = Model.DONHANG_SANPHAM.Sum(item => (long)item.SoLuong * item.DonGia);
+                                            // SỬA LỖI Ở ĐÂY: Xử lý null cho cả 2 biến trước khi Sum
+                                            var tongTien = Model.DONHANG_SANPHAM.Sum(item => (long)(item.SoLuong ?? 0) * (item.DonGia ?? 0));
                                         }
-                                        @tongTien.ToString("N0") đ*@
-                                    <!--</th>
+                                        @tongTien.ToString("N0") đ
+                                    </th>
                                 </tr>
                             </tfoot>
-                        </table>-->
+                        </table>
                     </div>
                 </div>
 
