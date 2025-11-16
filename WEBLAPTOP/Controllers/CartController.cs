@@ -22,7 +22,7 @@ namespace WEBLAPTOP.Controllers
             }
             var gioHang = db.GIOHANGs.FirstOrDefault(g => g.ID_KH == id_kh);
 
-            var cart = new List<CartItem>();
+            var cart = new List<WEBLAPTOP.ViewModel.CartItem>();
 
             if (gioHang != null)
             {
