@@ -1,90 +1,90 @@
 ﻿@model WEBLAPTOP.Models.KHACHHANG
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Chi tiết khách hàng";
 }
 
-<h2>Details</h2>
+<main class="app-content">
+    <div class="app-title">
+        <ul class="app-breadcrumb breadcrumb side">
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "KHACHHANGs")"><b>Danh sách khách hàng</b></a></li>
+            <li class="breadcrumb-item active"><a href="#">Chi tiết khách hàng</a></li>
+        </ul>
+    </div>
 
-<div>
-    <h4>KHACHHANG</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.TenKH)
-        </dt>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tile">
+                <h3 class="tile-title">Thông tin chi tiết khách hàng</h3>
+                <div class="tile-body">
 
-        <dd>
-            @Html.DisplayFor(model => model.TenKH)
-        </dd>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4 class="mb-3">Thông tin cá nhân</h4>
+                            <hr />
+                            <p>
+                                <strong>Tên khách hàng:</strong>
+                                @Html.DisplayFor(model => model.TenKH)
+                            </p>
+                            <p>
+                                <strong>Giới tính:</strong>
+                                @Html.DisplayFor(model => model.GioTinh)
+                            </p>
+                            <p>
+                                <strong>Ngày sinh:</strong>
+                                @(Model.NgaySinh.HasValue ? Model.NgaySinh.Value.ToString("dd/MM/yyyy") : "Chưa cập nhật")
+                            </p>
+                            <p>
+                                <strong>Địa chỉ:</strong>
+                                @Html.DisplayFor(model => model.DiaChi)
+                            </p>
+                        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.DiaChi)
-        </dt>
+                        <div class="col-md-6">
+                            <h4 class="mb-3">Thông tin liên hệ & Tài khoản</h4>
+                            <hr />
+                            <p>
+                                <strong>Số điện thoại:</strong>
+                                @Html.DisplayFor(model => model.SDT)
+                            </p>
+                            <p>
+                                <strong>Email:</strong>
+                                @Html.DisplayFor(model => model.Email)
+                            </p>
+                            <p>
+                                <strong>Tài khoản (TK):</strong>
+                                @Html.DisplayFor(model => model.TK)
+                            </p>
+                            <p>
+                                <strong>Mật khẩu (MK):</strong>
+                                <span class="text-muted">********</span>
+                            </p>
+                            <p>
+                                <strong>Phân quyền:</strong>
+                                @if (Model.PhanQuyen == 1)
+                                {
+                                    <span class="badge bg-danger">Admin</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-info">Khách hàng</span>
+                                }
+                            </p>
+                        </div>
+                    </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.DiaChi)
-        </dd>
+                </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.SDT)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.SDT)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.GioTinh)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.GioTinh)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.NgaySinh)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.NgaySinh)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TK)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TK)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.MK)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.MK)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PhanQuyen)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PhanQuyen)
-        </dd>
-
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID_KH }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+                <div class="tile-footer">
+                    <a class="btn btn-warning" href="@Url.Action("Edit", "KHACHHANGs", new { id = Model.ID_KH })">
+                        <i class="fa fa-pencil-square-o"></i> Chỉnh sửa
+                    </a>
+                    &nbsp;&nbsp;&nbsp;
+                    <a class="btn btn-secondary" href="@Url.Action("Index", "KHACHHANGs")">
+                        <i class="fa fa-arrow-left"></i> Quay lại danh sách
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
