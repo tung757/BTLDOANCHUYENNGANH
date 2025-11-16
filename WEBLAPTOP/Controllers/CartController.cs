@@ -1,4 +1,4 @@
-﻿    using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -14,7 +14,7 @@ namespace WEBLAPTOP.Controllers
         private readonly DARKTHESTORE db = new DARKTHESTORE();
         public ActionResult Index()
         {
-           
+
             int? id_kh = Session["id"] as int?;
             if (id_kh == null)
             {
