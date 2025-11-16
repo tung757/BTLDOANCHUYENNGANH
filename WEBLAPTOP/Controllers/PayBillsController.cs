@@ -83,7 +83,9 @@ namespace WEBLAPTOP.Controllers
                     Ten = dh.Ten,
                     DiaChiGiaoHang = dh.DiaChiGiaoHang,
                     SDT = dh.SDT,
-                    PhuongthucTT = dh.PhuongthucTT
+                    PhuongthucTT = dh.PhuongthucTT,
+                    PhuongThucNhanHang = dh.PhuongThucNhanHang
+                    
                 };
 
                 db.DONHANGs.Add(donHang);
@@ -96,21 +98,22 @@ namespace WEBLAPTOP.Controllers
                     {
                         ID_DH = donHang.ID_DH,
                         ID_SP = sp.ID_SP,
-                        SoLuong = sp.SoLuong
+                        SoLuong = sp.SoLuong,
+                        DonGia = sp.DonGia
                     };
                     db.DONHANG_SANPHAM.Add(chiTiet);
                 }
 
                 db.SaveChanges();
 
-                //  Xóa giỏ hàng sau khi đặt
-                //var gioHang = db.GIOHANGs.FirstOrDefault(g => g.ID_KH == khachHang.ID_KH);
-                //if (gioHang != null)
-                //{
-                //    var gioHangSP = db.GIOHANG_SANPHAM.Where(x => x.ID_GH == gioHang.ID_GH);
-                //    db.GIOHANG_SANPHAM.RemoveRange(gioHangSP);
-                //    db.SaveChanges();
-                //}
+               // Xóa giỏ hàng sau khi đặt
+                var gioHang = db.GIOHANGs.FirstOrDefault(g => g.ID_KH == khachHang.ID_KH);
+                if (gioHang != null)
+                {
+                    var gioHangSP = db.GIOHANG_SANPHAM.Where(x => x.ID_GH == gioHang.ID_GH);
+                    db.GIOHANG_SANPHAM.RemoveRange(gioHangSP);
+                    db.SaveChanges();
+                }
 
                 return Json(new { success = true });
             }
