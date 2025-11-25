@@ -1,30 +1,69 @@
 ﻿@model IEnumerable<WEBLAPTOP.Models.DONHANG>
-    @{
-        ViewBag.Title = "Lịch sử đơn hàng";
-        Layout = "~/Views/Shared/_Layout.cshtml";
-    }
+@{
+    ViewBag.Title = "Lịch sử đơn hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
-    <h2>Lịch sử đơn hàng</h2>
-    <table class="table table-hover">
-        <tr>
-            <th>Mã ĐH</th>
-            <th>Ngày đặt</th>
-            <th>Người nhận</th>
-            <th>Địa chỉ</th>
-            <th>Trạng thái</th>
-            <th></th>
-        </tr>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>#@item.ID_DH</td>
-                <td>@item.NgayLap.Value.ToString("dd/MM/yyyy")</td>
-                <td>@Html.DisplayFor(modelItem => item.Ten)</td>
-                <td>@Html.DisplayFor(modelItem => item.DiaChiGiaoHang)</td>
-                <td>@Html.DisplayFor(modelItem => item.TrangThai)</td>
-                <td>
-                    @Html.ActionLink("Xem chi tiết", "Details", new { id = item.ID_DH }, new { @class = "btn btn-info btn-sm" })
-                </td>
-            </tr>
-        }
-    </table>
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-danger text-white">
+            <h4 class="mb-0"><i class="fa fa-history"></i> Lịch sử mua hàng</h4>
+        </div>
+        <div class="card-body p-0">
+            <table class="table table-hover table-striped mb-0">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Mã ĐH</th>
+                        <th scope="col">Ngày đặt</th>
+                        <th scope="col">Người nhận</th>
+                        <th scope="col">Địa chỉ</th>
+                        <th scope="col">Trạng thái</th>
+                        <th scope="col" class="text-center">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="fw-bold">#@item.ID_DH</td>
+                            <td>@(item.NgayLap.HasValue ? item.NgayLap.Value.ToString("dd/MM/yyyy") : "")</td>
+                            <td>@Html.DisplayFor(modelItem => item.Ten)</td>
+                            <td>@Html.DisplayFor(modelItem => item.DiaChiGiaoHang)</td>
+                            <td>
+                                @{
+                                    string badgeClass = "badge bg-secondary";
+
+                                    if (item.TrangThai != null)
+                                    {
+                                        if (item.TrangThai.Contains("Hoàn thành") || item.TrangThai.Contains("Giao thành công"))
+                                        {
+                                            badgeClass = "badge bg-success";
+                                        }
+                                        else if (item.TrangThai.Contains("Hủy"))
+                                        {
+                                            badgeClass = "badge bg-danger";
+                                        }
+                                        else if (item.TrangThai.Contains("Đang giao"))
+                                        {
+                                            badgeClass = "badge bg-info";
+                                        }
+                                        else
+                                        {
+                                            badgeClass = "badge bg-warning text-dark";
+                                        }
+                                    }
+                                }
+                                <span class="@badgeClass">@(item.TrangThai ?? "Chưa có trạng thái")</span>
+                            </td>
+                            <td class="text-center">
+                                <a href="@Url.Action("Details", new { id = item.ID_DH })" class="btn btn-outline-primary btn-sm">
+                                    <i class="fa fa-eye"></i> Xem chi tiết
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
