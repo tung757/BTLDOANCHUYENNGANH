@@ -18,27 +18,17 @@
                             </a>
                         </div>
                         <div class="col-sm-2">
-                            <a class="btn btn-delete btn-sm nhap-tu-file" title="Nhập" onclick="myFunction(this)">
-                                <i class="fa fa-upload"></i> Tải từ file
-                            </a>
-                        </div>
-                        <div class="col-sm-2">
-                            <a class="btn btn-delete btn-sm print-file" title="In" onclick="myApp.printTable()">
+                            <a class="btn btn-delete btn-sm print-file" title="In" onclick="window.print()">
                                 <i class="fa fa-print"></i> In dữ liệu
                             </a>
                         </div>
                         <div class="col-sm-2">
-                            <a class="btn btn-delete btn-sm print-file js-textareacopybtn" title="Sao chép">
-                                <i class="fa fa-copy"></i> Sao chép
-                            </a>
-                        </div>
-                        <div class="col-sm-2">
-                            <a class="btn btn-excel btn-sm" href="#">
+                            <a class="btn btn-excel btn-sm" href="@Url.Action("ExportToExcel", "SANPHAMs")">
                                 <i class="fa fa-file-excel-o"></i> Xuất Excel
                             </a>
                         </div>
                         <div class="col-sm-2">
-                            <a class="btn btn-delete btn-sm pdf-file" title="PDF" onclick="myFunction(this)">
+                            <a class="btn btn-delete btn-sm pdf-file" href="@Url.Action("ExportToPDF", "SANPHAMs")">
                                 <i class="fa fa-file-pdf-o"></i> Xuất PDF
                             </a>
                         </div>
@@ -68,7 +58,23 @@
                                     <td>@item.TenSP</td>
                                     <td>@item.Gia</td>
                                     <td>@item.Mota</td>
-                                    <td><img src="~/Images/Product_images/@item.Images_url" alt="Ảnh" width="70" /></td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(item.Images_url) && item.Images_url != "default.jpg")
+                                        {
+                                            var arrImages = item.Images_url.Split(';');
+
+                                            <img src="~/Images/Product_images/@arrImages[0]" width="70" height="70" style="object-fit: cover; border: 1px solid #ccc;" />
+
+                                            if (arrImages.Length > 1)
+                                            {
+                                                <span class="badge bg-secondary">+@(arrImages.Length - 1)</span>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <img src="~/Images/Product_images/default.jpg" width="70" />
+                                        }
+                                    </td>
                                     <td>@(item.DANHMUC != null ? item.DANHMUC.TenDM : "Không có danh mục")</td>
                                     <td>@item.SoLuong</td>
                                     <td>
@@ -154,8 +160,18 @@
             }
         });
     }
+    var myApp = new function () {
+        this.printTable = function () {
+            var tab = document.getElementById('sampleTable');
+            var win = window.open('', '', 'height=700,width=700');
+            win.document.write(tab.outerHTML);
+            win.document.close();
+            win.print();
+        }
+    }
 </script>
 </body>
+
 <style>
     /* Giảm chiều rộng bảng tổng thể */
     #sampleTable {
@@ -176,5 +192,21 @@
         min-width: 35px;
         height: 32px;
     }
+
+    @@media print {
+        /* Ẩn các thành phần không cần thiết khi in */
+        .app-header, .app-sidebar, .app-title, .element-button, .tile-footer, .btn {
+            display: none !important;
+        }
+        /* Căn chỉnh bảng để in đẹp hơn */
+        .tile {
+            box-shadow: none;
+            border: none;
+        }
+        body {
+            background-color: white;
+        }
+    }
 </style>
+
 

@@ -14,6 +14,7 @@
 
     <link rel="stylesheet" type="text/css" href="~/Content/jquery-confirm.min.css" />
     <link rel="stylesheet" type="text/css" href="~/Areas/css/main.css" />
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
     <script src="@Url.Content("~/Scripts/jquery-3.7.0.min.js")"></script>
     <script src="@Url.Content("~/Scripts/bootstrap.bundle.min.js")"></script>
@@ -22,7 +23,6 @@
 
     @Scripts.Render("~/bundles/modernizr")
 </head>
-
 <body onload="time()" class="app sidebar-mini rtl">
 
     <header class="app-header">
@@ -30,7 +30,7 @@
         <ul class="app-nav">
             <div id="clock" style="color:white; margin-right:20px; text-align:center; margin-top:15px"></div>
             <li>
-                <a class="app-nav__item" href="@Url.Action("Login", "Account", new { area = "" })">
+                <a class="app-nav__item" href="@Url.Action("Index", "Login", new { area = "" })">
                     <i class="fa fa-sign-in"></i>
                 </a>
             </li>
@@ -79,14 +79,14 @@
                 </a>
             </li>
             <li>
-                <a class="app-menu__item" href="#">
+                <a class="app-menu__item" href="@Url.Action("Index","Home")">
                     <i class="app-menu__icon fa fa-pie-chart"></i>
                     <span class="app-menu__label">Thống kê báo cáo</span>
                 </a>
             </li>
 
             <li>
-                <a class="app-menu__item" href="#">
+                <a class="app-menu__item" href="@Url.Action("Index","SystemSettings")">
                     <i class="app-menu__icon fa fa-cog"></i>
                     <span class="app-menu__label">Cài đặt hệ thống</span>
                 </a>
@@ -124,5 +124,111 @@
             setTimeout(time, 1000);
         }
     </script>
+    <script>
+        // Hàm này chạy ngay lập tức ở mọi trang để kiểm tra cài đặt cũ
+        (function () {
+            if (localStorage.getItem('theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+            }
+        })();
+    </script>
 </body>
+<style>
+    /* =========================================
+   DARK MODE PRO (Giao diện Tối Chuyên nghiệp)
+   ========================================= */
+
+    /* 1. Nền chính & Chữ */
+    body.dark-mode {
+        background-color: #1a202c; /* Xám xanh đậm (dịu mắt hơn đen) */
+        color: #cbd5e0; /* Trắng đục (không bị chói) */
+    }
+
+        body.dark-mode .app-content {
+            background-color: #1a202c;
+        }
+
+        /* 2. Khung chứa nội dung (Tile) */
+        body.dark-mode .tile {
+            background-color: #2d3748; /* Nổi bật hơn nền một chút */
+            color: #e2e8f0;
+            border: 1px solid #4a5568; /* Viền mỏng tinh tế */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 3. Tiêu đề & Breadcrumb */
+        body.dark-mode .app-title {
+            background-color: #2d3748;
+            border-bottom: 1px solid #4a5568;
+        }
+
+            body.dark-mode .app-title h1,
+            body.dark-mode .app-title ul .breadcrumb-item {
+                color: #fff;
+            }
+
+        body.dark-mode .breadcrumb-item a {
+            color: #63b3ed; /* Màu xanh dương sáng cho link */
+        }
+
+        /* 4. Bảng dữ liệu (Table) - Phần khó đẹp nhất */
+        body.dark-mode .table {
+            color: #cbd5e0;
+            border-color: #4a5568;
+        }
+
+            body.dark-mode .table thead th {
+                background-color: #1a202c; /* Đầu bảng tối hơn */
+                color: #fff;
+                border-bottom: 2px solid #4a5568;
+                border-top: none;
+            }
+
+        body.dark-mode .table-bordered td,
+        body.dark-mode .table-bordered th {
+            border: 1px solid #4a5568; /* Viền xám xanh */
+        }
+
+        body.dark-mode .table-hover tbody tr:hover {
+            background-color: #4a5568; /* Màu khi di chuột vào dòng */
+            color: #fff;
+        }
+
+        /* 5. Form nhập liệu (Input, Select) */
+        body.dark-mode .form-control {
+            background-color: #171923; /* Nền input rất tối */
+            border: 1px solid #4a5568;
+            color: #fff;
+        }
+
+            body.dark-mode .form-control:focus {
+                background-color: #171923;
+                border-color: #63b3ed; /* Viền sáng khi focus */
+                box-shadow: 0 0 0 0.2rem rgba(99, 179, 237, 0.25);
+            }
+            /* Input bị disabled (như ID) */
+            body.dark-mode .form-control[readonly],
+            body.dark-mode .form-control[disabled] {
+                background-color: #2d3748;
+                opacity: 0.6;
+            }
+
+        /* 6. Sidebar (Menu bên trái) - Nếu cần */
+        body.dark-mode .app-sidebar {
+            background-color: #1a202c;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+        }
+
+        /* 7. Header (Thanh trên cùng) */
+        body.dark-mode .app-header {
+            background-color: #234e52; /* Xanh rêu tối hoặc giữ nguyên màu gốc tùy bạn */
+        }
+
+        /* 8. Các nút bấm (Button) */
+        body.dark-mode .btn-default {
+            background-color: #4a5568;
+            color: #fff;
+            border: none;
+        }
+</style>
 </html>

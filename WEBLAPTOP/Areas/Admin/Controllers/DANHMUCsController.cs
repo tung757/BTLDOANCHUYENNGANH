@@ -4,10 +4,12 @@ using System.Data.Entity.Infrastructure;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using WEBLAPTOP.App_Start;
 using WEBLAPTOP.Models;
 
 namespace WEBLAPTOP.Areas.Admin.Controllers
 {
+    [AdminAuthorize]
     public class DANHMUCsController : Controller
     {
         private readonly DARKTHESTORE db = new DARKTHESTORE();

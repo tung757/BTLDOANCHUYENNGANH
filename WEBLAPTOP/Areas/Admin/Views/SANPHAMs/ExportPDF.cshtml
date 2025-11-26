@@ -1,0 +1,111 @@
+﻿@model IEnumerable<WEBLAPTOP.Models.SANPHAM>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Danh sách sản phẩm</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            font-size: 12px;
+        }
+
+        h2 {
+            text-align: center;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #000;
+            padding: 5px;
+            vertical-align: middle;
+        }
+
+        th {
+            background-color: #f0f0f0;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .img-product {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <h2>Danh sách sản phẩm</h2>
+    <p style="text-align:right">Ngày xuất: @DateTime.Now.ToString("dd/MM/yyyy HH:mm")</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 5%">STT</th>
+                <th style="width: 10%">Mã SP</th>
+                <th style="width: 25%">Tên Sản Phẩm</th>
+                <th style="width: 10%">Ảnh</th>
+                <th style="width: 10%">Giá Nhập</th>
+                <th style="width: 10%">Giá Bán</th>
+                <th style="width: 15%">Danh Mục</th>
+                <th style="width: 5%">SL</th>
+                <th style="width: 10%">Trạng Thái</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ int i = 1; }
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="text-center">@i</td>
+                    <td>@item.MaSP</td>
+                    <td>@item.TenSP</td>
+                    <td class="text-center">
+                        @{
+                            string imagePath = "";
+                            if (!string.IsNullOrEmpty(item.Images_url) && item.Images_url != "default.jpg")
+                            {
+                                // Lấy ảnh đầu tiên và chuyển thành đường dẫn vật lý ổ cứng
+                                var firstImg = item.Images_url.Split(';')[0];
+                                imagePath = Server.MapPath("~/Images/Product_images/" + firstImg);
+                            }
+                        }
+                        @if (!string.IsNullOrEmpty(imagePath) && System.IO.File.Exists(imagePath))
+                        {
+                            <img src="@imagePath" class="img-product" />
+                        }
+                        else
+                        {
+                            <span>Không có</span>
+                        }
+                    </td>
+                    <td class="text-right">@(item.Gia.HasValue ? item.Gia.Value.ToString("N0") : "0")</td>
+                    <td class="text-right">@(item.GiaBan.HasValue ? item.GiaBan.Value.ToString("N0") : "0")</td>
+                    <td>@(item.DANHMUC != null ? item.DANHMUC.TenDM : "")</td>
+                    <td class="text-center">@item.SoLuong</td>
+                    <td class="text-center">@(item.Status_SP == 1 ? "Hiện" : "Ẩn")</td>
+                </tr>
+                i++;
+            }
+        </tbody>
+    </table>
+</body>
+</html>

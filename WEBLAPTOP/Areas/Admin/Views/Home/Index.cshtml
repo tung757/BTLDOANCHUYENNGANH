@@ -1,0 +1,255 @@
+﻿@model WEBLAPTOP.Models.ThongKe
+
+@{
+    ViewBag.Title = "Bảng điều khiển";
+}
+
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+<main class="app-content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="app-title">
+                <ul class="app-breadcrumb breadcrumb">
+                    <li class="breadcrumb-item"><a href="#"><b>Bảng điều khiển</b></a></li>
+                </ul>
+                <div id="clock"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 col-lg-3">
+            <div class="widget-small primary coloured-icon">
+                <i class='icon bx bxs-user-account fa-3x'></i>
+                <div class="info">
+                    <h4>Tổng khách hàng</h4>
+                    <p><b>@Model.TongKhachHang khách hàng</b></p>
+                    <p class="info-tong">Tổng số khách hàng được quản lý.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="widget-small info coloured-icon">
+                <i class='icon bx bxs-data fa-3x'></i>
+                <div class="info">
+                    <h4>Tổng sản phẩm</h4>
+                    <p><b>@Model.TongSanPham sản phẩm</b></p>
+                    <p class="info-tong">Tổng số sản phẩm được quản lý.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="widget-small warning coloured-icon">
+                <i class='icon bx bxs-shopping-bags fa-3x'></i>
+                <div class="info">
+                    <h4>Tổng đơn hàng</h4>
+                    <p><b>@Model.TongDonHang đơn hàng</b></p>
+                    <p class="info-tong">Tổng số hóa đơn bán hàng.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="widget-small danger coloured-icon">
+                <i class='icon bx bxs-error-alt fa-3x'></i>
+                <div class="info">
+                    <h4>Sắp hết hàng</h4>
+                    <p><b>@Model.SanPhamSapHet sản phẩm</b></p>
+                    <p class="info-tong">Số sản phẩm cảnh báo hết (< 5).</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-lg-6">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="tile">
+                        <h3 class="tile-title">Tình trạng đơn hàng</h3>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>ID đơn hàng</th>
+                                        <th>Tên khách hàng</th>
+                                        <th>Tổng tiền</th>
+                                        <th>Trạng thái</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.DonHangMoiNhat)
+                                    {
+                                        <tr>
+                                            <td>@item.ID_DH</td>
+                                            <td>@item.TenKhachHang</td>
+                                            <td>@item.TongTien.ToString("N0") đ</td>
+                                            <td>
+                                                @if (item.TrangThai == "Chờ xử lý" || item.TrangThai == "Đang xác nhận")
+                                                {
+                                                    <span class="badge bg-info">@item.TrangThai</span>
+                                                }
+                                                else if (item.TrangThai == "Đang giao" || item.TrangThai == "Đang vận chuyển")
+                                                {
+                                                    <span class="badge bg-warning">@item.TrangThai</span>
+                                                }
+                                                else if (item.TrangThai == "Đã giao" || item.TrangThai == "Đã hoàn thành")
+                                                {
+                                                    <span class="badge bg-success">@item.TrangThai</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-danger">@item.TrangThai</span>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="tile">
+                        <h3 class="tile-title">Khách hàng mới</h3>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Tên khách hàng</th>
+                                        <th>Ngày sinh</th>
+                                        <th>Số điện thoại</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var kh in Model.KhachHangMoi)
+                                    {
+                                        <tr>
+                                            <td>#@kh.ID_KH</td>
+                                            <td>@kh.TenKH</td>
+                                            <td>@(kh.NgaySinh.HasValue ? kh.NgaySinh.Value.ToString("dd/MM/yyyy") : "")</td>
+                                            <td><span class="tag tag-success">@kh.SDT</span></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-lg-6">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="tile">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h3 class="tile-title">Thống kê doanh thu</h3>
+                            <div style="width: 200px;">
+                                <select class="form-control" id="chartFilter">
+                                    <option value="WEEK">7 ngày qua</option>
+                                    <option value="MONTH">Trong tháng này</option>
+                                    <option value="YEAR">Trong năm nay</option>
+                                    <option value="ALL" selected>Toàn bộ thời gian</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="embed-responsive embed-responsive-16by9" style="height: 400px;">
+                            <canvas class="embed-responsive-item" id="revenueChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script type="text/javascript">
+        var myChart;
+
+        $(document).ready(function () {
+            console.log("Đang tải biểu đồ..."); // Để kiểm tra xem script có chạy không
+            loadChartData("ALL");
+
+            $('#chartFilter').change(function () {
+                loadChartData($(this).val());
+            });
+        });
+
+        function loadChartData(mode) {
+            $.ajax({
+                // SỬA LẠI ĐƯỜNG DẪN TUYỆT ĐỐI ĐỂ TRÁNH LỖI 404
+                // Giả sử Controller là HomeController và nằm trong Area Admin
+                url: '/Admin/Home/GetRevenueData',
+                type: 'POST',
+                data: { mode: mode },
+                dataType: 'json',
+                success: function (res) {
+                    console.log("Dữ liệu nhận được:", res); // Kiểm tra dữ liệu trong Console
+                    if (res.labels && res.data) {
+                        renderChart(res.labels, res.data, mode);
+                    } else {
+                        alert("Không có dữ liệu hiển thị");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Lỗi AJAX:", error);
+                    console.log("Chi tiết lỗi:", xhr.responseText);
+                    // Nếu lỗi này hiện ra, hãy chụp ảnh Console gửi tôi xem
+                }
+            });
+        }
+
+        function renderChart(labels, data, mode) {
+            var ctx = document.getElementById('revenueChart');
+
+            // Kiểm tra xem thẻ canvas có tồn tại không
+            if (!ctx) {
+                console.error("Không tìm thấy thẻ canvas id='revenueChart'");
+                return;
+            }
+
+            if (myChart) {
+                myChart.destroy();
+            }
+
+            var xLabel = (mode === "YEAR") ? "Tháng" : "Thời gian";
+
+            myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Doanh thu (VNĐ)',
+                        data: data,
+                        backgroundColor: 'rgba(255, 212, 59, 0.7)',
+                        borderColor: 'rgb(255, 212, 59)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function (value) {
+                                    if (value >= 1000000) return (value / 1000000) + ' Tr';
+                                    if (value >= 1000) return (value / 1000) + ' k';
+                                    return value;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+}
