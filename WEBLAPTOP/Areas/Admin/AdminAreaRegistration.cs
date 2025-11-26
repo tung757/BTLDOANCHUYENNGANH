@@ -17,7 +17,8 @@ namespace WEBLAPTOP.Areas.Admin
             context.MapRoute(
                 "Admin_default",
                 "Admin/{controller}/{action}/{id}",
-                new { controller = "SANPHAMs", action = "Index", id = UrlParameter.Optional }
+                new { controller = "SANPHAMs", action = "Index", id = UrlParameter.Optional },
+                new[] { "WEBLAPTOP.Areas.Admin.Controllers" }
             );
         }
     }

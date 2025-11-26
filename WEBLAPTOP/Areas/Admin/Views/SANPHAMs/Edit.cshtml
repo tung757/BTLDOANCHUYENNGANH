@@ -80,16 +80,25 @@
 
                                 <div class="form-group col-md-12">
                                     <label class="control-label">Ảnh sản phẩm</label>
+
                                     <div id="boxchoice" class="mb-3">
                                         <a href="javascript:" class="Choicefile btn btn-dark">
                                             <i class="fas fa-cloud-upload-alt"></i> Chọn ảnh
                                         </a>
-                                        <input type="file" id="uploadfile" name="ImagesFile" style="display:none;" accept="image/*" onchange="readURL(this);" />
+                                        <input type="file" id="uploadfile" name="ImagesFile" multiple="multiple" style="display:none;" accept="image/*" onchange="readURL(this);" />
                                     </div>
 
                                     <div id="thumbbox" class="mt-2">
-                                        <img src="#" alt="Thumb image" id="thumbimage" class="img-thumbnail" style="display:none; max-width:400px;" />
-                                        <a class="removeimg btn btn-danger btn-sm mt-2" href="javascript:" style="display:none;">Xóa ảnh</a>
+                                        @if (Model != null && !string.IsNullOrEmpty(Model.Images_url))
+                                        {
+                                            <img src="@Url.Content("~/Images/Product_images/" + Model.Images_url)" alt="Thumb image" id="thumbimage" class="img-thumbnail" style="max-width:200px;" />
+                                            <a class="removeimg btn btn-danger btn-sm mt-2" href="javascript:">Xóa ảnh</a>
+                                        }
+                                        else
+                                        {
+                                            <img src="#" alt="Thumb image" id="thumbimage" class="img-thumbnail" style="display:none; max-width:200px;" />
+                                            <a class="removeimg btn btn-danger btn-sm mt-2" href="javascript:" style="display:none;">Xóa ảnh</a>
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -128,18 +137,29 @@
 
     // Hàm xem trước ảnh khi người dùng chọn file
     function readURL(input) {
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                const thumbImg = document.getElementById('thumbimage');
-                thumbImg.src = e.target.result;
-                thumbImg.style.display = 'block';
+        $('#thumbbox').empty(); // Xóa ảnh xem trước cũ
 
-                // Hiện nút Xóa ảnh
-                document.querySelector('.removeimg').style.display = 'inline-block';
-            };
-            reader.readAsDataURL(input.files[0]);
+        if (input.files && input.files.length > 0) {
+            // Lặp qua từng file người dùng chọn
+            for (var i = 0; i < input.files.length; i++) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    // Thêm thẻ img cho từng ảnh
+                    var img = $('<img class="img-thumbnail me-2" style="max-width:100px;">').attr('src', e.target.result);
+                    $('#thumbbox').append(img);
+                }
+
+                reader.readAsDataURL(input.files[i]);
+            }
+            // Thêm nút xóa (nếu cần)
+            $('#thumbbox').append('<br><a class="removeimg btn btn-danger btn-sm mt-2" onclick="clearImages()">Xóa chọn lại</a>');
         }
+    }
+
+    function clearImages() {
+        $('#uploadfile').val('');
+        $('#thumbbox').empty();
     }
 
     // Nút Xóa ảnh

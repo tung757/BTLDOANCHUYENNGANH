@@ -1,0 +1,98 @@
+﻿@model IEnumerable<WEBLAPTOP.Models.DONHANG>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Báo cáo đơn hàng</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            font-size: 11px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #000;
+            padding: 4px;
+            vertical-align: top;
+        }
+
+        th {
+            background-color: #f0f0f0;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h2>BÁO CÁO DANH SÁCH ĐƠN HÀNG</h2>
+    <p>Ngày xuất: @DateTime.Now.ToString("dd/MM/yyyy")</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Mã</th>
+                <th>Khách Hàng</th>
+                <th>Người Nhận</th>
+                <th>Ngày Lập</th>
+                <th>Địa Chỉ Giao</th>
+                <th>PTTT</th>
+                <th>Trạng Thái</th>
+                <th>Tổng Tiền</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                long tongTien = 0;
+                if (item.DONHANG_SANPHAM != null)
+                {
+                    tongTien = item.DONHANG_SANPHAM.Sum(x => (long)(x.SoLuong ?? 0) * (x.DonGia ?? 0));
+                }
+
+                <tr>
+                    <td class="text-center">#@item.ID_DH</td>
+                    <td>
+                        @(item.KHACHHANG != null ? item.KHACHHANG.TenKH : "Vãng lai")
+                        <br />(TK: @(item.KHACHHANG != null ? item.KHACHHANG.TK : ""))
+                    </td>
+                    <td>
+                        <b>@item.Ten</b><br />
+                        SĐT: @item.SDT
+                    </td>
+                    <td class="text-center">
+                        @(item.NgayLap.HasValue ? item.NgayLap.Value.ToString("dd/MM/yyyy") : "")
+                    </td>
+                    <td>@item.DiaChiGiaoHang</td>
+                    <td>@item.PhuongthucTT</td>
+                    <td class="text-center">@item.TrangThai</td>
+                    <td class="text-right" style="font-weight:bold">
+                        @tongTien.ToString("N0") đ
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>

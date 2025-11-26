@@ -68,11 +68,16 @@
                             <hr />
                             @if (!string.IsNullOrEmpty(Model.Images_url))
                             {
-                                <img src="@Url.Content(Model.Images_url)" alt="Ảnh sản phẩm: @Model.TenSP" class="img-fluid img-thumbnail" style="max-width: 350px; height: auto;" />
-                            }
-                            else
-                            {
-                                <p>Không có ảnh.</p>
+                                var arrImages = Model.Images_url.Split(';');
+                                foreach (var imgName in arrImages)
+                                {
+                                    if (!string.IsNullOrEmpty(imgName))
+                                    {
+                                        <div class="col-md-3 mb-3">
+                                            <img src="~/Images/Product_images/@imgName" class="img-fluid img-thumbnail" />
+                                        </div>
+                                    }
+                                }
                             }
 
                             <h4 class="mt-4 mb-3">Mô tả</h4>

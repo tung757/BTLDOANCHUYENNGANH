@@ -1,0 +1,82 @@
+﻿@model IEnumerable<WEBLAPTOP.Models.KHACHHANG>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Danh sách khách hàng</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            font-size: 12px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #000;
+            padding: 6px;
+            vertical-align: middle;
+        }
+
+        th {
+            background-color: #f0f0f0;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h2>DANH SÁCH KHÁCH HÀNG</h2>
+    <p style="text-align:right">Số lượng: @Model.Count() khách hàng</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Họ Tên</th>
+                <th>Tài Khoản</th>
+                <th>Email</th>
+                <th>Số Điện Thoại</th>
+                <th style="width:50px">Giới Tính</th>
+                <th>Ngày Sinh</th>
+                <th>Địa Chỉ</th>
+                <th>Vai Trò</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.TenKH</td>
+                    <td>@item.TK</td>
+                    <td>@item.Email</td>
+                    <td class="text-center">@item.SDT</td>
+                    <td class="text-center">@item.GioTinh</td>
+                    <td class="text-center">
+                        @(item.NgaySinh.HasValue ? item.NgaySinh.Value.ToString("dd/MM/yyyy") : "")
+                    </td>
+                    <td>@item.DiaChi</td>
+                    <td class="text-center">
+                        @(item.PhanQuyen == 1 ? "Admin" : "Khách")
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>
