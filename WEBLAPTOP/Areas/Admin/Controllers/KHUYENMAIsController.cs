@@ -9,9 +9,11 @@ using System.Web;
 using System.Web.Mvc;
 using WEBLAPTOP.Models;
 using System.Data.Entity.Infrastructure;
+using WEBLAPTOP.App_Start;
 
 namespace WEBLAPTOP.Areas.Admin.Controllers
 {
+    [AdminAuthorize]
     public class KHUYENMAIsController : Controller
     {
         private DARKTHESTORE db = new DARKTHESTORE();

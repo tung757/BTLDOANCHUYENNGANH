@@ -34,7 +34,7 @@ namespace WEBLAPTOP.Controllers
                 Session["id"] = query.ID_KH;
                 Session["Role"] = query.PhanQuyen;
 
-                if (query.PhanQuyen == 3)
+                if (query.PhanQuyen == 1)
                 {
                     return RedirectToAction("Index", "HomeA", new { area = "Admin" });
                 }

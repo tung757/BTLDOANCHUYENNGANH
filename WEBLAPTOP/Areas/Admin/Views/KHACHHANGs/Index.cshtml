@@ -17,27 +17,17 @@
 
                     <div class="row element-button">
                         <div class="col-sm-2">
-                            <a class="btn btn-delete btn-sm nhap-tu-file" title="Nhập" onclick="myFunction(this)">
-                                <i class="fa fa-upload"></i> Tải từ file
-                            </a>
-                        </div>
-                        <div class="col-sm-2">
-                            <a class="btn btn-delete btn-sm print-file" title="In" onclick="myApp.printTable()">
+                            <a class="btn btn-delete btn-sm print-file" title="In" onclick="window.print()">
                                 <i class="fa fa-print"></i> In dữ liệu
                             </a>
                         </div>
                         <div class="col-sm-2">
-                            <a class="btn btn-delete btn-sm print-file js-textareacopybtn" title="Sao chép">
-                                <i class="fa fa-copy"></i> Sao chép
-                            </a>
-                        </div>
-                        <div class="col-sm-2">
-                            <a class="btn btn-excel btn-sm" href="#">
+                            <a class="btn btn-excel btn-sm" href="@Url.Action("ExportToExcel", "KHACHHANGs")">
                                 <i class="fa fa-file-excel-o"></i> Xuất Excel
                             </a>
                         </div>
                         <div class="col-sm-2">
-                            <a class="btn btn-delete btn-sm pdf-file" title="PDF" onclick="myFunction(this)">
+                            <a class="btn btn-delete btn-sm pdf-file" href="@Url.Action("ExportToPDF", "KHACHHANGs")">
                                 <i class="fa fa-file-pdf-o"></i> Xuất PDF
                             </a>
                         </div>
@@ -154,6 +144,15 @@
             }
         });
     }
+    var myApp = new function () {
+        this.printTable = function () {
+            var tab = document.getElementById('sampleTable');
+            var win = window.open('', '', 'height=700,width=700');
+            win.document.write(tab.outerHTML);
+            win.document.close();
+            win.print();
+        }
+    }
 </script>
 
 <style>
@@ -174,5 +173,20 @@
         min-width: 35px;
         height: 32px;
         line-height: 1.5; /* Căn icon cho đều */
+    }
+    @@media print {
+        /* Ẩn các thành phần không cần thiết khi in */
+        .app-header, .app-sidebar, .app-title, .element-button, .tile-footer, .btn {
+            display: none !important;
+        }
+        /* Căn chỉnh bảng để in đẹp hơn */
+        .tile {
+            box-shadow: none;
+            border: none;
+        }
+
+        body {
+            background-color: white;
+        }
     }
 </style>

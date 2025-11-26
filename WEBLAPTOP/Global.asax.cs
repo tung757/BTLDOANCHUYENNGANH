@@ -12,6 +12,7 @@ namespace WEBLAPTOP
     {
         protected void Application_Start()
         {
+            // Thiết lập bản quyền cho EPPlus (Excel) thông qua biến môi trường
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

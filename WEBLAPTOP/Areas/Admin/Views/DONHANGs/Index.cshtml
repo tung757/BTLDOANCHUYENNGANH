@@ -13,27 +13,17 @@
 
                     <div class="row element-button">
                         <div class="col-sm-2">
-                            <a class="btn btn-delete btn-sm nhap-tu-file" title="Nhập" onclick="myFunction(this)">
-                                <i class="fa fa-upload"></i> Tải từ file
-                            </a>
-                        </div>
-                        <div class="col-sm-2">
-                            <a class="btn btn-delete btn-sm print-file" title="In" onclick="myApp.printTable()">
+                            <a class="btn btn-delete btn-sm print-file" title="In" onclick="window.print()">
                                 <i class="fa fa-print"></i> In dữ liệu
                             </a>
                         </div>
                         <div class="col-sm-2">
-                            <a class="btn btn-delete btn-sm print-file js-textareacopybtn" title="Sao chép">
-                                <i class="fa fa-copy"></i> Sao chép
-                            </a>
-                        </div>
-                        <div class="col-sm-2">
-                            <a class="btn btn-excel btn-sm" href="#">
+                            <a class="btn btn-excel btn-sm" href="@Url.Action("ExportToExcel", "DONHANGs")">
                                 <i class="fa fa-file-excel-o"></i> Xuất Excel
                             </a>
                         </div>
                         <div class="col-sm-2">
-                            <a class="btn btn-delete btn-sm pdf-file" title="PDF" onclick="myFunction(this)">
+                            <a class="btn btn-delete btn-sm pdf-file" href="@Url.Action("ExportToPDF", "DONHANGs")">
                                 <i class="fa fa-file-pdf-o"></i> Xuất PDF
                             </a>
                         </div>
@@ -69,15 +59,21 @@
                                     <td>@item.PhuongThucNhanHang</td>
                                     <td class="align-middle">
                                         @{
-                                            // Thêm logic để gán class CSS dựa trên trạng thái string
                                             string cssClass = "";
                                             if (item.TrangThai == "Đang xác nhận") { cssClass = "trangthai-1"; }
                                             else if (item.TrangThai == "Đang giao") { cssClass = "trangthai-2"; }
                                             else if (item.TrangThai == "Đã giao") { cssClass = "trangthai-3"; }
                                             else if (item.TrangThai == "Đã huỷ") { cssClass = "trangthai-4"; }
+
+                                            // Tạo biến kiểm tra xem có cần khóa không
+                                            bool isLocked = (item.TrangThai == "Đã giao");
                                         }
 
-                                        <select class="form-select trangthai-dropdown @cssClass" data-id="@item.ID_DH">
+                                        @* Thêm điều kiện disabled vào thẻ select *@
+                                        <select class="form-select trangthai-dropdown @cssClass"
+                                                data-id="@item.ID_DH"
+                                                @(isLocked ? "disabled" : "")>
+
                                             <option value="Đang xác nhận" @(item.TrangThai == "Đang xác nhận" ? "selected" : "")>Đang xác nhận</option>
                                             <option value="Đang giao" @(item.TrangThai == "Đang giao" ? "selected" : "")>Đang giao</option>
                                             <option value="Đã giao" @(item.TrangThai == "Đã giao" ? "selected" : "")>Đã giao</option>
@@ -213,8 +209,19 @@
             });
         });
     });
+    var myApp = new function () {
+        this.printTable = function () {
+            var tab = document.getElementById('sampleTable');
+            var win = window.open('', '', 'height=700,width=700');
+            win.document.write(tab.outerHTML);
+            win.document.close();
+            win.print();
+        }
+    }
 </script>
+
 </body>
+
 <style>
     /* Giảm chiều rộng bảng tổng thể */
     #sampleTable {
@@ -266,6 +273,22 @@
 
     .form-select:focus {
         box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+
+    @@media print {
+        /* Ẩn các thành phần không cần thiết khi in */
+        .app-header, .app-sidebar, .app-title, .element-button, .tile-footer, .btn {
+            display: none !important;
+        }
+        /* Căn chỉnh bảng để in đẹp hơn */
+        .tile {
+            box-shadow: none;
+            border: none;
+        }
+
+        body {
+            background-color: white;
+        }
     }
 </style>
 
