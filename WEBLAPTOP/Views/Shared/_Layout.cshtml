@@ -104,8 +104,8 @@
                                     <span class="bi bi-person-circle pe-2"></span>@Session["username"]
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <li><a class="dropdown-item" href="#">Quan ly tai khoan</a></li>
-                                    <li><a class="dropdown-item" href="@Url.Action("Index","Donhang")">Theo doi don hang</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("Khachhang", "Profile")">Quan ly tai khoan</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("Index","DonHang")">Theo doi don hang</a></li>
                                     <li><a class="dropdown-item" href="@Url.Action("Logout","Login")">Dang xuat</a></li>
                                 </ul>
                             </div>

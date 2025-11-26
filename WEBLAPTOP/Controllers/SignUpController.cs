@@ -34,7 +34,7 @@ namespace WEBLAPTOP.Controllers
                 kh_new.NgaySinh = date;
 
             db.KHACHHANGs.Add(kh_new);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
 
             return RedirectToAction("Index", "Login");
 
