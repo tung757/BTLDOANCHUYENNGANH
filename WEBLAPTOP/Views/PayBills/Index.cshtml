@@ -231,10 +231,12 @@
         var dsSP = [];
         document.querySelectorAll(".sanpham").forEach(x => {
             var idSP = x.dataset.idsp;
-            var soLuong = x.querySelector(".input-soluong").value;
+            var soLuong = parseInt(x.querySelector(".input-soluong").value);
+            var donGia = parseInt(x.dataset.giaban);
             dsSP.push({
                 ID_SP: idSP,
-                SoLuong: soLuong
+                SoLuong: soLuong,
+                DonGia: donGia
             });
         });
         //Ajax
@@ -246,11 +248,11 @@
             DONHANG: {
                     Ten: tenKH,
                     SDT: sdtKH,
-                    HinhThucGH: hinhThucGH,
+                    PhuongThucNhanHang: hinhThucGH,
                     DiaChiGiaoHang: diaChiGH,
                     GhiChu: ghiChu,
                     PhuongThucTT: phuongThuc,
-                    ID_KM: idKM
+                    ID_KM: idKM,
                 },
             DONHANG_SANPHAM: dsSP
             }),

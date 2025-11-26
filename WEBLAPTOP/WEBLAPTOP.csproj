@@ -363,6 +363,7 @@
     <Content Include="Scripts\new_script\detail_product.css" />
     <Content Include="Scripts\new_script\home_layout.js" />
     <Content Include="Scripts\new_script\product_js.js" />
+    <Content Include="Views\Cart\Index.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -377,13 +378,14 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\SignUp\Index.cshtml" />
-    <Content Include="Views\Cart\Index.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Product\Details.cshtml" />
     <Content Include="Views\PayBills\Index.cshtml" />
     <Content Include="Views\Product\Search_name.cshtml" />
     <Content Include="Views\Profile\Khachhang.cshtml" />
     <Content Include="Views\Profile\Edit.cshtml" />
+    <Content Include="Views\DonHang\Details.cshtml" />
+    <Content Include="Views\DonHang\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
