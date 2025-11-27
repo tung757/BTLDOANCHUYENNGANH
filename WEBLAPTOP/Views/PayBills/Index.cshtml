@@ -31,7 +31,7 @@
 
                 <!-- Số lượng -->
                 <div class="col-2 d-flex justify-content-center align-items-center ">
-                    <input class="form-control text-center input-soluong" 
+                    <input class="form-control text-center input-soluong"
                            type="number"
                            min="1"
                            value="@item.SoLuong"
@@ -62,22 +62,22 @@
         </div>
     </div>
     <!--Hình Thức nhận hàng-->
-    <div class="HinhThucNhanHang mb-4 p-3 border rounded">
+    <!--<div class="HinhThucNhanHang mb-4 p-3 border rounded">
         <h4>Hình thức nhận hàng</h4>
         <div>
-            <input type="radio"
+            <input class="form-check-input" type="radio"
                    name="hinhthuc"
                    id="rdoGiaoHang"
                    value="Giao hàng"
                    checked />
             Giao hàng tận nơi<br />
-            <input type="radio"
+            <input class="form-check-input" type="radio"
                    name="hinhthuc"
                    id="rdoNhanTaiCuaHang"
                    value="Tại cửa hàng" />
             Nhận tại cửa hàng<br />
 
-            <div id="txtDiaChi">
+            <div class="form-check-input" id="txtDiaChi">
                 <input type="text"
                        class="form-control my-2"
                        value="@ViewBag.DiaChi" />
@@ -88,14 +88,89 @@
                        placeholder="Ghi chú (VD: Hãy gọi cho tôi khi chuẩn bị hàng xong)" />
             </div>
         </div>
+    </div>-->
+    <!-- Hình Thức nhận hàng -->
+    <div class="HinhThucNhanHang mb-4 p-3 border rounded bg-light">
+        <h4 class="mb-3">Hình thức nhận hàng</h4>
+
+        <div class="list-group">
+
+            <!-- Radio 1 -->
+            <label class="list-group-item d-flex align-items-center">
+                <input class="form-check-input me-2" type="radio"
+                       name="hinhthuc"
+                       id="rdoGiaoHang"
+                       value="Giao hàng"
+                       checked />
+                <span>Giao hàng tận nơi</span>
+            </label>
+
+            <!-- Radio 2 -->
+            <label class="list-group-item d-flex align-items-center">
+                <input class="form-check-input me-2" type="radio"
+                       name="hinhthuc"
+                       id="rdoNhanTaiCuaHang"
+                       value="Tại cửa hàng" />
+                <span>Nhận tại cửa hàng</span>
+            </label>
+
+        </div>
+
+        <!-- Địa chỉ -->
+        <div id="txtDiaChi" class="mt-3">
+            <input type="text"
+                   class="form-control"
+                   value="@ViewBag.DiaChi" />
+        </div>
+
+        <!-- Ghi chú -->
+        <div id="txtGhiChu" class="mt-3">
+            <input type="text"
+                   class="form-control"
+                   placeholder="Ghi chú (VD: Hãy gọi cho tôi khi chuẩn bị hàng xong)" />
+        </div>
     </div>
 
     <!-- Phương thức thanh toán -->
-    <div class="PhuongThucThanhToan mb-4 p-3 border rounded">
-        <h4>Phương thức thanh toán</h4>
-        <input type="radio" name="PhuongThuc" value="Thanh toán khi nhận hàng" checked /> Thanh toán khi nhận hàng<br />
-        <input type="radio" name="PhuongThuc" value="Chuyển khoản ngân hàng" /> Chuyển khoản ngân hàng
+    <div class="PhuongThucThanhToan mb-4 p-3 border rounded bg-light">
+        <h4 class="mb-3">Phương thức thanh toán</h4>
+
+        <div class="list-group">
+
+            <!-- COD -->
+            <label class="list-group-item d-flex align-items-center">
+                <input class="form-check-input me-2" type="radio" name="PhuongThuc" value="COD" checked>
+                <span>Thanh toán khi nhận hàng (COD)</span>
+            </label>
+
+            <!-- VNPay -->
+            <label class="list-group-item d-flex align-items-center">
+                <input class="form-check-input me-2" type="radio" name="PhuongThuc" value="VNPAY">
+                <span>Thanh toán quét mã VNPay</span>
+            </label>
+
+            <!-- ATM -->
+            <label class="list-group-item d-flex align-items-center">
+                <input class="form-check-input me-2" type="radio" name="PhuongThuc" value="ATM">
+                <span>Thẻ ATM / Tài khoản ngân hàng</span>
+            </label>
+
+            <!-- QR chuyển khoản -->
+            <label class="list-group-item d-flex align-items-center pttt-qr">
+                <input class="form-check-input me-2"
+                       type="radio"
+                       name="PhuongThuc"
+                       value="BANK_QR">
+                <span>Chuyển khoản QR Code</span>
+                <img class="qr-img ms-3"
+                     src="~/Images/QR/QR.png"
+                     style="display:none; max-width:200px; border-radius:6px;" />
+            </label>
+
+
+        </div>
     </div>
+
 
 
     <div class="border rounded p-3 shadow-sm bg-light">
@@ -138,6 +213,11 @@
         <div class="text-center mt-4">
             <button type="button" class="btnDatHang btn btn-danger w-100 py-2 fw-bold text-uppercase">
                 Đặt hàng
+            </button>
+        </div>
+        <div class="text-center mt-4">
+            <button type="button" class="btnQuayLai btn btn-primary w-100 py-2 fw-bold text-uppercase">
+                Quay lại
             </button>
         </div>
     </div>
@@ -217,6 +297,19 @@
             CapNhatTien();
         })
     })
+    // Hiển thị QR khi chọn phương thức "BANK_QR"
+    document.querySelectorAll("input[name='PhuongThuc']").forEach(radio => {
+        radio.addEventListener("change", function () {
+            let qrImg = document.querySelector(".pttt-qr .qr-img");
+
+            if (this.value === "BANK_QR") {
+                qrImg.style.display = "block";
+            } else {
+                qrImg.style.display = "none";
+            }
+        });
+    });
+
     //Xử lý đặt hàng
     document.querySelector(".btnDatHang").addEventListener("click", function () {
         var tenKH = document.getElementById("inputTenKH").value;
@@ -286,6 +379,11 @@
         })
 
     })
+    // Nút quay lại
+    document.querySelector(".btnQuayLai").addEventListener("click", function () {
+        history.back();
+
+    });
 
 </script>
 <style>

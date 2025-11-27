@@ -25,7 +25,7 @@ namespace WEBLAPTOP.Controllers
             //lọc theo danh mục
             if (filter.categories_id != null)
             {
-                ds = ds.Where(sp => sp.ID_DM == filter.categories_id);
+                ds = ds.Where(sp => sp.ID_DM == filter.categories_id && sp.Status_SP==1);
             }
 
             //lọc theo giá
@@ -89,7 +89,7 @@ namespace WEBLAPTOP.Controllers
 
         public async Task<ActionResult> Search_name(string name)
         {
-            var query = await db.SANPHAMs.Where(sp => sp.TenSP.ToUpper().Contains(name.ToUpper())).ToListAsync();
+            var query = await db.SANPHAMs.Where(sp => sp.TenSP.ToUpper().Contains(name.ToUpper()) && sp.Status_SP==1).ToListAsync();
             ViewBag.Name_Search = name;
             ViewBag.SLSP = query.Count();
             return View(query);

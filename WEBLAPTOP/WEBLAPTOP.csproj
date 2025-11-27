@@ -296,6 +296,7 @@
     <Content Include="Images\Logo\logonewww.jpg" />
     <Content Include="Images\Product_images\maytinh1.jpg" />
     <Content Include="Images\Product_images\maytinh2.jpg" />
+    <Content Include="Images\QR\QR.png" />
     <Content Include="Rotativa\help-wkhtmltoimage.txt" />
     <Content Include="Rotativa\help-wkhtmltopdf.txt" />
     <Content Include="Rotativa\wkhtmltoimage.exe" />
