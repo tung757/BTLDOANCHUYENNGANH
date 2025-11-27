@@ -1,0 +1,84 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "Xác nhận OTP";
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xác thực OTP</title>
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body {
+            background: #f0f2f5;
+            font-family: Arial;
+        }
+
+        .otp-card {
+            max-width: 420px;
+            margin: 70px auto;
+            background: #fff;
+            padding: 30px 25px;
+            border-radius: 12px;
+            box-shadow: 0px 0px 12px rgba(0,0,0,0.12);
+        }
+
+        .otp-input {
+            letter-spacing: 6px;
+            font-size: 22px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .btn-primary {
+            width: 100%;
+            border-radius: 6px;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        .resend {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+            .resend a {
+                text-decoration: none;
+                font-weight: bold;
+            }
+    </style>
+</head>
+<body>
+
+    <div class="otp-card">
+        <h3 class="text-center">Xác thực OTP</h3>
+        <p class="text-center text-muted">
+            Mã OTP đã được gửi đến email của bạn.<br />
+            Vui lòng nhập mã để xác nhận đăng ký.
+        </p>
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert alert-danger">@ViewBag.Error</div>
+        }
+
+        <form method="post" action="/SignUp/ConfirmOtp">
+            <div class="form-group">
+                <label>Nhập mã OTP:</label>
+                <input type="text" name="otp" maxlength="6" class="form-control otp-input"
+                       placeholder="••••••" required />
+            </div>
+
+            <button type="submit" class="btn btn-primary">Xác nhận</button>
+        </form>
+
+        <div class="text-center mt-2">
+            <a href="/SignUp/Index">Quay lại đăng ký</a>
+        </div>
+    </div>
+
+</body>
+</html>

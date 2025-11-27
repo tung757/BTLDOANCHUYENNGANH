@@ -389,6 +389,7 @@
     <Content Include="Views\Profile\Edit.cshtml" />
     <Content Include="Views\DonHang\Details.cshtml" />
     <Content Include="Views\DonHang\Index.cshtml" />
+    <Content Include="Views\SignUp\ConfirmOtp.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

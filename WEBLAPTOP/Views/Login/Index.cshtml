@@ -1,6 +1,6 @@
 ﻿
 @{
-    Layout=null;
+    Layout = null;
 }
 
 <div class="container d-flex justify-content-center" style="margin-top:100px;">
@@ -22,6 +22,13 @@
                 ĐĂNG NHẬP
             </button>
         </form>
+        <div class="text-center my-2">
+            <span class="text-muted">Hoặc</span>
+        </div>
+        <a id="btn-google-login" href="@Url.Action("LoginWithGoogle", "Login")" class="btn btn-outline-secondary w-100" style="border-radius: 8px;">
+            <img src="https://img.icons8.com/color/20/000000/google-logo.png" alt="Google logo" style="margin-right: 8px;" />
+            Đăng nhập bằng Google
+        </a>
         <div class="text-center">
             <p class="mb-0">
                 Bạn chưa có tài khoản?
@@ -29,8 +36,8 @@
             </p>
             <p class="text-center mt-3 text-danger">@ViewBag.Trangthai</p>
         </div>
-        </div>
     </div>
+</div>
 
 
 
