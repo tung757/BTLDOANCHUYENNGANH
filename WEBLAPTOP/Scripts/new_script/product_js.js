@@ -15,6 +15,7 @@ $(document).ready(function () {
         e.stopPropagation();
 
         // Lấy dữ liệu từ thuộc tính data
+        var id = $(this).data("id");
         var name = $(this).data("name");
         var price = $(this).data("price");
         var desc = $(this).data("description");
@@ -56,6 +57,11 @@ $(document).ready(function () {
             thumbContainer.append(thumb);
         });
 
+        $(document).ready(function () {
+            $("#btn_add_cart").click(function () {
+                window.location.href = base_link_cart + "?id=" + id;
+            })
+        })
 
         // Hiển thị modal
         var modal = new bootstrap.Modal(document.getElementById('quickViewModal'));
