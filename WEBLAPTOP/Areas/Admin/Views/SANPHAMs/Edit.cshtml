@@ -78,28 +78,41 @@
                                     @Html.ValidationMessageFor(model => model.Status_SP, "", new { @class = "text-danger" })
                                 </div>
 
+                                <input type="hidden" id="ImagesToDelete" name="ImagesToDelete" value="" />
                                 <div class="form-group col-md-12">
                                     <label class="control-label">Ảnh sản phẩm</label>
 
-                                    <div id="boxchoice" class="mb-3">
-                                        <a href="javascript:" class="Choicefile btn btn-dark">
-                                            <i class="fas fa-cloud-upload-alt"></i> Chọn ảnh
-                                        </a>
-                                        <input type="file" id="uploadfile" name="ImagesFile" multiple="multiple" style="display:none;" accept="image/*" onchange="readURL(this);" />
+                                    <div class="d-flex flex-wrap mb-3" id="currentImagesBox">
+                                        @if (!string.IsNullOrEmpty(Model.Images_url) && Model.Images_url != "default.jpg")
+                                        {
+                                            var arrImages = Model.Images_url.Split(';');
+                                            foreach (var img in arrImages)
+                                            {
+                                                <div class="position-relative m-2" style="width: 100px;">
+                                                    <img src="~/Images/Product_images/@img" class="img-thumbnail" style="width:100px; height:100px; object-fit:cover;" />
+                                                    <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 p-0"
+                                                            style="width:20px; height:20px; line-height:1;"
+                                                            onclick="markForDeletion(this, '@img')">
+                                                        &times;
+                                                    </button>
+                                                </div>
+                                            }
+                                        }
                                     </div>
 
-                                    <div id="thumbbox" class="mt-2">
-                                        @if (Model != null && !string.IsNullOrEmpty(Model.Images_url))
-                                        {
-                                            <img src="@Url.Content("~/Images/Product_images/" + Model.Images_url)" alt="Thumb image" id="thumbimage" class="img-thumbnail" style="max-width:200px;" />
-                                            <a class="removeimg btn btn-danger btn-sm mt-2" href="javascript:">Xóa ảnh</a>
-                                        }
-                                        else
-                                        {
-                                            <img src="#" alt="Thumb image" id="thumbimage" class="img-thumbnail" style="display:none; max-width:200px;" />
-                                            <a class="removeimg btn btn-danger btn-sm mt-2" href="javascript:" style="display:none;">Xóa ảnh</a>
-                                        }
+                                    <div id="boxchoice" class="mb-3">
+                                        <a href="javascript:" class="Choicefile btn btn-dark btn-sm" style="min-width: 100px;">
+                                            <i class="fa fa-cloud-upload-alt"></i> Thêm ảnh mới
+                                        </a>
+
+                                        <a href="javascript:" class="removeimg btn btn-danger btn-sm ms-2" onclick="clearImages()" style="display:none; min-width: 100px;">
+                                            <i class="fa fa-trash"></i> Xóa chọn lại
+                                        </a>
+
+                                        <input type="file" id="uploadfile" name="ImagesFile" multiple style="display:none;" accept="image/*" onchange="readURL(this);" />
                                     </div>
+
+                                    <div id="thumbbox" class="d-flex flex-wrap gap-2"></div>
                                 </div>
                             </div>
                         </div>
@@ -136,30 +149,52 @@
     });
 
     // Hàm xem trước ảnh khi người dùng chọn file
+    // Hàm xem trước ảnh khi người dùng chọn file
     function readURL(input) {
-        $('#thumbbox').empty(); // Xóa ảnh xem trước cũ
+        $('#thumbbox').empty(); // Xóa ảnh preview cũ
 
         if (input.files && input.files.length > 0) {
-            // Lặp qua từng file người dùng chọn
+
+            // 1. Hiện nút "Xóa chọn lại" lên
+            $('.removeimg').show();
+
+            // 2. Lặp qua từng file để hiện ảnh
             for (var i = 0; i < input.files.length; i++) {
                 var reader = new FileReader();
 
                 reader.onload = function (e) {
-                    // Thêm thẻ img cho từng ảnh
-                    var img = $('<img class="img-thumbnail me-2" style="max-width:100px;">').attr('src', e.target.result);
+                    // Tạo thẻ img với kích thước LỚN HƠN (150px)
+                    var img = $('<img>', {
+                        class: 'img-thumbnail m-2', // Thêm margin
+                        src: e.target.result,
+                        style: 'width: 150px; height: 150px; object-fit: cover;' // Tăng kích thước ở đây
+                    });
                     $('#thumbbox').append(img);
                 }
 
                 reader.readAsDataURL(input.files[i]);
             }
-            // Thêm nút xóa (nếu cần)
-            $('#thumbbox').append('<br><a class="removeimg btn btn-danger btn-sm mt-2" onclick="clearImages()">Xóa chọn lại</a>');
         }
     }
 
     function clearImages() {
         $('#uploadfile').val('');
         $('#thumbbox').empty();
+        $('.removeimg').hide(); // Ẩn nút xóa đi cho gọn
+    }
+
+
+    function markForDeletion(btn, imgName) {
+        // 1. Ẩn ảnh đó đi (về mặt giao diện)
+        $(btn).parent().remove();
+
+        // 2. Thêm tên ảnh vào input hidden để gửi về Server
+        var currentDeleteList = $('#ImagesToDelete').val();
+        if (currentDeleteList === "") {
+            $('#ImagesToDelete').val(imgName);
+        } else {
+            $('#ImagesToDelete').val(currentDeleteList + "," + imgName);
+        }
     }
 
     // Nút Xóa ảnh

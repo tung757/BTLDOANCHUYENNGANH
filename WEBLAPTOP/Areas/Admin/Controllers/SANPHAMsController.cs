@@ -147,73 +147,79 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
         // POST: Admin/SANPHAMs/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(SANPHAM sANPHAM, IEnumerable<HttpPostedFileBase> ImagesFile)
+        public async Task<ActionResult> Edit([Bind(Include = "ID_SP,MaSP,TenSP,Gia,GiaBan,Mota,Status_SP,NgayTao,SoLuong,SoLuongBan,ID_DM")] SANPHAM sANPHAM, IEnumerable<HttpPostedFileBase> ImagesFile, string ImagesToDelete)
         {
             if (ModelState.IsValid)
             {
                 var sanPhamCu = await db.SANPHAMs.AsNoTracking().FirstOrDefaultAsync(x => x.ID_SP == sANPHAM.ID_SP);
-                string currentImages = sanPhamCu.Images_url; // "laptop-1.jpg;laptop-2.jpg"
+                string currentImagesString = sanPhamCu.Images_url ?? "";
 
-                // XỬ LÝ ẢNH MỚI
+                // Biến danh sách ảnh thành List để dễ thao tác (Xóa/Thêm)
+                var listAnhHienTai = new List<string>();
+                if (!string.IsNullOrEmpty(currentImagesString) && currentImagesString != "default.jpg")
+                {
+                    listAnhHienTai = currentImagesString.Split(';').ToList();
+                }
+
+                string folderPath = Server.MapPath("~/Images/Product_images/");
+                if (!string.IsNullOrEmpty(ImagesToDelete))
+                {
+                    // View sẽ gửi về dạng: "anh1.jpg,anh2.jpg"
+                    var arrToDelete = ImagesToDelete.Split(',');
+
+                    foreach (var imgName in arrToDelete)
+                    {
+                        if (listAnhHienTai.Contains(imgName))
+                        {
+                            // A. Xóa tên khỏi danh sách
+                            listAnhHienTai.Remove(imgName);
+
+                            // B. Xóa file vật lý (nếu tồn tại và không phải default)
+                            string fullPath = Path.Combine(folderPath, imgName);
+                            if (System.IO.File.Exists(fullPath) && imgName != "default.jpg")
+                            {
+                                try { System.IO.File.Delete(fullPath); } catch { }
+                            }
+                        }
+                    }
+                }
+
+                // 2. XỬ LÝ THÊM ẢNH MỚI
                 if (ImagesFile != null && ImagesFile.FirstOrDefault() != null)
                 {
-                    var listAnhMoi = new List<string>();
-                    string folderPath = Server.MapPath("~/Images/Product_images/");
-
                     // Chuẩn bị tên gốc
                     string productName = sANPHAM.TenSP ?? "san-pham";
-                    string invalidChars = new string(Path.GetInvalidFileNameChars());
-                    string sanitizedName = new string(productName.Where(ch => !invalidChars.Contains(ch)).ToArray()).Replace(" ", "-").ToLower();
+                    string sanitizedName = new string(productName.Where(ch => !Path.GetInvalidFileNameChars().Contains(ch)).ToArray()).Replace(" ", "-").ToLower();
 
-                    // Tính số thứ tự tiếp theo
-                    // Nếu ảnh cũ có 2 cái, thì ảnh mới bắt đầu từ số 3
-                    int startCount = 1;
-                    if (!string.IsNullOrEmpty(currentImages) && currentImages != "default.jpg")
-                    {
-                        startCount = currentImages.Split(';').Length + 1;
-                    }
+                    // Tính số thứ tự tiếp theo (để không trùng với ảnh cũ còn lại)
+                    int startCount = listAnhHienTai.Count + 1;
 
                     foreach (var file in ImagesFile)
                     {
                         if (file != null && file.ContentLength > 0)
                         {
                             string extension = Path.GetExtension(file.FileName);
-
-                            // Đặt tên: ten-sp-3.jpg, ten-sp-4.jpg
-                            string fileName = $"{sanitizedName}-{startCount}{extension}";
-
-                            // Kiểm tra trùng (tránh đè ảnh cũ hoặc ảnh của sp khác)
+                            string fileName = $"{sanitizedName}-{startCount}-{Guid.NewGuid().ToString().Substring(0, 4)}{extension}";
                             string fullPath = Path.Combine(folderPath, fileName);
-                            while (System.IO.File.Exists(fullPath))
-                            {
-                                fileName = $"{sanitizedName}-{startCount}-{Guid.NewGuid().ToString().Substring(0, 4)}{extension}";
-                                fullPath = Path.Combine(folderPath, fileName);
-                            }
 
                             file.SaveAs(fullPath);
-                            listAnhMoi.Add(fileName);
 
+                            // Thêm vào danh sách
+                            listAnhHienTai.Add(fileName);
                             startCount++;
                         }
                     }
+                }
 
-                    // GỘP CHUỖI
-                    if (listAnhMoi.Count > 0)
-                    {
-                        string chuoiAnhMoi = string.Join(";", listAnhMoi);
-                        if (string.IsNullOrEmpty(currentImages) || currentImages == "default.jpg")
-                        {
-                            sANPHAM.Images_url = chuoiAnhMoi;
-                        }
-                        else
-                        {
-                            sANPHAM.Images_url = currentImages + ";" + chuoiAnhMoi;
-                        }
-                    }
+                // 3. CẬP NHẬT DATABASE
+
+                if (listAnhHienTai.Count > 0)
+                {
+                    sANPHAM.Images_url = string.Join(";", listAnhHienTai);
                 }
                 else
                 {
-                    sANPHAM.Images_url = currentImages;
+                    sANPHAM.Images_url = "default.jpg"; // Nếu xóa hết thì về mặc định
                 }
 
                 sANPHAM.NgayTao = sanPhamCu.NgayTao;
@@ -223,7 +229,6 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
 
-            // ... (ViewBag khi lỗi) ...
             ViewBag.ID_DM = new SelectList(await db.DANHMUCs.ToListAsync(), "ID_DM", "TenDM", sANPHAM.ID_DM);
             return View(sANPHAM);
         }
