@@ -12,7 +12,7 @@ namespace WEBLAPTOP.Controllers
     {
         private readonly DARKTHESTORE db = new DARKTHESTORE();
 
-        //  DANH SÁCH ĐƠN HÀNG CỦA KHÁCH
+        //  DANH SÁCH ĐƠN HÀNG CỦA KHÁCH OK
        
         public ActionResult Index()
         {
