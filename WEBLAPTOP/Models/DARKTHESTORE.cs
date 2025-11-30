@@ -8,7 +8,7 @@ namespace WEBLAPTOP.Models
     public partial class DARKTHESTORE : DbContext
     {
         public DARKTHESTORE()
-            : base("name=DARKTHESTORE")
+            : base("name=DARKTHESTORE1")
         {
         }
 
@@ -20,6 +20,7 @@ namespace WEBLAPTOP.Models
         public virtual DbSet<GIOHANG_SANPHAM> GIOHANG_SANPHAM { get; set; }
         public virtual DbSet<KHACHHANG> KHACHHANGs { get; set; }
         public virtual DbSet<KHUYENMAI> KHUYENMAIs { get; set; }
+        public virtual DbSet<QUANGCAO> QUANGCAOs { get; set; }
         public virtual DbSet<SANPHAM> SANPHAMs { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
 

@@ -85,11 +85,11 @@ namespace WEBLAPTOP.Controllers
                     SDT = dh.SDT,
                     PhuongthucTT = dh.PhuongthucTT,
                     PhuongThucNhanHang = dh.PhuongThucNhanHang
-                    
+
                 };
 
                 db.DONHANGs.Add(donHang);
-                db.SaveChanges(); 
+                db.SaveChanges();
 
                 // Thêm chi tiết sản phẩm
                 foreach (var sp in model.DONHANG_SANPHAM)
@@ -106,7 +106,7 @@ namespace WEBLAPTOP.Controllers
 
                 db.SaveChanges();
 
-               // Xóa giỏ hàng sau khi đặt
+                // Xóa giỏ hàng sau khi đặt
                 var gioHang = db.GIOHANGs.FirstOrDefault(g => g.ID_KH == khachHang.ID_KH);
                 if (gioHang != null)
                 {

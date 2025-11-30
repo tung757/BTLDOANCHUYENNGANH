@@ -107,6 +107,12 @@ ADD DonGia int
 ALTER TABLE KHUYENMAI
 ADD TrangThai int
 
+CREATE TABLE QUANGCAO(
+Id INT IDENTITY(1,1) PRIMARY KEY,
+Loai nvarchar(20),
+Url_Image nvarchar(50)
+)
+
 select * from DANHGIA
 select * from SANPHAM
 select * from DANHMUC
@@ -116,6 +122,7 @@ select * from GIOHANG_SANPHAM
 select * from DONHANG
 select * from KHUYENMAI
 select * from KHACHHANG
+select * from QUANGCAO
 insert into KHACHHANG values
 ('Admin','HaNoi','','Nam','','','admin','abc123','3')
 insert into KHACHHANG values
@@ -123,11 +130,3 @@ insert into KHACHHANG values
 ('Admin','HaNoi','','Nam','','','admin','abc123','3')
 insert into KHACHHANG values
 ('tung','ThaiBinh','','Nam','','','tung2406','abc123','1')
-
-delete KHACHHANG
-where(ID_KH=5)
-
-SELECT * FROM KHACHHANG WHERE TK = 'tung2406'
-SELECT * FROM GIOHANG WHERE ID_KH = 2
-SELECT * FROM GIOHANG_SANPHAM
-select * from SANPHAM

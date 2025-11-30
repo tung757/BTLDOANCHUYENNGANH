@@ -200,6 +200,7 @@
     <Compile Include="Models\KHACHHANG.cs" />
     <Compile Include="Models\KHUYENMAI.cs" />
     <Compile Include="Models\ProductFilter.cs" />
+    <Compile Include="Models\QUANGCAO.cs" />
     <Compile Include="Models\SANPHAM.cs" />
     <Compile Include="Models\sysdiagram.cs" />
     <Compile Include="Models\ThongKe.cs" />

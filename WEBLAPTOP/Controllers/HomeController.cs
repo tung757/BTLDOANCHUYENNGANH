@@ -14,7 +14,7 @@ namespace WEBLAPTOP.Controllers
         private readonly DARKTHESTORE db = new DARKTHESTORE();
         public async Task<ActionResult> Index()
         {
-            var lst_sp = await db.SANPHAMs.Where(sp=> sp.Status_SP==1).ToListAsync();
+            var lst_sp = await db.SANPHAMs.Where(sp => sp.Status_SP == 1).ToListAsync();
             return View(lst_sp);
         }
     }

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity; 
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Threading.Tasks; 
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using WEBLAPTOP.Models;
@@ -21,7 +21,7 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
         private DARKTHESTORE db = new DARKTHESTORE();
 
         // GET: Admin/KHACHHANGs (Async)
-        public async Task<ActionResult> Index() 
+        public async Task<ActionResult> Index()
         {
             // Dùng ToListAsync()
             return View(await db.KHACHHANGs.ToListAsync());
@@ -35,7 +35,7 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             // Dùng FindAsync()
-            KHACHHANG kHACHHANG = await db.KHACHHANGs.FindAsync(id); 
+            KHACHHANG kHACHHANG = await db.KHACHHANGs.FindAsync(id);
             if (kHACHHANG == null)
             {
                 return HttpNotFound();
@@ -50,7 +50,7 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             // Dùng FindAsync()
-            KHACHHANG kHACHHANG = await db.KHACHHANGs.FindAsync(id); 
+            KHACHHANG kHACHHANG = await db.KHACHHANGs.FindAsync(id);
             if (kHACHHANG == null)
             {
                 return HttpNotFound();
@@ -77,7 +77,7 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
                     db.Entry(kHACHHANG).State = EntityState.Modified; // Sửa bình thường (bao gồm MK)
                 }
 
-                await db.SaveChangesAsync(); 
+                await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             return View(kHACHHANG);

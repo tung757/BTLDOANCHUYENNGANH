@@ -9,6 +9,6 @@ namespace WEBLAPTOP.ViewModel
     public class DonHangView
     {
         public DONHANG DONHANG { get; set; }
-        public List<DONHANG_SANPHAM> DONHANG_SANPHAM  { get; set; }
+        public List<DONHANG_SANPHAM> DONHANG_SANPHAM { get; set; }
     }
 }
