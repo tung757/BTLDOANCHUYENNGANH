@@ -21,7 +21,7 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
         private DARKTHESTORE db = new DARKTHESTORE();
 
         // GET: Admin/SANPHAMs
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(int page=0, int page_size=8)
         {
             var sANPHAMs = db.SANPHAMs.Include(s => s.DANHMUC);
             return View(await sANPHAMs.ToListAsync());
