@@ -4,115 +4,222 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    @Styles.Render("~/Content/css")
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+    @* @Styles.Render("~/Content/css") *@
     @Scripts.Render("~/bundles/modernizr")
+
     <link rel="stylesheet" href="@Url.Content("~/Content/new_css/stylehome.css")" />
     <link rel="icon" type="image/png" href="~/Images/Logo/logodarkthestorepreview.png" />
-</head>
-@*@Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-    <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
-            aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
-        <ul class="navbar-nav flex-grow-1">
-            <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-            <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-            <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-        </ul>
-    </div>*@
-<body>
-    <nav class="header navbar" style="background-color: #ef2a2a; ">
-        <!-- Header Top -->
-        <div class="header_top container-fluid">
-            <div class="row align-items-center w-100 " style="margin:0 40px">
 
-                <!-- Logo -->
-                <div class="col-3 d-flex justify-content-center">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .header.navbar {
+            background: linear-gradient(90deg, #ef2a2a 0%, #c91f1f 100%);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 10px 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .header.sticky {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(239, 42, 42, 0.95);
+            backdrop-filter: blur(10px);
+            animation: slideDown 0.35s ease-out;
+        }
+
+        @@keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+            }
+
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        /* Search Box */
+        .search-container {
+            position: relative;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .search-input {
+            border-radius: 50px !important;
+            border: none;
+            padding-left: 20px;
+            padding-right: 50px;
+            height: 45px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+            .search-input:focus {
+                box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+                outline: none;
+            }
+
+        .search-btn {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            height: 35px;
+            width: 35px;
+            border-radius: 50%;
+            background-color: #ef2a2a;
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+        }
+
+            .search-btn:hover {
+                background-color: #c91f1f;
+                transform: scale(1.1);
+                color: white;
+            }
+
+        /* Actions */
+        .nav-action-btn {
+            color: rgba(255,255,255, 0.9) !important;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            padding: 8px 12px;
+            border-radius: 8px;
+        }
+
+            .nav-action-btn:hover {
+                background-color: rgba(255,255,255, 0.15);
+                color: white !important;
+                transform: translateY(-2px);
+            }
+
+            .nav-action-btn i {
+                font-size: 1.2rem;
+            }
+
+        /* Dropdown */
+        .dropdown-menu {
+            border: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            border-radius: 12px;
+            margin-top: 10px !important;
+        }
+        /* Đảm bảo dropdown không bị sát lề phải quá */
+        .dropdown-menu-end {
+            right: 0 !important; /* Căn lề phải */
+            left: auto !important; /* Bỏ căn lề trái */
+            margin-right: 10px; /* Cách mép phải một chút cho đẹp */
+        }
+
+        .dropdown-item {
+            padding: 10px 20px;
+        }
+
+            .dropdown-item:hover {
+                background-color: #f8f9fa;
+                color: #ef2a2a;
+            }
+
+        .logo-img {
+            transition: transform 0.3s;
+        }
+
+            .logo-img:hover {
+                transform: scale(1.05);
+            }
+    </style>
+</head>
+<body>
+    <nav id="mainHeader" class="header navbar navbar-expand-lg">
+        <div class="header_top container-fluid">
+            <div class="row align-items-center w-100 mx-0">
+
+                <div class="col-lg-2 col-md-3 d-flex justify-content-center align-items-center">
                     <a href="@Url.Action("Index","Home")">
-                        <img src="~/Images/Logo/logodarkthestorepreview.png" width="100" alt="Logo" />
+                        <img src="~/Images/Logo/logodarkthestorepreview.png" class="logo-img" width="110" alt="Logo" />
                     </a>
                 </div>
 
-                <!-- Thanh tìm kiếm -->
-                <div class="col">
-                    <form class="d-flex justify-content-center" method="get" action="@Url.Action("Search_name","Product")">
-                        <input class="form-control me-2 " type="text" name="name" placeholder="Tìm kiếm..." />
-                        <button class="btn btn-light" type="submit" name="submitSearch">
-                            <i class="bi bi-search "></i>
+                <div class="col-lg-5 col-md-5 my-2 my-md-0">
+                    <form class="search-container" method="get" action="@Url.Action("Search_name","Product")">
+                        <input class="form-control search-input" type="text" name="name" placeholder="Bạn muốn tìm gì hôm nay?..." />
+                        <button class="search-btn" type="submit" name="submitSearch">
+                            <i class="bi bi-search"></i>
                         </button>
                     </form>
                 </div>
 
-                <!-- Chọn địa chỉ -->
-                <div class="col-auto">
-                    <div class="dropdown">
-                        <a class="btn btn-light dropdown-toggle d-flex align-items-center gap-1"
+                <div class="col-lg-5 col-md-4 d-flex justify-content-end align-items-center gap-2 pe-4">
+
+                    <div class="dropdown d-none d-xl-block">
+                        <a class="nav-action-btn d-flex align-items-center gap-2 text-decoration-none dropdown-toggle"
                            href="#" role="button" id="dropdownLocation"
                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-geo-alt"></i>
-                            <span class="diachi_ht">Chọn địa chỉ</span>
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <span class="diachi_ht small">Chọn địa chỉ</span>
                         </a>
-
-                        <ul class="dropdown-menu" aria-labelledby="dropdownLocation">
-                            <li><h6 class="dropdown-header">Tỉnh/Thành phố</h6></li>
-                            <li class="dropdown-item item_diachi">Hà Nội</li>
-                            <li class="dropdown-item item_diachi">TP. Hồ Chí Minh</li>
-                            <li class="dropdown-item item_diachi">Đà Nẵng</li>
-                            <li class="dropdown-item item_diachi">Cần Thơ</li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li class="dropdown-item item_diachi">Khác...</></li>
+                        <ul class="dropdown-menu animate__animated animate__fadeIn" aria-labelledby="dropdownLocation">
+                            <li><h6 class="dropdown-header text-muted">Khu vực</h6></li>
+                            <li class="dropdown-item item_diachi pointer"><i class="bi bi-geo-alt me-2"></i>Hà Nội</li>
+                            <li class="dropdown-item item_diachi pointer"><i class="bi bi-geo-alt me-2"></i>TP. Hồ Chí Minh</li>
+                            <li class="dropdown-item item_diachi pointer"><i class="bi bi-geo-alt me-2"></i>Đà Nẵng</li>
+                            <li class="dropdown-item item_diachi pointer"><i class="bi bi-geo-alt me-2"></i>Cần Thơ</li>
                         </ul>
                     </div>
-                </div>
-                <!--Liên hệ-->
-                <div class="col-auto">
-                    <a href="https://zalo.me/0333893870"
-                       class="text-decoration-none text-light d-flex align-items-center gap-1">
-                        <i class="bi bi-telephone"></i>
-                        <span>Liên hệ</span>
+
+                    <a href="https://zalo.me/0333893870" class="nav-action-btn text-decoration-none d-flex align-items-center gap-2">
+                        <i class="bi bi-telephone-fill"></i>
+                        <span class="d-none d-xl-block">Liên hệ</span>
                     </a>
-                </div>
 
-                <!-- Giỏ hàng -->
-                <div class="col-auto">
-                    <a href="@Url.Action("Index","Cart")"
-                       class="text-decoration-none text-light d-flex align-items-center gap-1">
-                        <i class="bi bi-cart"></i>
-                        <span>Giỏ hàng</span>
+                    <a href="@Url.Action("Index","Cart")" class="nav-action-btn text-decoration-none d-flex align-items-center gap-2 position-relative">
+                        <i class="bi bi-cart-fill"></i>
+                        <span class="d-none d-xl-block">Giỏ hàng</span>
                     </a>
-                </div>
 
-                <!-- Người dùng -->
-                <div class="col-auto">
-                    @{
-                        if (Session["username"] == null)
-                        {
-                            <a href="@Url.Action("Index","Login")"
-                               class="text-decoration-none text-light d-flex align-items-center gap-1">
-                                <i class="bi bi-person-circle"></i>
-                            </a>
+                    <div class="ms-2">
+                        @{
+                            if (Session["username"] == null)
+                            {
+                                <a href="@Url.Action("Index","Login")" class="btn btn-outline-light rounded-pill px-4 btn-sm fw-bold">
+                                    Đăng nhập
+                                </a>
+                            }
+                            else
+                            {
+                                <div class="dropdown">
+                                    <button class="btn nav-action-btn dropdown-toggle d-flex align-items-center border-0 bg-transparent" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <img src="https://ui-avatars.com/api/?name=@Session["username"]&background=random" class="rounded-circle me-2" width="30" height="30" alt="Avatar">
+                                        <span class="fw-bold">@Session["username"]</span>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end animate__animated animate__fadeIn" aria-labelledby="dropdownMenuButton">
+                                        <li><a class="dropdown-item" href="@Url.Action("Khachhang", "Profile")"><i class="bi bi-person-gear me-2"></i>Quản lý tài khoản</a></li>
+                                        <li><a class="dropdown-item" href="@Url.Action("Index","DonHang")"><i class="bi bi-box-seam me-2"></i>Đơn hàng của tôi</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item text-danger" href="@Url.Action("Logout","Login")"><i class="bi bi-box-arrow-right me-2"></i>Đăng xuất</a></li>
+                                    </ul>
+                                </div>
+                            }
                         }
-                        else
-                        {
-                            <div class="dropdown">
-                                <button class="btn dropdown-toggle fs-5 d-flex align-items-center" style="color:white;" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span class="bi bi-person-circle pe-2"></span>@Session["username"]
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <li><a class="dropdown-item" href="@Url.Action("Khachhang", "Profile")">Quản lý tài khoản</a></li>
-                                    <li><a class="dropdown-item" href="@Url.Action("Index","DonHang")">Theo dõi đơn hàng</a></li>
-                                    <li><a class="dropdown-item" href="@Url.Action("Logout","Login")">Đăng xuất</a></li>
-                                </ul>
-                            </div>
-                        }
-                    }
+                    </div>
                 </div>
-
             </div>
         </div>
     </nav>
@@ -360,5 +467,31 @@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
     <script src="~/Scripts/new_script/home_layout.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Sticky Header
+            var header = $('.header.navbar'); // Selector class thay vì ID cho an toàn
+            if (header.length) {
+                var stickyOffset = header.offset().top;
+                $(window).scroll(function () {
+                    if ($(window).scrollTop() > stickyOffset) {
+                        header.addClass('sticky');
+                    } else {
+                        header.removeClass('sticky');
+                    }
+                });
+            }
+
+            // Cập nhật text địa chỉ
+            $('.item_diachi').click(function (e) {
+                e.preventDefault();
+                var selectedText = $(this).text();
+                $('.diachi_ht').text(selectedText);
+            });
+        });
+    </script>
 </body>
 </html>
