@@ -21,10 +21,12 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
         private DARKTHESTORE db = new DARKTHESTORE();
 
         // GET: Admin/SANPHAMs
-        public async Task<ActionResult> Index(int page=0, int page_size=8)
+        public async Task<ActionResult> Index(int page=1, int page_size=6)
         {
             var sANPHAMs = db.SANPHAMs.Include(s => s.DANHMUC);
-            return View(await sANPHAMs.ToListAsync());
+            //orderby
+            var results_page = await sANPHAMs.OrderBy(sp => sp.TenSP).Skip((page - 1)*page_size).Take(page_size).ToListAsync();
+            return View(results_page);
         }
 
         // GET: Admin/SANPHAMs/Details/5
