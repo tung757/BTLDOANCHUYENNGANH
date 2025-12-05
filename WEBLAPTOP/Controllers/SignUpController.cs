@@ -4,6 +4,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Threading.Tasks;
 using WEBLAPTOP.Models;
+using System.Data.Entity; // Cần thiết cho FirstOrDefaultAsync
 
 namespace WEBLAPTOP.Controllers
 {
@@ -11,9 +12,21 @@ namespace WEBLAPTOP.Controllers
     {
         private readonly DARKTHESTORE db = new DARKTHESTORE();
 
-        // GET: SignUp
+        // GET: SignUp (Trang Đăng ký)
         public ActionResult Index()
         {
+            // Reset ViewBag.Error khi tải trang lần đầu (không phải lỗi từ Post)
+            if (ViewBag.Error == null)
+            {
+                ViewBag.Error = "";
+            }
+
+            // Nếu có lỗi từ quá trình ConfirmOtp hết hạn, nó vẫn nằm trong TempData.
+            if (TempData["Error"] != null)
+            {
+                ViewBag.Error = TempData["Error"];
+            }
+
             return View();
         }
 
@@ -21,9 +34,31 @@ namespace WEBLAPTOP.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateAccount()
         {
-            // Lấy dữ liệu đăng ký
+            // Lấy dữ liệu đăng ký từ Request
+            string username = Request["TK"];
+            string email = Request["Email"];
+
+            // 1. Kiểm tra Tên đăng nhập (TK) đã tồn tại chưa
+            var existingUserByTK = await db.KHACHHANGs.FirstOrDefaultAsync(kh => kh.TK == username);
+            if (existingUserByTK != null)
+            {
+                // Thay đổi: Dùng ViewBag.Error và return View("Index") để hiển thị lỗi ngay
+                ViewBag.Trangthai = $"Tên tài khoản '{username}' đã có người sử dụng. Vui lòng chọn tên khác.";
+                return View("Index");
+            }
+
+            // 2. Kiểm tra Email đã tồn tại chưa
+            var existingUserByEmail = await db.KHACHHANGs.FirstOrDefaultAsync(kh => kh.Email == email);
+            if (existingUserByEmail != null)
+            {
+                // Thay đổi: Dùng ViewBag.Error và return View("Index") để hiển thị lỗi ngay
+                ViewBag.Trangthai = $"Email '{email}' đã được đăng ký. Vui lòng sử dụng Email khác.";
+                return View("Index");
+            }
+
+            // Lấy toàn bộ dữ liệu đăng ký (Sau khi đã kiểm tra trùng lặp thành công)
             string data =
-                $"{Request["TK"]}|{Request["MK"]}|{Request["TenKH"]}|{Request["DiaChi"]}|" +
+                $"{username}|{Request["MK"]}|{Request["TenKH"]}|{Request["DiaChi"]}|" +
                 $"{Request["SDT"]}|{Request["Email"]}|{Request["GioTinh"]}|{Request["NgaySinh"]}";
 
             // Mã hóa dữ liệu đăng ký rồi lưu vào cookie
@@ -46,8 +81,11 @@ namespace WEBLAPTOP.Controllers
             Response.Cookies.Add(otpCookie);
 
             // Gửi OTP qua email
-            await EmailService.Send(Request["Email"], "Mã OTP xác thực",
+            await EmailService.Send(email, "Mã OTP xác thực",
                  $"Mã OTP của bạn là: {otp}");
+
+            // Gửi thông báo thành công đến ConfirmOtp.cshtml
+            TempData["SuccessMessage"] = $"Mã xác thực (OTP) đã được gửi đến email **{email}**. Vui lòng kiểm tra hộp thư đến (hoặc thư mục Spam) để nhận mã.";
 
             // Chuyển đến trang nhập OTP
             return RedirectToAction("ConfirmOtp");
@@ -56,6 +94,17 @@ namespace WEBLAPTOP.Controllers
         // B2: Trang nhập OTP
         public ActionResult ConfirmOtp()
         {
+            // Lấy lỗi từ TempData (thường là lỗi hết hạn cookie từ bước B3)
+            if (TempData["Error"] != null)
+            {
+                ViewBag.Error = TempData["Error"];
+            }
+
+            // Lấy thông báo thành công từ TempData (từ bước B1)
+            if (TempData["SuccessMessage"] != null)
+            {
+                ViewBag.Success = TempData["SuccessMessage"];
+            }
             return View();
         }
 
@@ -68,8 +117,9 @@ namespace WEBLAPTOP.Controllers
 
             if (otpCookie == null || infoCookie == null)
             {
-                ViewBag.Error = "OTP đã hết hạn hoặc cookie bị mất.";
-                return View();
+                // Phiên hết hạn hoặc cookie bị mất. Dùng TempData vì cần chuyển hướng.
+                TempData["Error"] = "Phiên đăng ký đã hết hạn hoặc cookie bị mất.";
+                return RedirectToAction("Index");
             }
 
             // Giải mã OTP
@@ -81,7 +131,12 @@ namespace WEBLAPTOP.Controllers
 
             if (DateTime.Now > expire)
             {
-                ViewBag.Error = "OTP đã hết hạn.";
+                ViewBag.Error = "OTP đã hết hạn. Vui lòng đăng ký lại.";
+                // Xóa cả hai cookie sau khi hết hạn
+                otpCookie.Expires = DateTime.Now.AddDays(-1);
+                infoCookie.Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies.Add(otpCookie);
+                Response.Cookies.Add(infoCookie);
                 return View();
             }
 
@@ -92,7 +147,6 @@ namespace WEBLAPTOP.Controllers
             }
 
             // === OTP đúng → Tạo tài khoản ===
-
             string decryptedInfo = CryptoHelper.Decrypt(infoCookie.Value);
             string[] info = decryptedInfo.Split('|');
 
@@ -123,6 +177,7 @@ namespace WEBLAPTOP.Controllers
             Response.Cookies.Add(otpCookie);
             Response.Cookies.Add(infoCookie);
 
+            // Chuyển hướng đến trang đăng nhập sau khi đăng ký thành công
             return RedirectToAction("Index", "Login");
         }
     }
