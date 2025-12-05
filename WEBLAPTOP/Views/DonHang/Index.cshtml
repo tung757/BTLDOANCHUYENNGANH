@@ -31,8 +31,7 @@
 
                             <td class="fw-bold">#@item.ID_DH</td>
                             <td>
-                                @(item.NgayLap.HasValue ?
- item.NgayLap.Value.ToString("dd/MM/yyyy") : "")
+                                @(item.NgayLap.HasValue ?item.NgayLap.Value.ToString("dd/MM/yyyy") : "")
                             </td>
                             <td>@Html.DisplayFor(modelItem => item.Ten)</td>
                             <td>@Html.DisplayFor(modelItem => item.DiaChiGiaoHang)</td>
@@ -68,8 +67,7 @@
                                 <span class="@badgeClass">@(item.TrangThai ?? "Chưa có trạng thái")</span>
                             </td>
                             <td class="text-center">
-                                <a href="@Url.Action("Details", new { id
- = item.ID_DH })" class="btn btn-outline-primary btn-sm mb-1">
+                                <a href="@Url.Action("Details", new { id= item.ID_DH })" class="btn btn-outline-primary btn-sm mb-1">
                                     <i class="fa fa-eye"></i> Xem chi tiết
                                 </a>
                                 @if (item.TrangThai == "Chờ xác nhận")
