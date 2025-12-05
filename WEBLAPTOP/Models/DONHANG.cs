@@ -1,4 +1,4 @@
-namespace WEBLAPTOP.Models
+﻿namespace WEBLAPTOP.Models
 {
     using System;
     using System.Collections.Generic;
@@ -22,22 +22,32 @@ namespace WEBLAPTOP.Models
         public DateTime? NgayLap { get; set; }
 
         [StringLength(255)]
+        [RegularExpression(@"^[a-zA-Z0-9À-ỹ\s.,!?-]*$",
+            ErrorMessage = "Ghi chú chứa ký tự không hợp lệ")]
         public string GhiChu { get; set; }
 
         [StringLength(30)]
+        [RegularExpression(@"^[a-zA-Z0-9À-ỹ\s.,!?-]*$",
+            ErrorMessage = "Trạng thái chứa ký tự không hợp lệ")]
         public string TrangThai { get; set; }
 
         public int? ID_KH { get; set; }
 
         public int? ID_KM { get; set; }
 
-        [StringLength(255)]
+        [Required(ErrorMessage = "Tên người nhận không được bỏ trống")]
+        [StringLength(255, ErrorMessage = "Tên tối đa 255 ký tự")]
+        [RegularExpression(@"^[a-zA-ZÀ-ỹ\s]+$",
+            ErrorMessage = "Tên chỉ được phép chứa chữ cái")]
         public string Ten { get; set; }
 
+        [Required(ErrorMessage = "Địa chỉ giao hàng không được bỏ trống")]
         [StringLength(4000)]
         public string DiaChiGiaoHang { get; set; }
 
+        [Required(ErrorMessage = "Số điện thoại không được bỏ trống")]
         [StringLength(10)]
+        [RegularExpression(@"^0[0-9]{9}$", ErrorMessage = "Số điện thoại phải gồm 10 số và bắt đầu bằng 0")]
         public string SDT { get; set; }
 
         [StringLength(255)]

@@ -1,0 +1,190 @@
+﻿@model WEBLAPTOP.Models.DONHANG
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Hóa đơn bán hàng #@Model.ID_DH</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .invoice-header {
+            border-bottom: 2px solid #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+        }
+
+        .invoice-title {
+            font-size: 24px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .company-info {
+            font-size: 12px;
+        }
+
+        .customer-info, .order-info {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .table th {
+            background-color: #eee;
+            text-align: center;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .total-row td {
+            font-weight: bold;
+        }
+
+        .footer-note {
+            font-style: italic;
+            text-align: center;
+            margin-top: 50px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid p-4">
+
+        <div class="row invoice-header">
+            <div class="col-8">
+                <div class="invoice-title">HÓA ĐƠN BÁN HÀNG</div>
+                <div>Mã đơn: #@Model.ID_DH</div>
+            </div>
+            <div class="col-4 text-right company-info">
+                <strong>CỬA HÀNG DARK THE STORE</strong><br />
+                Địa chỉ: 298 Nhổn - Đại Học Công Nghiệp Hà Nội<br />
+                Hotline: 0853.196.682<br />
+                Website: www.darkthestore.com
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+                <div class="customer-info">
+                    <h5>THÔNG TIN NGƯỜI NHẬN</h5>
+                    <hr />
+                    <p><strong>Họ tên:</strong> @Model.Ten</p>
+                    <p><strong>Số điện thoại:</strong> @Model.SDT</p>
+                    <p><strong>Địa chỉ:</strong> @Model.DiaChiGiaoHang</p>
+                    <p><strong>Ghi Chú:</strong> @Model.GhiChu</p>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="order-info">
+                    <h5>THÔNG TIN ĐƠN HÀNG</h5>
+                    <hr />
+                    <p><strong>Ngày đặt:</strong> @(Model.NgayLap.HasValue ? Model.NgayLap.Value.ToString("dd/MM/yyyy HH:mm") : "")</p>
+                    <p><strong>Trạng thái:</strong> @Model.TrangThai</p>
+                    <p><strong>Thanh toán:</strong> @Model.PhuongthucTT</p>
+                    <p><strong>Phương thức nhận hàng:</strong> @Model.PhuongThucNhanHang</p>
+                    <p>
+                        <strong>Khuyến mãi áp dụng:</strong>@(Model.KHUYENMAI != null ? Model.KHUYENMAI.Mota : "Không áp dụng")</p>
+                </div>
+            </div>
+        </div>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th style="width: 5%">STT</th>
+                    <th>Tên sản phẩm</th>
+                    <th style="width: 10%">SL</th>
+                    <th style="width: 20%">Đơn giá</th>
+                    <th style="width: 20%">Thành tiền</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ int i = 1; }
+                @foreach (var item in Model.DONHANG_SANPHAM)
+                {
+                    <tr>
+                        <td class="text-center">@i</td>
+                        <td>
+                            @(item.SANPHAM != null ? item.SANPHAM.TenSP : "Sản phẩm không tồn tại")
+                        </td>
+                        <td class="text-center">@(item.SoLuong ?? 0)</td>
+                        <td class="text-right">@((item.DonGia ?? 0).ToString("N0")) đ</td>
+                        <td class="text-right">
+                            @(((item.SoLuong ?? 0) * (item.DonGia ?? 0)).ToString("N0")) đ
+                        </td>
+                    </tr>
+                    i++;
+                }
+            </tbody>
+
+            <tfoot>
+                @{
+                    long tongTienHang = Model.DONHANG_SANPHAM.Sum(item => (long)(item.SoLuong ?? 0) * (item.DonGia ?? 0));
+                    long tienGiam = 0;
+                    string loaiGiam = "";
+
+                    if (Model.KHUYENMAI != null && Model.KHUYENMAI.GiamGia.HasValue)
+                    {
+                        int giaTri = Model.KHUYENMAI.GiamGia.Value;
+                        if (giaTri <= 100)
+                        {
+                            tienGiam = (tongTienHang * giaTri) / 100;
+                            loaiGiam = $"{giaTri}%";
+                        }
+                        else
+                        {
+                            tienGiam = giaTri;
+                            loaiGiam = string.Format("{0:N0} đ", giaTri);
+                        }
+                        if (tienGiam > tongTienHang) { tienGiam = tongTienHang; }
+                    }
+                    long tongThanhToan = tongTienHang - tienGiam;
+                }
+
+                <tr class="total-row">
+                    <td colspan="4" class="text-right">Tạm tính:</td>
+                    <td class="text-right">@tongTienHang.ToString("N0") đ</td>
+                </tr>
+
+                @if (Model.KHUYENMAI != null)
+                {
+                    <tr class="total-row text-danger">
+                        <td colspan="4" class="text-right">
+                            Giảm giá (@Model.KHUYENMAI.Mota - @loaiGiam):
+                        </td>
+                        <td class="text-right">-@tienGiam.ToString("N0") đ</td>
+                    </tr>
+                }
+
+                <tr class="total-row h5">
+                    <td colspan="4" class="text-right">TỔNG THANH TOÁN:</td>
+                    <td class="text-right">@tongThanhToan.ToString("N0") đ</td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div class="footer-note">
+            <p>Cảm ơn quý khách đã mua hàng!</p>
+            <p>(Hóa đơn điện tử này có giá trị như hóa đơn giấy)</p>
+        </div>
+    </div>
+</body>
+</html>
+

@@ -1,4 +1,4 @@
-namespace WEBLAPTOP.Models
+﻿namespace WEBLAPTOP.Models
 {
     using System;
     using System.Collections.Generic;
@@ -20,25 +20,35 @@ namespace WEBLAPTOP.Models
         [Key]
         public int ID_SP { get; set; }
 
-        [StringLength(20)]
+        [Required(ErrorMessage = "Mã sản phẩm không được để trống")]
+        [StringLength(50, ErrorMessage = "Mã sản phẩm tối đa 50 ký tự")]
         public string MaSP { get; set; }
 
-        [StringLength(255)]
+        [Required(ErrorMessage = "Tên sản phẩm không được để trống")]
+        [StringLength(255, ErrorMessage = "Tên sản phẩm tối đa 255 ký tự")]
         public string TenSP { get; set; }
 
+        [Required(ErrorMessage = "Giá nhập không được để trống")]
+        [Range(0, int.MaxValue, ErrorMessage = "Giá phải >= 0")]
         public int? Gia { get; set; }
 
+        [Required(ErrorMessage = "Giá bán không được để trống")]
+        [Range(0, int.MaxValue, ErrorMessage = "Giá bán phải >= 0")]
         public int? GiaBan { get; set; }
 
+        [StringLength(4000, ErrorMessage = "Mô tả tối đa 4000 ký tự")]
         public string Mota { get; set; }
 
+        [Required]
         public int? Status_SP { get; set; }
 
         [Column(TypeName = "date")]
         public DateTime? NgayTao { get; set; }
 
+        [Range(0, int.MaxValue, ErrorMessage = "Số lượng phải >= 0")]
         public int? SoLuong { get; set; }
 
+        [Range(0, int.MaxValue, ErrorMessage = "Số lượng bán phải >= 0")]
         public int? SoLuongBan { get; set; }
 
         [StringLength(255)]
