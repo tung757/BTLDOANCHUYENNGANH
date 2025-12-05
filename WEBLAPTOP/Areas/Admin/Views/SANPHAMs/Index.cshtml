@@ -57,7 +57,7 @@
                                     <td>@item.MaSP</td>
                                     <td>@item.TenSP</td>
                                     <td>@item.Gia</td>
-                                    <td>@item.Mota</td>
+                                    <td class="one-line">@item.Mota</td>
                                     <td>
                                         @if (!string.IsNullOrEmpty(item.Images_url) && item.Images_url != "default.jpg")
                                         {
@@ -173,6 +173,9 @@
 </body>
 
 <style>
+/*Text elipssia*/
+
+
     /* Giảm chiều rộng bảng tổng thể */
     #sampleTable {
         width: 100%; /* bạn có thể chỉnh 50% hoặc 70% tùy ý */
