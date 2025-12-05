@@ -236,6 +236,38 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
 
             return pdfResult;
         }
+
+        // GET: Admin/DONHANGs/ExportInvoice/5
+        public ActionResult ExportInvoice(int id)
+        {
+            var order = db.DONHANGs
+                .Include("KHACHHANG")
+                .Include("KHUYENMAI")
+                .Include("DONHANG_SANPHAM.SANPHAM")
+                .FirstOrDefault(d => d.ID_DH == id);
+
+            if (order == null) return HttpNotFound();
+
+            var pdfResult = new ViewAsPdf("InvoicePDF", order)
+            {
+                FileName = $"HoaDon_{id}.pdf",
+                PageSize = Rotativa.Options.Size.A4,
+                PageMargins = new Rotativa.Options.Margins(10, 10, 10, 10)
+            };
+
+            // Copy Cookie (Quan trọng)
+            var cookies = Request.Cookies;
+            if (cookies != null)
+            {
+                pdfResult.Cookies = new Dictionary<string, string>(); // Khởi tạo dictionary
+                foreach (var key in cookies.AllKeys)
+                {
+                    pdfResult.Cookies.Add(key, cookies[key].Value);
+                }
+            }
+
+            return pdfResult;
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)
