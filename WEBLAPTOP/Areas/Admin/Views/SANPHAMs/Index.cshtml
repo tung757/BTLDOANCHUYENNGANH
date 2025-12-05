@@ -10,7 +10,6 @@
         <div class="col-md-12">
             <div class="tile">
                 <div class="tile-body">
-
                     <div class="row element-button">
                         <div class="col-sm-2">
                             <a class="btn btn-add btn-sm" href="@Url.Action("Create", "SANPHAMs")" title="Thêm">
@@ -32,7 +31,18 @@
                                 <i class="fa fa-file-pdf-o"></i> Xuất PDF
                             </a>
                         </div>
+
+                        <!-- Thanh tìm kiếm bên phải -->
+                        <div class="col-sm-4 text-end float-end">
+                            <div>
+                                <form method="get" action="@Url.Action("Index", "SANPHAMs")">
+                                    <input type="text" name="search" class="form-control"
+                                           placeholder="Tìm kiếm sản phẩm..." style="max-width:250px; display:inline-block;">
+                                </form>
+                            </div>
+                        </div>
                     </div>
+
 
                     <table class="table table-hover table-bordered" id="sampleTable">
                         <thead class="table-light">
@@ -112,6 +122,61 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-12 d-flex justify-content-center mt-3">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+
+                    @* Nút Previous *@
+                    <li class="page-item @(ViewBag.Page <= 1 ? "disabled" : "")">
+                        <a class="page-link" href="@Url.Action("Index", new { page = ViewBag.Page - 1 })">«</a>
+                    </li>
+
+                    @{
+                        int currentPage = ViewBag.Page;
+                        int totalPages = ViewBag.TotalPages;
+                        int start = Math.Max(1, currentPage - 2);
+                        int end = Math.Min(totalPages, currentPage + 2);
+
+                        if (start > 1)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" href="@Url.Action("Index", new { page = 1 })">1</a>
+                            </li>
+                            if (start > 2)
+                            {
+                                <li class="page-item disabled"><span class="page-link">...</span></li>
+                            }
+                        }
+
+                        for (int i = start; i <= end; i++)
+                        {
+                            <li class="page-item @(i == currentPage ? "active" : "")">
+                                <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
+                            </li>
+                        }
+
+                        if (end < totalPages)
+                        {
+                            if (end < totalPages - 1)
+                            {
+                                <li class="page-item disabled"><span class="page-link">...</span></li>
+                            }
+                            <li class="page-item">
+                                <a class="page-link" href="@Url.Action("Index", new { page = totalPages })">@totalPages</a>
+                            </li>
+                        }
+                    }
+
+                    @* Nút Next *@
+                    <li class="page-item @(ViewBag.Page >= ViewBag.TotalPages ? "disabled" : "")">
+                        <a class="page-link" href="@Url.Action("Index", new { page = ViewBag.Page + 1 })">»</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
 
 </main>
 

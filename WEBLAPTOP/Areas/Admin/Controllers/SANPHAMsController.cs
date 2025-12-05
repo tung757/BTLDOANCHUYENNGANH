@@ -21,11 +21,27 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
         private DARKTHESTORE db = new DARKTHESTORE();
 
         // GET: Admin/SANPHAMs
-        public async Task<ActionResult> Index(int page=1, int page_size=6)
+        public async Task<ActionResult> Index(int page = 1, int page_size = 6, string search="")
         {
-            var sANPHAMs = db.SANPHAMs.Include(s => s.DANHMUC);
-            //orderby
-            var results_page = await sANPHAMs.OrderBy(sp => sp.TenSP).Skip((page - 1)*page_size).Take(page_size).ToListAsync();
+            var query = db.SANPHAMs.Include(s => s.DANHMUC);
+
+            int total_items = await query.CountAsync();
+            if (search.Trim() != "")
+            {
+                query = query.Where(sp => sp.TenSP.Contains(search));
+            }
+            int total_pages = (int)Math.Ceiling((double)total_items / page_size);
+
+            //order
+            var results_page = await query
+                .OrderBy(sp => sp.TenSP)
+                .Skip((page - 1) * page_size)
+                .Take(page_size)
+                .ToListAsync();
+
+            ViewBag.Page = page;
+            ViewBag.TotalPages = total_pages;
+
             return View(results_page);
         }
 

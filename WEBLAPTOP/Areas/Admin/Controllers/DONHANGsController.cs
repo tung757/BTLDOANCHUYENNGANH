@@ -20,10 +20,23 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
         private DARKTHESTORE db = new DARKTHESTORE();
 
         // GET: Admin/DONHANGs
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(int page=1, int page_size=10, string search="")
         {
             var dONHANGs = db.DONHANGs.Include(d => d.KHACHHANG).Include(d => d.KHUYENMAI);
-            return View(await dONHANGs.ToListAsync());
+            if(search.Trim() != "")
+            {
+                dONHANGs = dONHANGs.Where(d => d.Ten.Contains(search) || d.SDT.Contains(search) || d.DiaChiGiaoHang.Contains(search) || d.TrangThai.Contains(search));
+            }
+            int total_items = await dONHANGs.CountAsync();
+            int total_pages = (int)Math.Ceiling((double)total_items / page_size);
+            var result = dONHANGs.OrderBy(d => d.ID_DH)
+                .Skip((page - 1) * page_size)
+                .Take(page_size);
+
+            ViewBag.Page = page;
+            ViewBag.TotalPages = total_pages;
+
+            return View(result);
         }
 
         // GET: Admin/DONHANGs/Details/5
