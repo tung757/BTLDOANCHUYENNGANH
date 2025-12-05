@@ -26,12 +26,17 @@
 <body onload="time()" class="app sidebar-mini rtl">
 
     <header class="app-header">
-        <a class="app-sidebar__toggle" href="#" data-bs-toggle="sidebar" aria-label="Hide Sidebar"></a>
+        <a class="app-header__logo" href="@Url.Action("Index", "Home", new { area = "Admin" })" style="font-family: 'Segoe UI', sans-serif;">
+            DarkTheStore
+        </a>
         <ul class="app-nav">
-            <div id="clock" style="color:white; margin-right:20px; text-align:center; margin-top:15px"></div>
+            <li class="d-flex align-items-center me-3">
+                <div id="clock" class="text-white fw-bold" style="font-size: 14px; margin-right: 15px;"></div>
+            </li>
+
             <li>
-                <a class="app-nav__item" href="@Url.Action("Index", "Login", new { area = "" })">
-                    <i class="fa fa-sign-in"></i>
+                <a class="app-nav__item" href="@Url.Action("Logout", "Login", new { area = "" })">
+                    <i class="fa fa-sign-out fa-lg"></i>
                 </a>
             </li>
         </ul>
@@ -132,12 +137,56 @@
             }
         })();
     </script>
+    <script>
+        $(document).ready(function () {
+            // Bắt sự kiện click vào nút 3 gạch
+            $('[data-toggle="sidebar"]').click(function (event) {
+                event.preventDefault();
+                // Thêm/Xóa class để CSS ở trên hoạt động
+                $('body').toggleClass('sidenav-toggled');
+            });
+        });
+    </script>
 </body>
 <style>
-    /* =========================================
-   DARK MODE PRO (Giao diện Tối Chuyên nghiệp)
-   ========================================= */
+    .app-title {
+        /* Bắt buộc phải có để ghim */
+        position: -webkit-sticky;
+        position: sticky;
+        /* Vị trí ghim: Cách đỉnh 50px (để chừa chỗ cho Header màu xanh) */
+        top: 50px;
+        /* Đảm bảo nó nổi lên trên bảng dữ liệu */
+        z-index: 1000;
+        /* Màu nền bắt buộc (nếu không chữ sẽ trôi xuyên qua nhau) */
+        background-color: #FFF;
+        /* Thêm bóng đổ nhẹ để tạo cảm giác nó nổi lên */
+        box-shadow: 0 2px 2px rgba(0,0,0,0.05);
+    }
 
+    /* 2. Ghim thanh chứa các nút chức năng (Tạo mới, In...) */
+    .element-button {
+        position: -webkit-sticky;
+        position: sticky;
+        /* Vị trí ghim: 50px (Header) + Khoảng 80px (Chiều cao App-Title) */
+        /* Bạn chỉnh số 130px này nếu thấy nó bị chồng lên hoặc hở ra */
+        top: 130px;
+        z-index: 999;
+        background-color: #fff; /* Nền trắng che bảng */
+        border-bottom: 1px solid #ddd; /* Đường kẻ ngăn cách cho đẹp */
+        padding-top: 10px;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+    }
+
+    /* Xử lý cho bảng để tiêu đề bảng cũng dính theo (Tùy chọn, rất tiện) */
+    #sampleTable thead th {
+        position: sticky;
+        /* 130px (Nút) + 60px (Chiều cao dòng nút) */
+        top: 180px;
+        z-index: 998;
+        background-color: #f5f5f5; /* Màu nền header bảng */
+        box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+    }
     /* 1. Nền chính & Chữ */
     body.dark-mode {
         background-color: #1a202c; /* Xám xanh đậm (dịu mắt hơn đen) */

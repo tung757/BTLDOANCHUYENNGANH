@@ -1,4 +1,4 @@
-namespace WEBLAPTOP.Models
+﻿namespace WEBLAPTOP.Models
 {
     using System;
     using System.Collections.Generic;
@@ -18,8 +18,12 @@ namespace WEBLAPTOP.Models
         [Key]
         public int ID_DM { get; set; }
 
-        [StringLength(255)]
+        [Required(ErrorMessage = "Tên danh mục không được bỏ trống")]
+        [StringLength(255, ErrorMessage = "Tên danh mục tối đa 255 ký tự")]
+        [RegularExpression(@"^[a-zA-Z0-9À-ỹ\s.,!?-]+$",
+        ErrorMessage = "Tên danh mục chứa ký tự không hợp lệ")]
         public string TenDM { get; set; }
+
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SANPHAM> SANPHAMs { get; set; }

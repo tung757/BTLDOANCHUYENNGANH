@@ -353,6 +353,7 @@
     <Content Include="Areas\Admin\Views\SANPHAMs\ExportPDF.cshtml" />
     <Content Include="Areas\Admin\Views\DONHANGs\ExportPDF.cshtml" />
     <Content Include="Areas\Admin\Views\KHACHHANGs\ExportPDF.cshtml" />
+    <Content Include="Areas\Admin\Views\DONHANGs\InvoicePDF.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -395,7 +396,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Areas\Admin\Views\ThongKe\" />
     <Folder Include="Images\Banner\" />
   </ItemGroup>
   <ItemGroup>
