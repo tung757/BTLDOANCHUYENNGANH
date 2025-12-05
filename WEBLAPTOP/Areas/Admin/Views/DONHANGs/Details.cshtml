@@ -183,7 +183,15 @@
                     <a class="btn btn-warning" href="@Url.Action("Edit", "DONHANGs", new { id = Model.ID_DH })">
                         <i class="fa fa-pencil-square-o"></i> Chỉnh sửa
                     </a>
+
                     &nbsp;&nbsp;&nbsp;
+
+                    <a class="btn btn-success" target="_blank" href="@Url.Action("ExportInvoice", "DONHANGs", new { id = Model.ID_DH })">
+                        <i class="fa fa-print"></i> In hóa đơn
+                    </a>
+
+                    &nbsp;&nbsp;&nbsp;
+
                     <a class="btn btn-secondary" href="@Url.Action("Index", "DONHANGs")">
                         <i class="fa fa-arrow-left"></i> Quay lại danh sách
                     </a>

@@ -1,4 +1,4 @@
-namespace WEBLAPTOP.Models
+﻿namespace WEBLAPTOP.Models
 {
     using System;
     using System.Collections.Generic;
@@ -18,8 +18,12 @@ namespace WEBLAPTOP.Models
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int ID_SP { get; set; }
 
+        [Required(ErrorMessage = "Số lượng không được bỏ trống")]
+        [Range(1, 999, ErrorMessage = "Số lượng phải >= 1")]
         public int? SoLuong { get; set; }
 
+        [Required(ErrorMessage = "Đơn giá không được bỏ trống")]
+        [Range(1, int.MaxValue, ErrorMessage = "Đơn giá phải > 0")]
         public int? DonGia { get; set; }
 
         public virtual DONHANG DONHANG { get; set; }

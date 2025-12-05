@@ -14,7 +14,17 @@ namespace WEBLAPTOP.Controllers
         private readonly DARKTHESTORE db = new DARKTHESTORE();
         public async Task<ActionResult> Index()
         {
-            var lst_sp = await db.SANPHAMs.Where(sp => sp.Status_SP == 1).ToListAsync();
+            var banners = db.QUANGCAOs
+                    .Where(x => x.Loai == "Banner")
+                    .OrderByDescending(x => x.Id)
+                    .ToList();
+
+            ViewBag.SliderBanners = banners;
+            var lst_sp = await db.SANPHAMs
+                                 .Where(sp => sp.Status_SP == 1)
+                                 .OrderByDescending(sp => sp.NgayTao) // Nên sắp xếp sp mới nhất lên đầu
+                                 .ToListAsync();
+
             return View(lst_sp);
         }
     }

@@ -24,7 +24,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     @Html.LabelFor(model => model.Ten, "Tên người đặt", htmlAttributes: new { @class = "form-label" })
-                                    @Html.EditorFor(model => model.Ten, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" }  })
+                                    @Html.EditorFor(model => model.Ten, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                                     @Html.ValidationMessageFor(model => model.Ten, "", new { @class = "text-danger" })
                                 </div>
 
@@ -50,7 +50,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     @Html.LabelFor(model => model.NgayLap, "Ngày lập", htmlAttributes: new { @class = "form-label" })
-                                    @Html.EditorFor(model => model.NgayLap, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                                    @Html.TextBoxFor(model => model.NgayLap, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @readonly = "readonly" })
                                     @Html.ValidationMessageFor(model => model.NgayLap, "", new { @class = "text-danger" })
                                 </div>
 
@@ -70,6 +70,12 @@
                                     @Html.LabelFor(model => model.PhuongthucTT, "Phương thức thanh toán", htmlAttributes: new { @class = "form-label" })
                                     @Html.EditorFor(model => model.PhuongthucTT, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                                     @Html.ValidationMessageFor(model => model.PhuongthucTT, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="mb-3">
+                                    @Html.LabelFor(model => model.PhuongThucNhanHang, "Phương thức nhận hàng", htmlAttributes: new { @class = "form-label" })
+                                    @Html.EditorFor(model => model.PhuongThucNhanHang, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                    @Html.ValidationMessageFor(model => model.PhuongThucNhanHang, "", new { @class = "text-danger" })
                                 </div>
 
                                 <div class="mb-3">

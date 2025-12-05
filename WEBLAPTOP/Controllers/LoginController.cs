@@ -34,7 +34,7 @@ namespace WEBLAPTOP.Controllers
         {
             string username = Request["username"];
             string password = Request["password"];
-            var query = await db.KHACHHANGs.SingleOrDefaultAsync(kh => kh.TK == username && kh.MK == password);
+            var query = await db.KHACHHANGs.FirstOrDefaultAsync(kh => kh.TK == username && kh.MK == password);
 
             if (query == null)
             {
