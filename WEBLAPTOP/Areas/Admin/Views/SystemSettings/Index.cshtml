@@ -1,4 +1,7 @@
-﻿
+﻿@{
+    // Lấy danh sách banner từ Controller
+    var listBanners = ViewBag.Banners as List<WEBLAPTOP.Models.QUANGCAO>;
+}
 <main class="app-content">
     <div class="app-title">
         <ul class="app-breadcrumb breadcrumb">
@@ -26,13 +29,36 @@
                 </div>
             </div>
         </div>
+        <div class="tile">
+            <h3 class="tile-title">Quản lý Banner Quảng Cáo</h3>
+            <div class="tile-body">
 
+                @using (Html.BeginForm("UploadBanner", "SystemSettings", FormMethod.Post, new { enctype = "multipart/form-data", @class = "mb-4" }))
+                {
+                    <div class="form-group">
+                        <label class="control-label fw-bold">Chọn ảnh banner (Có thể chọn nhiều):</label>
+                        <div class="input-group mt-2">
+                            <input type="file" name="bannerFiles" class="form-control" accept="image/*" multiple required>
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fa fa-upload"></i> Tải lên tất cả
+                            </button>
+                        </div>
+                        <small class="text-muted d-block mt-2">
+                            <i class="bx bx-info-circle"></i> Giữ phím <strong>Ctrl</strong> để chọn nhiều ảnh cùng lúc.
+                        </small>
+                    </div>
+                }
+
+                <hr />
+
+            </div>
+        </div>
     </div>
 </main>
 
 @section Scripts {
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             const switchBtn = $('#darkModeSwitch');
             const body = $('body');
 
@@ -44,7 +70,7 @@
             }
 
             // 2. Bắt sự kiện khi người dùng gạt nút
-            switchBtn.change(function() {
+            switchBtn.change(function () {
                 if ($(this).is(':checked')) {
                     // BẬT CHẾ ĐỘ TỐI
                     body.addClass('dark-mode');
@@ -66,5 +92,21 @@
                 }
             });
         });
+         function deleteBanner(id) {
+            if(confirm("Bạn có chắc muốn xóa banner này?")) {
+                $.ajax({
+                    url: '@Url.Action("DeleteBanner", "SystemSettings")',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function(res) {
+                        if(res.success) {
+                            location.reload(); // Tải lại trang để cập nhật danh sách
+                        } else {
+                            alert("Lỗi khi xóa!");
+                        }
+                    }
+                });
+            }
+        }
     </script>
 }

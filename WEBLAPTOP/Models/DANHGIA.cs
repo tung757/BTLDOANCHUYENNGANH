@@ -1,4 +1,4 @@
-namespace WEBLAPTOP.Models
+﻿namespace WEBLAPTOP.Models
 {
     using System;
     using System.Collections.Generic;
@@ -12,9 +12,14 @@ namespace WEBLAPTOP.Models
         [Key]
         public int ID_GH { get; set; }
 
-        [StringLength(2000)]
+        [Required(ErrorMessage = "Nội dung đánh giá không được bỏ trống")]
+        [StringLength(2000, ErrorMessage = "Nội dung tối đa 2000 ký tự")]
+        [RegularExpression(@"^[a-zA-Z0-9À-ỹ\s.,!?-]+$",
+        ErrorMessage = "Nội dung chứa ký tự không hợp lệ")]
         public string NoiDung { get; set; }
 
+        [Required(ErrorMessage = "Điểm đánh giá không được bỏ trống")]
+        [Range(1, 5, ErrorMessage = "Điểm phải từ 1 đến 5")]
         public int? Diem { get; set; }
 
         public int? ID_KH { get; set; }
