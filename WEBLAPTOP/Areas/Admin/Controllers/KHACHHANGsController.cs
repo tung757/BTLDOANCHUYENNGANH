@@ -12,6 +12,7 @@ using System.Data.Entity.Infrastructure;
 using WEBLAPTOP.App_Start;
 using OfficeOpenXml;
 using Rotativa;
+using System.Web.UI;
 
 namespace WEBLAPTOP.Areas.Admin.Controllers
 {
@@ -21,10 +22,20 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
         private DARKTHESTORE db = new DARKTHESTORE();
 
         // GET: Admin/KHACHHANGs (Async)
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(int page=1, int page_size=10, string search="")
         {
             // Dùng ToListAsync()
-            return View(await db.KHACHHANGs.ToListAsync());
+            var khs = await db.KHACHHANGs.ToListAsync();
+            if (search.Trim() != "")
+            {
+                khs = khs.Where(k => k.TenKH.Contains(search)).ToList();
+            }
+            int total_items = khs.Count();
+            int total_pages = (int)Math.Ceiling((double)total_items / page_size);
+            var kh_page = khs.OrderBy(k => k.TenKH).Skip((page-1)*page_size).Take(page_size).ToList();
+            ViewBag.Page = page;
+            ViewBag.TotalPages = total_pages;
+            return View(kh_page);
         }
 
         // GET: Admin/KHACHHANGs/Details/5 (Async)
