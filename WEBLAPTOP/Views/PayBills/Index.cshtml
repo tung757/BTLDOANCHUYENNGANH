@@ -5,8 +5,88 @@
 }
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+<style>
+    .qr-img {
+        border: 1px solid #e0e0e0;
+        padding: 10px;
+        background: white;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    #CanThanhToan {
+        font-size: 24px;
+        font-weight: 700;
+        color: #d32f2f;
+    }
+
+    .list-group-item {
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+        .list-group-item:hover {
+            background: #f8f9fa;
+        }
+
+    .form-check-input:checked + img {
+        filter: drop-shadow(0 0 4px #007bff);
+    }
+
+    .bank-dropdown {
+        display: none;
+        background: #fff;
+        border: 1px solid #dee2e6;
+        padding: 12px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    .bank-select {
+        max-height: 250px;
+        overflow-y: auto;
+        border: 1px solid #eee;
+        border-radius: 6px;
+    }
+
+    .bank-item {
+        padding: 10px 12px;
+        border-bottom: 1px solid #f2f2f2;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+        .bank-item:last-child {
+            border-bottom: none;
+        }
+
+        .bank-item:hover {
+            background: #f8f9fa;
+        }
+
+        .bank-item.active {
+            background: #007bff;
+            color: white !important;
+        }
+
+    .sanpham:hover {
+        background-color: gainsboro;
+        transition: 0.3s;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    }
+
+    .KhuyenMai:hover {
+        background-color: darkgray;
+        transition: 0.3s;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    }
+</style>
+
 <div class="container my-4" style="background-color: rgb(251, 251, 251)">
     <h2 class="text-center mb-4">Thanh toán</h2>
+    <div class="d-flex justify-content-center gap-4 my-3 text-secondary small">
+        <div><i class="bi bi-shield-check text-success"></i> Thanh toán an toàn</div>
+        <div><i class="bi bi-truck text-primary"></i> Giao hàng toàn quốc</div>
+        <div><i class="bi bi-arrow-repeat text-warning"></i> Đổi trả 7 ngày</div>
+    </div>
 
     <!-- sản phẩm trong giỏ hàng -->
     <div class="SPGioHang mb-4 p-4 border rounded">
@@ -138,38 +218,122 @@
         <div class="list-group">
 
             <!-- COD -->
-            <label class="list-group-item d-flex align-items-center">
-                <input class="form-check-input me-2" type="radio" name="PhuongThuc" value="COD" checked>
+            <label class="list-group-item d-flex align-items-center py-3">
+                <input class="form-check-input me-3" type="radio" name="PhuongThuc" value="COD" checked>
                 <span>Thanh toán khi nhận hàng (COD)</span>
             </label>
 
             <!-- VNPay -->
-            <label class="list-group-item d-flex align-items-center">
-                <input class="form-check-input me-2" type="radio" name="PhuongThuc" value="VNPAY">
-                <span>Thanh toán quét mã VNPay</span>
+            <label class="list-group-item d-flex align-items-center py-3">
+                <input class="form-check-input me-3" type="radio" name="PhuongThuc" value="VNPAY">
+                <img src="~/Images/Footer/vnpay.png" style="height:24px" class="me-2" />
+                <span>Thanh toán VNPay</span>
             </label>
 
-            <!-- ATM -->
-            <label class="list-group-item d-flex align-items-center">
-                <input class="form-check-input me-2" type="radio" name="PhuongThuc" value="ATM">
+            <!-- Bank ATM -->
+            <label class="list-group-item d-flex align-items-center py-3 atm-option">
+                <input class="form-check-input me-3" type="radio" name="PhuongThuc" value="ATM">
+                <img src="~/Images/Footer/atm.png" style="height:24px" class="me-2" />
                 <span>Thẻ ATM / Tài khoản ngân hàng</span>
             </label>
 
-            <!-- QR chuyển khoản -->
-            <label class="list-group-item d-flex align-items-center pttt-qr">
-                <input class="form-check-input me-2"
-                       type="radio"
-                       name="PhuongThuc"
-                       value="BANK_QR">
+            <!-- Dropdown: Danh sách ngân hàng -->
+            <div id="BankDropdown" class="bank-dropdown rounded mt-2 ms-4 my-2">
+                <label class="fw-bold small text-secondary">Chọn ngân hàng</label>
+                <input type="text" id="SearchBank" class="form-control mb-2" placeholder="Tìm ngân hàng...">
+
+                <div class="bank-select">
+                    <!-- Danh sách ngân hàng (30+ ngân hàng VN) -->
+                    <div class="bank-item" data-bank="VCB">Vietcombank</div>
+                    <div class="bank-item" data-bank="TCB">Techcombank</div>
+                    <div class="bank-item" data-bank="VTB">VietinBank</div>
+                    <div class="bank-item" data-bank="BIDV">BIDV</div>
+                    <div class="bank-item" data-bank="MBBANK">MB Bank</div>
+                    <div class="bank-item" data-bank="ACB">ACB</div>
+                    <div class="bank-item" data-bank="VPB">VPBank</div>
+                    <div class="bank-item" data-bank="VIB">VIB</div>
+                    <div class="bank-item" data-bank="MSB">MSB</div>
+                    <div class="bank-item" data-bank="HDB">HDBank</div>
+                    <div class="bank-item" data-bank="OCB">OCB</div>
+                    <div class="bank-item" data-bank="SCB">SCB</div>
+                    <div class="bank-item" data-bank="EIB">Eximbank</div>
+                    <div class="bank-item" data-bank="DAB">DongA Bank</div>
+                    <div class="bank-item" data-bank="SHB">SHB</div>
+                    <div class="bank-item" data-bank="TPB">TPBank</div>
+                    <div class="bank-item" data-bank="BAB">Bắc Á Bank</div>
+                    <div class="bank-item" data-bank="KLB">KienLongBank</div>
+                    <div class="bank-item" data-bank="SGB">SaigonBank</div>
+                    <div class="bank-item" data-bank="NAB">Nam Á Bank</div>
+                    <div class="bank-item" data-bank="PGB">PG Bank</div>
+                    <div class="bank-item" data-bank="VAB">VietABank</div>
+                    <div class="bank-item" data-bank="LPB">LienVietPostBank</div>
+                    <div class="bank-item" data-bank="SEA">SeABank</div>
+                    <div class="bank-item" data-bank="ABB">ABBank</div>
+                    <div class="bank-item" data-bank="BVB">BaoVietBank</div>
+                </div>
+            </div>
+            <div id="BankNextStep" class="BankNextStep mt-3 p-3 border rounded bg-white shadow-sm" style="display:none;">
+
+                <h5 class="fw-bold mb-2">Thông tin thanh toán</h5>
+
+                <p class="text-secondary small mb-3">
+                    Ngân hàng đã chọn:
+                    <span id="SelectedBankText" class="fw-bold text-primary"></span>
+                </p>
+
+                <!-- Thẻ thông tin thanh toán -->
+                <div class="p-3 border rounded bg-light mb-3">
+                    <div class="mb-2 d-flex align-items-center">
+                        <img src="~/Images/Footer/atm.png" style="height:20px" class="me-2" />
+                        <span class="fw-semibold">Thanh toán bằng Thẻ ATM / Tài khoản ngân hàng</span>
+                    </div>
+
+                    <div class="row g-2">
+                        <div class="col-md-6">
+                            <label class="form-label small">Số thẻ</label>
+                            <input type="text" class="form-control" placeholder="•••• •••• •••• ••••" />
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label small">Ngày hết hạn</label>
+                            <input type="text" class="form-control" placeholder="MM/YY" />
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label small">Mã CVV</label>
+                            <input type="password" class="form-control" placeholder="•••" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MoMo -->
+            <label class="list-group-item d-flex align-items-center py-3">
+                <input class="form-check-input me-3" type="radio" name="PhuongThuc" value="MOMO">
+                <img src="~/Images/Footer/logo-momo.jpg" style="height:24px" class="me-2" />
+                <span>Thanh toán qua MoMo</span>
+            </label>
+
+            <!-- ZaloPay -->
+            <label class="list-group-item d-flex align-items-center py-3">
+                <input class="form-check-input me-3" type="radio" name="PhuongThuc" value="ZALO">
+                <img src="~/Images/Footer/zalopay.png" style="height:24px" class="me-2" />
+                <span>Thanh toán qua ZaloPay</span>
+            </label>
+
+            <!-- QR chuyển khoản BANK_QR -->
+            <label class="list-group-item d-flex align-items-center pttt-qr py-3">
+                <input class="form-check-input me-3" type="radio" name="PhuongThuc" value="BANK_QR">
                 <span>Chuyển khoản QR Code</span>
+
                 <img class="qr-img ms-3"
                      src="~/Images/QR/QR.png"
                      style="display:none; max-width:200px; border-radius:6px;" />
             </label>
 
-
         </div>
     </div>
+
 
 
 
@@ -211,8 +375,12 @@
 
         <!-- Nút đặt hàng -->
         <div class="text-center mt-4">
-            <button type="button" class="btnDatHang btn btn-danger w-100 py-2 fw-bold text-uppercase">
-                Đặt hàng
+            @*<button type="button" class="btnDatHang btn btn-danger w-100 py-2 fw-bold text-uppercase">
+                    Đặt hàng
+                </button>*@
+
+            <button class=" btnDatHang btn btn-danger w-100 py-2 fw-bold text-uppercase">
+                <i class="bi bi-bag-check-fill me-2"></i>Đặt hàng
             </button>
         </div>
         <div class="text-center mt-4">
@@ -385,17 +553,61 @@
 
     });
 
-</script>
-<style>
-    .sanpham:hover {
-        background-color: gainsboro;
-        transition: 0.3s;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-    }
 
-    .KhuyenMai:hover {
-        background-color: darkgray;
-        transition: 0.3s;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-    }
-</style>
+// Xử lý ATM ngân hàng
+// ======================
+const atmOption = document.querySelector(".atm-option input[type='radio']");
+const bankDropdown = document.getElementById("BankDropdown");
+const bankItems = document.querySelectorAll(".bank-item");
+const bankNextStep = document.getElementById("BankNextStep");
+const selectedBankText = document.getElementById("SelectedBankText");
+const searchBank = document.getElementById("SearchBank");
+
+// Ẩn/hiện dropdown khi chọn phương thức thanh toán
+document.querySelectorAll("input[name='PhuongThuc']").forEach(radio => {
+    radio.addEventListener("change", function () {
+        if (this.value === "ATM") {
+            bankDropdown.style.display = "block";
+        } else {
+            bankDropdown.style.display = "none";
+            bankNextStep.style.display = "none";
+
+            // clear active class
+            bankItems.forEach(item => item.classList.remove("active"));
+            selectedBankText.textContent = "";
+        }
+    });
+});
+
+
+bankItems.forEach(item => {
+    item.addEventListener("click", function () {
+
+        // Bỏ active cũ
+        bankItems.forEach(i => i.classList.remove("active"));
+
+        // Set active mới
+        this.classList.add("active");
+
+        // Hiển thị lựa chọn
+        const bankName = this.textContent.trim();
+        selectedBankText.textContent = bankName;
+
+        // Hiện bước tiếp theo
+        bankDropdown.style.display = "none";
+        bankNextStep.style.display = "block";
+    });
+});
+
+
+searchBank.addEventListener("keyup", function () {
+    const keyword = this.value.toLowerCase();
+
+    bankItems.forEach(item => {
+        const text = item.textContent.toLowerCase();
+        item.style.display = text.includes(keyword) ? "block" : "none";
+    });
+});
+
+
+</script>
