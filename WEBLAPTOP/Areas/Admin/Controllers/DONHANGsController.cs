@@ -22,7 +22,10 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
         // GET: Admin/DONHANGs
         public async Task<ActionResult> Index()
         {
-            var dONHANGs = db.DONHANGs.Include(d => d.KHACHHANG).Include(d => d.KHUYENMAI);
+            var dONHANGs = db.DONHANGs
+                .Include(d => d.KHACHHANG)
+                .Include(d => d.KHUYENMAI)
+                .OrderByDescending(d => d.NgayLap);
             return View(await dONHANGs.ToListAsync());
         }
 
@@ -130,6 +133,7 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
                 .Include("KHACHHANG")
                 .Include("KHUYENMAI")
                 .Include("DONHANG_SANPHAM")
+                .OrderByDescending(d => d.NgayLap)
                 .ToList();
 
             ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;

@@ -5,6 +5,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using System.Web.Mvc;
 
     [Table("SANPHAM")]
     public partial class SANPHAM
@@ -37,6 +38,7 @@
         public int? GiaBan { get; set; }
 
         [StringLength(4000, ErrorMessage = "Mô tả tối đa 4000 ký tự")]
+        [AllowHtml] // <-- THÊM DÒNG NÀY TRÊN THUỘC TÍNH MOTA
         public string Mota { get; set; }
 
         [Required]

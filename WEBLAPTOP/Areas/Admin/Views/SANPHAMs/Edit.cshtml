@@ -120,8 +120,8 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="mb-3">
-                                    @Html.LabelFor(model => model.Mota, "Mô tả sản phẩm", htmlAttributes: new { @class = "form-label" })
-                                    @Html.TextAreaFor(model => model.Mota, new { @class = "form-control", @rows = 5 })
+                                    @Html.LabelFor(model => model.Mota, "Mô tả sản phẩm", htmlAttributes: new { @class = "form-label fw-bold fs-5" })
+                                    @Html.TextAreaFor(m => m.Mota, new { @class = "form-control", @id = "mota_summernote" })
                                     @Html.ValidationMessageFor(model => model.Mota, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -142,70 +142,89 @@
         </div>
     </div>
 </main>
-<script>
-    // Khi click nút "Chọn ảnh" → kích hoạt input file ẩn
-    document.querySelector('.Choicefile').addEventListener('click', function () {
-        document.getElementById('uploadfile').click();
-    });
 
-    // Hàm xem trước ảnh khi người dùng chọn file
-    // Hàm xem trước ảnh khi người dùng chọn file
-    function readURL(input) {
-        $('#thumbbox').empty(); // Xóa ảnh preview cũ
-
-        if (input.files && input.files.length > 0) {
-
-            // 1. Hiện nút "Xóa chọn lại" lên
-            $('.removeimg').show();
-
-            // 2. Lặp qua từng file để hiện ảnh
-            for (var i = 0; i < input.files.length; i++) {
-                var reader = new FileReader();
-
-                reader.onload = function (e) {
-                    // Tạo thẻ img với kích thước LỚN HƠN (150px)
-                    var img = $('<img>', {
-                        class: 'img-thumbnail m-2', // Thêm margin
-                        src: e.target.result,
-                        style: 'width: 150px; height: 150px; object-fit: cover;' // Tăng kích thước ở đây
-                    });
-                    $('#thumbbox').append(img);
-                }
-
-                reader.readAsDataURL(input.files[i]);
-            }
-        }
-    }
-
-    function clearImages() {
-        $('#uploadfile').val('');
-        $('#thumbbox').empty();
-        $('.removeimg').hide(); // Ẩn nút xóa đi cho gọn
-    }
-
-
-    function markForDeletion(btn, imgName) {
-        // 1. Ẩn ảnh đó đi (về mặt giao diện)
-        $(btn).parent().remove();
-
-        // 2. Thêm tên ảnh vào input hidden để gửi về Server
-        var currentDeleteList = $('#ImagesToDelete').val();
-        if (currentDeleteList === "") {
-            $('#ImagesToDelete').val(imgName);
-        } else {
-            $('#ImagesToDelete').val(currentDeleteList + "," + imgName);
-        }
-    }
-
-    // Nút Xóa ảnh
-    document.querySelector('.removeimg').addEventListener('click', function () {
-        const thumbImg = document.getElementById('thumbimage');
-        thumbImg.src = '#';
-        thumbImg.style.display = 'none';
-        document.getElementById('uploadfile').value = '';
-        this.style.display = 'none';
-    });
-</script>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // --- A. CẤU HÌNH SUMMERNOTE ---
+            $('#mota_summernote').summernote({
+                placeholder: 'Nhập mô tả chi tiết sản phẩm...',
+                tabsize: 2,
+
+                // --- SỬA Ở ĐÂY ---
+                height: 150, // Giảm từ 200 xuống 150 (hoặc số bạn thích)
+
+                // Tinh gọn toolbar lại cho đỡ to
+                toolbar: [
+                    ['style', ['bold', 'italic', 'underline']], // Gom nhóm font
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['insert', ['link', 'picture']], // Bỏ video nếu không cần
+                    ['view', ['codeview']] // Bỏ fullscreen, help
+                ]
+            });
+
+            // --- B. XỬ LÝ NÚT CHỌN ẢNH ---
+            $('.Choicefile').click(function () {
+                $('#uploadfile').click();
+            });
+        });
+
+        // --- C. CÁC HÀM XỬ LÝ ẢNH (Để ngoài document.ready) ---
+
+        function readURL(input) {
+            $('#thumbbox').empty();
+            if (input.files && input.files.length > 0) {
+                $('.removeimg').show();
+                for (var i = 0; i < input.files.length; i++) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        var img = $('<img>', {
+                            class: 'img-thumbnail m-2',
+                            src: e.target.result,
+                            style: 'width: 150px; height: 150px; object-fit: cover;'
+                        });
+                        $('#thumbbox').append(img);
+                    }
+                    reader.readAsDataURL(input.files[i]);
+                }
+            }
+        }
+
+        function clearImages() {
+            $('#uploadfile').val('');
+            $('#thumbbox').empty();
+            $('.removeimg').hide();
+        }
+
+        // Hàm xóa ảnh cũ (Dành cho trang Edit)
+        function markForDeletion(btn, imgName) {
+            $(btn).parent().remove();
+            var currentVal = $('#ImagesToDelete').val();
+            if (currentVal === "") $('#ImagesToDelete').val(imgName);
+            else $('#ImagesToDelete').val(currentVal + "," + imgName);
+        }
+    </script>
 }
+<style>
+    /* Chỉnh tiêu đề Label */
+    .form-label.fw-bold {
+        font-size: 18px; /* Cỡ chữ tùy chỉnh */
+        color: #333;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    /* Chỉnh khung Summernote nhỏ gọn lại */
+    .note-editor.note-frame {
+        border-radius: 5px;
+        box-shadow: none;
+        border: 1px solid #ced4da;
+    }
+</style>
