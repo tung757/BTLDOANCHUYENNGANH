@@ -50,11 +50,11 @@ $(document).ready(function () {
                 .then(response => response.json())
                 .then(data => {
                     let botMsg = (data.answer || "Bot không phản hồi.").replace(/\n/g, "<br>");
-                    $("#chatContent").append("<p><b>Bot:</b> " + botMsg + "</p>");
+                    $("#chatContent").append("<p><b>DarkTheStore:</b> " + botMsg + "</p>");
                     scrollToBottom();
                 })
                 .catch(err => {
-                    $("#chatContent").append("<p><b>Bot:</b> Lỗi kết nối đến server!</p>");
+                    $("#chatContent").append("<p><b>DarkTheStore:</b> Lỗi kết nối đến server!</p>");
                     scrollToBottom();
                 });
         }
