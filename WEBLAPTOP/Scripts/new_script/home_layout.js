@@ -32,16 +32,34 @@ $(document).ready(function () {
 
     function sendMessage() {
         let msg = $("#chatInput").val();
+
         if (msg.trim() !== "") {
+            // Hiển thị tin nhắn người dùng
             $("#chatContent").append("<p><b>Bạn:</b> " + msg + "</p>");
             $("#chatInput").val("");
             scrollToBottom();
-            setTimeout(function () {
-                $("#chatContent").append("<p><b>Bot:Chào bạn đây là tin nhắn trả lời tự động</b></p>");
-                scrollToBottom();
-            }, 500);
+
+            // Gửi request đến API
+            fetch("/api/advice", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ question: msg })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    let botMsg = (data.answer || "Bot không phản hồi.").replace(/\n/g, "<br>");
+                    $("#chatContent").append("<p><b>Bot:</b> " + botMsg + "</p>");
+                    scrollToBottom();
+                })
+                .catch(err => {
+                    $("#chatContent").append("<p><b>Bot:</b> Lỗi kết nối đến server!</p>");
+                    scrollToBottom();
+                });
         }
     }
+
 
     // Bấm nút gửi
     $("#sendBtn").click(sendMessage);
