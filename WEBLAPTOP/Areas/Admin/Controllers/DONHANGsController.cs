@@ -20,18 +20,30 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
         private DARKTHESTORE db = new DARKTHESTORE();
 
         // GET: Admin/DONHANGs
-        public async Task<ActionResult> Index(int page=1, int page_size=10, string search="")
+        public async Task<ActionResult> Index(int page = 1, int page_size = 10, string search = "")
         {
-            var dONHANGs = db.DONHANGs.Include(d => d.KHACHHANG).Include(d => d.KHUYENMAI);
-            if(search.Trim() != "")
+            // 1. BỎ OrderByDescending ở dòng này để biến dONHANGs là dạng IQueryable
+            var dONHANGs = db.DONHANGs.Include(d => d.KHACHHANG).Include(d => d.KHUYENMAI).AsQueryable();
+
+            // 2. Lọc dữ liệu (Search)
+            if (!string.IsNullOrEmpty(search)) // Dùng IsNullOrEmpty cho chuẩn
             {
-                dONHANGs = dONHANGs.Where(d => d.Ten.Contains(search) || d.SDT.Contains(search) || d.DiaChiGiaoHang.Contains(search) || d.TrangThai.Contains(search));
+                search = search.Trim();
+                dONHANGs = dONHANGs.Where(d => d.Ten.Contains(search) ||
+                                               d.SDT.Contains(search) ||
+                                               d.DiaChiGiaoHang.Contains(search) ||
+                                               d.TrangThai.Contains(search));
             }
+
+            // 3. Tính toán phân trang
             int total_items = await dONHANGs.CountAsync();
             int total_pages = (int)Math.Ceiling((double)total_items / page_size);
-            var result = dONHANGs.OrderBy(d => d.ID_DH)
-                .Skip((page - 1) * page_size)
-                .Take(page_size);
+
+            // 4. Sắp xếp VÀ Phân trang tại đây
+            var result = dONHANGs.OrderByDescending(d => d.NgayLap)
+                                 .Skip((page - 1) * page_size)
+                                 .Take(page_size)
+                                 .ToList(); // Thêm ToList để thực thi query
 
             ViewBag.Page = page;
             ViewBag.TotalPages = total_pages;
@@ -143,6 +155,7 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
                 .Include("KHACHHANG")
                 .Include("KHUYENMAI")
                 .Include("DONHANG_SANPHAM")
+                .OrderByDescending(d => d.NgayLap)
                 .ToList();
 
             ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;

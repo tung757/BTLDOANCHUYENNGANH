@@ -21,26 +21,35 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
         private DARKTHESTORE db = new DARKTHESTORE();
 
         // GET: Admin/SANPHAMs
-        public async Task<ActionResult> Index(int page = 1, int page_size = 6, string search="")
+        public async Task<ActionResult> Index(int page = 1, int page_size = 6, string search = "")
         {
-            var query = db.SANPHAMs.Include(s => s.DANHMUC);
+            // 1. Khởi tạo query
+            var query = db.SANPHAMs.Include(s => s.DANHMUC).AsQueryable();
 
-            int total_items = await query.CountAsync();
-            if (search.Trim() != "")
+            // 2. LỌC DỮ LIỆU TRƯỚC (QUAN TRỌNG: Phải lọc xong mới đếm)
+            if (!string.IsNullOrEmpty(search)) // Kiểm tra null an toàn
             {
+                search = search.Trim();
                 query = query.Where(sp => sp.TenSP.Contains(search));
             }
+
+            // 3. ĐẾM (Đếm trên danh sách đã lọc)
+            int total_items = await query.CountAsync();
+
+            // 4. Tính toán số trang
             int total_pages = (int)Math.Ceiling((double)total_items / page_size);
 
-            //order
+            // 5. Sắp xếp và Phân trang (Lấy dữ liệu để hiển thị)
             var results_page = await query
-                .OrderBy(sp => sp.TenSP)
+                .OrderBy(sp => sp.TenSP) // Sắp xếp
                 .Skip((page - 1) * page_size)
                 .Take(page_size)
                 .ToListAsync();
 
+            // 6. Gán ViewBag (Để bên View không bị lỗi null)
             ViewBag.Page = page;
             ViewBag.TotalPages = total_pages;
+            ViewBag.Search = search; // Gán thêm cái này để giữ lại từ khóa tìm kiếm trên ô input (nếu cần)
 
             return View(results_page);
         }

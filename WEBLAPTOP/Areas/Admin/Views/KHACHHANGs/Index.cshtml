@@ -32,13 +32,16 @@
                             </a>
                         </div>
                         <!-- Thanh tìm kiếm bên phải -->
-                        <div class="col-sm-6 text-end float-end">
-                            <div>
-                                <form method="get" action="@Url.Action("Index", "KHACHHANGs")">
-                                    <input type="text" name="search" class="form-control"
-                                           placeholder="Tìm kiếm sản phẩm..." style="max-width:250px; display:inline-block;">
-                                </form>
-                            </div>
+                        <div class="col-sm-6" style="float: right; text-align: right; margin-left: auto;">
+                            <form method="get" action="@Url.Action("Index", "SANPHAMs")" style="display: inline-block;">
+                                <div class="input-group">
+                                    <input type="text" name="search"
+                                           value="@ViewBag.Search"
+                                           class="form-control"
+                                           placeholder="Tìm kiếm sản phẩm..."
+                                           style="width: 250px; border-radius: 4px;">
+                                </div>
+                            </form>
                         </div>
                     </div>
 
