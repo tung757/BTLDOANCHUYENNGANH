@@ -97,10 +97,19 @@
             <div class="row border mb-2 sanpham p-1" data-idsp="@item.ID_SP" data-giaban="@item.GiaBan">
                 <div class="col-2 text-center">
                     <a href="#">
-                        <img src="~/Images/Product_images/@item.Images_url"
-                             alt="@item.Images_url"
-                             class="img-fluid rounded"
-                             style="max-height:100px" />
+                        @{
+                            var imagePaths = item.Images_url.Split(';');
+                            var imagelink = imagePaths[0];
+                            var imagePath = !string.IsNullOrEmpty(imagelink)
+                                                ? "~/Images/Product_images/" + imagelink
+                                                : "~/Images/no-image.png";
+                            <img src="@Url.Content(imagePath)"
+                                 alt="@item.Images_url"
+                                 class="img-fluid rounded"
+                                 style="max-height:100px" />
+                        }
+
+
                     </a>
                 </div>
 
