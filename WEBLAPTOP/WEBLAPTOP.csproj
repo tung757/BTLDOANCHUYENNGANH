@@ -310,6 +310,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Images\Footer\as.png" />
+    <Content Include="Images\Footer\atm.png" />
     <Content Include="Images\Footer\fb.png" />
     <Content Include="Images\Footer\gg.png" />
     <Content Include="Images\Footer\logo-momo.jpg" />

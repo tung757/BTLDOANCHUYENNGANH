@@ -30,8 +30,7 @@ namespace WEBLAPTOP.Controllers.Api
                 CÂU HỎI KHÁCH HÀNG:
                 {request.Question}
 
-                TRẢ LỜI CHI TIẾT, CHUYÊN NGHIỆP:";
-
+                TRẢ LỜI CHI TIẾT VÀ KHÔNG CÓ DẤU * , NGẮN GỌN:";
             try
             {
                 string answer = await ChatGPTService.Ask(prompt);
