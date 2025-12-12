@@ -241,9 +241,11 @@
                 <div class="cart-item">
                     <div class="item-image">
                         @{
-                            var imagePath = !string.IsNullOrEmpty(item.Images_url)
-                                ? "~/Images/Product_images/" + item.Images_url
-                                : "~/Images/no-image.png";
+                            var imagePaths = item.Images_url.Split(';');
+                            var imagelink= imagePaths[0];
+                            var imagePath = !string.IsNullOrEmpty(imagelink)
+                                                ? "~/Images/Product_images/" + imagelink
+                                                : "~/Images/no-image.png";
                         }
                         <img src="@Url.Content(imagePath)" alt="@item.TenSP" />
                     </div>
