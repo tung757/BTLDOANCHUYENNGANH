@@ -121,6 +121,7 @@
                 <!-- Số lượng -->
                 <div class="col-2 d-flex justify-content-center align-items-center ">
                     <input class="form-control text-center input-soluong"
+                           disabled="true"
                            type="number"
                            min="1"
                            value="@item.SoLuong"
@@ -432,9 +433,14 @@
                 IDMaKM = item.dataset.idkm;
                 DSKhuyenMai.style.display = "none";
                 // Tính tien
-                var GiamGia1 = parseFloat(item.dataset.giamgia) / 100 * TongTien;
-                var canTT = TongTien - GiamGia1;
-
+                if (item.dataset.giamgia < 100) {
+                    var GiamGia1 = parseFloat(item.dataset.giamgia) / 100 * TongTien;
+                    var canTT = TongTien - GiamGia1;
+                }
+                else {
+                    var GiamGia1 = parseFloat(item.dataset.giamgia);
+                    var canTT = TongTien - GiamGia1;
+                }
                 voucher.textContent = `-${GiamGia1.toLocaleString('vi-VN')} đ`;
                 CanThanhToan.textContent = formatVN(canTT);
 

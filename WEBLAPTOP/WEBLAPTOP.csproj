@@ -317,11 +317,13 @@
     <Content Include="Images\Footer\tiktok.png" />
     <Content Include="Images\Icon\icondn2.png" />
     <Content Include="Images\Icon\iconlogin.png" />
+    <Content Include="Images\Logo\categories2.jpg" />
     <Content Include="Images\Logo\banner1.jpg" />
     <Content Include="Images\Logo\banner2.jpg" />
     <Content Include="Images\Logo\banner3.jpg" />
     <Content Include="Images\Logo\banner5.jpg" />
     <Content Include="Images\Logo\banner6.jpg" />
+    <Content Include="Images\Logo\categories1.jpg" />
     <Content Include="Images\Logo\logodarkthestore.jpg" />
     <Content Include="Images\Logo\logodarkthestorepreview.png" />
     <Content Include="Images\Logo\logonew.png" />
