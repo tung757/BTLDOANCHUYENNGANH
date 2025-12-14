@@ -8,7 +8,8 @@
 <script>
     var imageBaseUrl = '@Url.Content("~/Images/Product_images/")';
     var base_link = '@Url.Action("Index", "Product")';
-    var base_link_cart='@Url.Action("AddToCart", "Cart")';
+    var base_link_cart = '@Url.Action("AddToCart", "Cart")';
+    var base_link_quickbuy = '@Url.Action("QuickBuy", "PayBills")';
 </script>
 <link rel="stylesheet" href="~/Content/new_css/product_style.css" />
 <div class="d-flex justify-content-center">
@@ -215,7 +216,7 @@
                                     <button class="btn btn-outline-warning flex-grow-1" id="btn_add_cart">
                                         <i class="bi bi-cart-plus"></i>
                                     </button>
-                                    <button class="btn btn-warning flex-grow-1 fw-bold">
+                                    <button class="btn btn-warning flex-grow-1 fw-bold" id="quick_buy">
                                         Mua ngay
                                     </button>
                                 </div>
