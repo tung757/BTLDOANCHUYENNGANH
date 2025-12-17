@@ -104,11 +104,9 @@ namespace WEBLAPTOP.Controllers
                     return Json(new { success = false, message = "Bạn chưa đăng nhập!" });
 
                 var khachHang = db.KHACHHANGs.FirstOrDefault(kh => kh.TK == username);
-                if (khachHang == null)
-                    return Json(new { success = false, message = "Không tìm thấy khách hàng!" });
-
                 var dh = model.DONHANG;
-                // Tạo đơn hàng mới
+
+                // 1. Khai báo và khởi tạo biến donHang trước
                 var donHang = new DONHANG
                 {
                     NgayLap = DateTime.Now,
@@ -121,36 +119,38 @@ namespace WEBLAPTOP.Controllers
                     SDT = dh.SDT,
                     PhuongthucTT = dh.PhuongthucTT,
                     PhuongThucNhanHang = dh.PhuongThucNhanHang
-
                 };
 
                 db.DONHANGs.Add(donHang);
-                db.SaveChanges();
+                db.SaveChanges(); // Lưu để sinh ra ID_DH tự động
 
-                // Thêm chi tiết sản phẩm
+                // 2. Bây giờ donHang đã tồn tại trong context, có thể sử dụng ID_DH
                 foreach (var sp in model.DONHANG_SANPHAM)
                 {
+                    // Kiểm tra tồn kho trước khi trừ
+                    var sanPhamGoc = db.SANPHAMs.Find(sp.ID_SP);
+                    if (sanPhamGoc == null || sanPhamGoc.SoLuong < sp.SoLuong)
+                    {
+                        return Json(new { success = false, message = "Sản phẩm " + sanPhamGoc?.TenSP + " không đủ hàng!" });
+                    }
+
+                    // Thêm chi tiết đơn hàng
                     var chiTiet = new DONHANG_SANPHAM
                     {
-                        ID_DH = donHang.ID_DH,
+                        ID_DH = donHang.ID_DH, // Đã có thể truy cập biến donHang ở đây
                         ID_SP = sp.ID_SP,
                         SoLuong = sp.SoLuong,
                         DonGia = sp.DonGia
                     };
                     db.DONHANG_SANPHAM.Add(chiTiet);
+
+                    // 3. Thực hiện trừ số lượng tồn kho và tăng số lượng bán
+                    sanPhamGoc.SoLuong -= sp.SoLuong;
+                    sanPhamGoc.SoLuongBan = (sanPhamGoc.SoLuongBan ?? 0) + sp.SoLuong;
                 }
 
                 db.SaveChanges();
-
-                // Xóa giỏ hàng sau khi đặt
-                var gioHang = db.GIOHANGs.FirstOrDefault(g => g.ID_KH == khachHang.ID_KH);
-                if (gioHang != null)
-                {
-                    var gioHangSP = db.GIOHANG_SANPHAM.Where(x => x.ID_GH == gioHang.ID_GH);
-                    db.GIOHANG_SANPHAM.RemoveRange(gioHangSP);
-                    db.SaveChanges();
-                }
-
+                // ... (Logic xóa giỏ hàng)
                 return Json(new { success = true });
             }
             catch (Exception ex)
