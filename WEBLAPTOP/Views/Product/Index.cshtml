@@ -153,7 +153,7 @@
 
 
                         <div class="d-flex align-items-center mb-1">
-                            <span class="fw-bold text-warning me-2" style="font-size: 1.1rem;">@sp.GiaBan</span>
+                            <span class="fw-bold text-warning me-2" style="font-size: 1.1rem;">@Convert.ToDecimal(sp.GiaBan).ToString("C0", System.Globalization.CultureInfo.GetCultureInfo("vi-VN"))</span>
                             <span class="badge bg-warning text-dark">-@sell %</span>
                         </div>
 

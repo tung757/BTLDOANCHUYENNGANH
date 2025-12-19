@@ -8,53 +8,58 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <div class="tile">
-                <div class="tile-body">
+            <div class="tile" style="margin-bottom: 10px;">
+                <div class="tile-body" >
 
-                    <div class="row element-button">
-                        <div class="col-sm-2">
-                            <a class="btn btn-delete btn-sm print-file" title="In" onclick="window.print()">
-                                <i class="fa fa-print"></i> In dữ liệu
-                            </a>
-                        </div>
-                        <div class="col-sm-2">
-                            <a class="btn btn-excel btn-sm" href="@Url.Action("ExportToExcel", "DONHANGs")">
-                                <i class="fa fa-file-excel-o"></i> Xuất Excel
-                            </a>
-                        </div>
-                        <div class="col-sm-2">
-                            <a class="btn btn-delete btn-sm pdf-file" href="@Url.Action("ExportToPDF", "DONHANGs")">
-                                <i class="fa fa-file-pdf-o"></i> Xuất PDF
-                            </a>
-                        </div>
-                        <!-- Thanh tìm kiếm bên phải -->
-                        <div class="col-sm-6" style="float: right; text-align: right; margin-left: auto;">
-                            <form method="get" action="@Url.Action("Index", "SANPHAMs")" style="display: inline-block;">
-                                <div class="input-group">
-                                    <input type="text" name="search"
-                                           value="@ViewBag.Search"
-                                           class="form-control"
-                                           placeholder="Tìm kiếm sản phẩm..."
-                                           style="width: 250px; border-radius: 4px;">
-                                </div>
-                            </form>
+                    @*header*@
+                    <div style="margin: 0px;">
+                        <div class="row element-button">
+                            <div class="col-sm-2">
+                                <a class="btn btn-delete btn-sm print-file" title="In" onclick="window.print()">
+                                    <i class="fa fa-print"></i> In dữ liệu
+                                </a>
+                            </div>
+                            <div class="col-sm-2">
+                                <a class="btn btn-excel btn-sm" href="@Url.Action("ExportToExcel", "DONHANGs")">
+                                    <i class="fa fa-file-excel-o"></i> Xuất Excel
+                                </a>
+                            </div>
+                            <div class="col-sm-2">
+                                <a class="btn btn-delete btn-sm pdf-file" href="@Url.Action("ExportToPDF", "DONHANGs")">
+                                    <i class="fa fa-file-pdf-o"></i> Xuất PDF
+                                </a>
+                            </div>
+                            <!-- Thanh tìm kiếm bên phải -->
+                            <div class="col-sm-6" style="float: right; text-align: right; margin-left: auto;">
+                                <form method="get" action="@Url.Action("Index", "SANPHAMs")" style="display: inline-block;">
+                                    <div class="input-group">
+                                        <input type="text" name="search"
+                                               value="@ViewBag.Search"
+                                               class="form-control"
+                                               placeholder="Tìm kiếm sản phẩm..."
+                                               style="width: 250px; border-radius: 4px;">
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
 
+                    @*body*@
+                <div style="max-height: 450px; overflow: auto;">
                     <table class="table table-hover table-bordered" id="sampleTable">
-                        <thead class="table-light">
-                            <tr>
-                                <th width="10"><input type="checkbox" id="all"></th>
-                                <th>Tên Khách Hàng</th>
-                                <th>Ngày lập</th>
-                                <th>Ghi chú</th>
-                                <th>Tên người đặt</th>
-                                <th>Địa chỉ giao hàng</th>
-                                <th>Số điện thoại</th>
-                                <th>Phương thức thanh toán</th>
-                                <th>Phương thức nhận hàng</th>
-                                <th style="min-width: 150px;">Trạng thái</th>
-                                <th>Chức năng</th>
+                        <thead class="table-light"  style="margin: 0px; position: sticky; top: 0px;">
+                            <tr style="top: 0px;">
+                                <th style="top: 0px;" width="10"><input type="checkbox" id="all"></th>
+                                <th style="top: 0px;">Tên Khách Hàng</th>
+                                <th style="top: 0px;">Ngày lập</th>
+                                <th style="top: 0px;">Ghi chú</th>
+                                <th style="top: 0px;">Tên người đặt</th>
+                                <th style="top: 0px;">Địa chỉ giao hàng</th>
+                                <th style="top: 0px;">Số điện thoại</th>
+                                <th style="top: 0px;">Phương thức thanh toán</th>
+                                <th style="top: 0px;">Phương thức nhận hàng</th>
+                                <th style="min-width: 150px; top: 0px;">Trạng thái</th>
+                                <th style="top: 0px;">Chức năng</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -112,12 +117,13 @@
                             }
                         </tbody>
                     </table>
+                </div>
 
                 </div>
             </div>
         </div>
     </div>
-    <div class="row mt-3">
+    <div class="row">
         <div class="col-md-12 text-center">
             <nav>
                 <ul class="pagination justify-content-center">
