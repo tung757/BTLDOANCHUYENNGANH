@@ -132,11 +132,8 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
 
                             // 2. Nếu đơn này trước đó đã là "Đã giao" (tức là đã cộng số bán rồi),
                             // thì giờ huỷ phải TRỪ bớt số lượng bán đi.
-                            if (trangThaiCu == "Đã giao")
-                            {
                                 sanPham.SoLuongBan = (sanPham.SoLuongBan ?? 0) - item.SoLuong;
                                 if (sanPham.SoLuongBan < 0) sanPham.SoLuongBan = 0;
-                            }
                         }
                     }
                 }

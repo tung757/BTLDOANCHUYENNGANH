@@ -77,7 +77,9 @@
                                         <td>@item.MaSP</td>
                                         <td>@item.TenSP</td>
                                         <td>@item.Gia</td>
-                                        <td class="one-line">@item.Mota</td>
+                                        <td class="one-line" style="max-width: 250px;" title="@item.Mota">
+                                            @Html.Raw(item.Mota)
+                                        </td>
                                         <td>
                                             @if (!string.IsNullOrEmpty(item.Images_url) && item.Images_url != "default.jpg")
                                             {
@@ -252,6 +254,20 @@
 </body>
 
 <style>
+
+    .one-line {
+        white-space: nowrap; /* Không cho xuống dòng */
+        overflow: hidden; /* Ẩn phần thừa */
+        text-overflow: ellipsis; /* Thêm dấu ... vào cuối */
+    }
+
+        /* Quan trọng: Xử lý thẻ <p> của Summernote bên trong */
+        .one-line * {
+            display: inline !important; /* Biến thẻ p thành thẻ thường để không bị xuống dòng */
+            margin: 0 !important; /* Xóa khoảng cách dòng thừa */
+            padding: 0 !important;
+        }
+
 /*Text elipssia*/
 
 
