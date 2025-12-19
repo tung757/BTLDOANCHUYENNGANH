@@ -72,7 +72,6 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
             }
             return View(dONHANG);
         }
-
         [HttpPost]
         public async Task<JsonResult> UpdateTrangThai(int id, string trangThai)
         {
@@ -84,13 +83,65 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
                     return Json(new { success = false, message = "Trạng thái không hợp lệ." });
                 }
 
-                var dONHANG = await db.DONHANGs.FindAsync(id);
+                // --- SỬA 1: Dùng tên chính xác "DONHANG_SANPHAM" trong Include ---
+                var dONHANG = await db.DONHANGs.Include("DONHANG_SANPHAM")
+                                               .FirstOrDefaultAsync(x => x.ID_DH == id);
 
                 if (dONHANG == null)
                 {
                     return Json(new { success = false, message = "Không tìm thấy đơn hàng." });
                 }
 
+                string trangThaiCu = dONHANG.TrangThai;
+
+                // Nếu trạng thái không đổi thì dừng luôn
+                if (trangThaiCu == trangThai)
+                {
+                    return Json(new { success = true });
+                }
+
+                // --- SỬA 2: Lấy danh sách từ thuộc tính DONHANG_SANPHAM ---
+                var danhSachSP = dONHANG.DONHANG_SANPHAM;
+
+                // === LOGIC CẬP NHẬT KHO / SỐ LƯỢNG BÁN ===
+
+                // A. Nếu chuyển SANG "Đã giao" -> Tăng số lượng bán
+                if (trangThai == "Đã giao" && trangThaiCu != "Đã giao")
+                {
+                    foreach (var item in danhSachSP)
+                    {
+                        var sanPham = await db.SANPHAMs.FindAsync(item.ID_SP);
+                        if (sanPham != null)
+                        {
+                            // Lưu ý: item.SoLuong là số lượng trong chi tiết đơn. 
+                            // Nếu bạn đặt tên là SoLuongMua thì sửa chữ SoLuong thành SoLuongMua nhé.
+                            sanPham.SoLuongBan = (sanPham.SoLuongBan ?? 0) + item.SoLuong;
+                        }
+                    }
+                }
+                // B. Nếu chuyển SANG "Đã huỷ" -> Hoàn lại kho (Tăng tồn kho)
+                else if (trangThai == "Đã huỷ" && trangThaiCu != "Đã huỷ")
+                {
+                    foreach (var item in danhSachSP)
+                    {
+                        var sanPham = await db.SANPHAMs.FindAsync(item.ID_SP);
+                        if (sanPham != null)
+                        {
+                            // 1. Hoàn kho (Cộng lại số lượng tồn)
+                            sanPham.SoLuong = (sanPham.SoLuong ?? 0) + item.SoLuong;
+
+                            // 2. Nếu đơn này trước đó đã là "Đã giao" (tức là đã cộng số bán rồi),
+                            // thì giờ huỷ phải TRỪ bớt số lượng bán đi.
+                            if (trangThaiCu == "Đã giao")
+                            {
+                                sanPham.SoLuongBan = (sanPham.SoLuongBan ?? 0) - item.SoLuong;
+                                if (sanPham.SoLuongBan < 0) sanPham.SoLuongBan = 0;
+                            }
+                        }
+                    }
+                }
+
+                // Cập nhật trạng thái mới và lưu DB
                 dONHANG.TrangThai = trangThai;
                 await db.SaveChangesAsync();
 
@@ -98,7 +149,7 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new { success = false, message = "Đã xảy ra lỗi hệ thống: " + ex.Message });
+                return Json(new { success = false, message = "Lỗi hệ thống: " + ex.Message });
             }
         }
 
