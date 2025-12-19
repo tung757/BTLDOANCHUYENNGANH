@@ -289,6 +289,18 @@
             background-color: white;
         }
     }
+    .one-line {
+        white-space: nowrap; /* Không cho xuống dòng */
+        overflow: hidden; /* Ẩn phần thừa */
+        text-overflow: ellipsis; /* Thêm dấu ... vào cuối */
+    }
+
+        /* Quan trọng: Xử lý thẻ <p> của Summernote bên trong */
+        .one-line * {
+            display: inline !important; /* Biến thẻ p thành thẻ thường để không bị xuống dòng */
+            margin: 0 !important; /* Xóa khoảng cách dòng thừa */
+            padding: 0 !important;
+        }
 </style>
 
 

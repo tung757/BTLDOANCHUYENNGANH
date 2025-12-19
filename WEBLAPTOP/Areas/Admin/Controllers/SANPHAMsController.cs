@@ -26,30 +26,30 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
             // 1. Khởi tạo query
             var query = db.SANPHAMs.Include(s => s.DANHMUC).AsQueryable();
 
-            // 2. LỌC DỮ LIỆU TRƯỚC (QUAN TRỌNG: Phải lọc xong mới đếm)
-            if (!string.IsNullOrEmpty(search)) // Kiểm tra null an toàn
+            // 2. LỌC DỮ LIỆU TRƯỚC
+            if (!string.IsNullOrEmpty(search))
             {
                 search = search.Trim();
                 query = query.Where(sp => sp.TenSP.Contains(search));
             }
 
-            // 3. ĐẾM (Đếm trên danh sách đã lọc)
+            // 3. ĐẾM (Đếm trên danh sách đã lọc để tính trang)
             int total_items = await query.CountAsync();
 
             // 4. Tính toán số trang
             int total_pages = (int)Math.Ceiling((double)total_items / page_size);
 
-            // 5. Sắp xếp và Phân trang (Lấy dữ liệu để hiển thị)
+            // 5. Sắp xếp và Phân trang
             var results_page = await query
-                .OrderBy(sp => sp.TenSP) // Sắp xếp
+                .OrderByDescending(sp => sp.NgayTao)
                 .Skip((page - 1) * page_size)
                 .Take(page_size)
                 .ToListAsync();
 
-            // 6. Gán ViewBag (Để bên View không bị lỗi null)
+            // 6. Gán ViewBag
             ViewBag.Page = page;
             ViewBag.TotalPages = total_pages;
-            ViewBag.Search = search; // Gán thêm cái này để giữ lại từ khóa tìm kiếm trên ô input (nếu cần)
+            ViewBag.Search = search;
 
             return View(results_page);
         }
@@ -79,9 +79,9 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
         public async Task<ActionResult> Create([Bind(Include = "ID_SP,MaSP,TenSP,Gia,GiaBan,Mota,Status_SP,NgayTao,SoLuong,SoLuongBan,ID_DM")] SANPHAM sANPHAM, IEnumerable<HttpPostedFileBase> ImagesFile)
         {
-            // ... (Phần kiểm tra trùng Mã SP giữ nguyên) ...
 
             if (ModelState.IsValid)
             {
@@ -96,10 +96,9 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
                     string productName = sANPHAM.TenSP ?? "san-pham";
 
                     // 2. "Làm sạch" tên (Tiếng Việt có dấu -> không dấu, khoảng trắng -> gạch ngang)
-                    // Bạn có thể dùng hàm chuyển đổi Tiếng Việt không dấu nếu muốn kỹ hơn
                     string invalidChars = new string(Path.GetInvalidFileNameChars());
                     string sanitizedName = new string(productName.Where(ch => !invalidChars.Contains(ch)).ToArray())
-                                            .Replace(" ", "-").ToLower(); // Ví dụ: "Laptop Dell" -> "laptop-dell"
+                                            .Replace(" ", "-").ToLower();
 
                     string folderPath = Server.MapPath("~/Images/Product_images/");
                     if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
@@ -268,7 +267,6 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
             if (sANPHAM == null)
                 return HttpNotFound();
 
-            // Ghi chú: Bạn có thể thêm logic xóa file ảnh ở đây
             if (!string.IsNullOrEmpty(sANPHAM.Images_url))
             {
                 string absolutePath = Server.MapPath(sANPHAM.Images_url);
@@ -299,12 +297,12 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
                 worksheet.Cells[1, 1].Value = "ID";
                 worksheet.Cells[1, 2].Value = "Mã SP";
                 worksheet.Cells[1, 3].Value = "Tên Sản Phẩm";
-                worksheet.Cells[1, 4].Value = "Danh Mục";       // Thay vì hiện ID_DM, ta hiện Tên DM
-                worksheet.Cells[1, 5].Value = "Giá Nhập";       // Thuộc tính 'Gia'
-                worksheet.Cells[1, 6].Value = "Giá Bán";        // Thuộc tính 'GiaBan'
-                worksheet.Cells[1, 7].Value = "Số Lượng Tồn";   // Thuộc tính 'SoLuong'
-                worksheet.Cells[1, 8].Value = "Số Lượng Bán";   // Thuộc tính 'SoLuongBan'
-                worksheet.Cells[1, 9].Value = "Ngày Tạo";       // Thuộc tính 'NgayTao'
+                worksheet.Cells[1, 4].Value = "Danh Mục";       
+                worksheet.Cells[1, 5].Value = "Giá Nhập";       
+                worksheet.Cells[1, 6].Value = "Giá Bán";        
+                worksheet.Cells[1, 7].Value = "Số Lượng Tồn";   
+                worksheet.Cells[1, 8].Value = "Số Lượng Bán";  
+                worksheet.Cells[1, 9].Value = "Ngày Tạo";      
                 worksheet.Cells[1, 10].Value = "Mô Tả";
 
                 using (var range = worksheet.Cells[1, 1, 1, 10])
