@@ -12,98 +12,104 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <div class="tile">
-                <div class="tile-body">
+            <div class="tile" style="margin-bottom: 10px;">
+                <div class="tile-body" >
 
-                    <div class="row element-button">
-                        <div class="col-sm-2">
-                            <a class="btn btn-delete btn-sm print-file" title="In" onclick="window.print()">
-                                <i class="fa fa-print"></i> In dữ liệu
-                            </a>
-                        </div>
-                        <div class="col-sm-2">
-                            <a class="btn btn-excel btn-sm" href="@Url.Action("ExportToExcel", "KHACHHANGs")">
-                                <i class="fa fa-file-excel-o"></i> Xuất Excel
-                            </a>
-                        </div>
-                        <div class="col-sm-2">
-                            <a class="btn btn-delete btn-sm pdf-file" href="@Url.Action("ExportToPDF", "KHACHHANGs")">
-                                <i class="fa fa-file-pdf-o"></i> Xuất PDF
-                            </a>
-                        </div>
-                        <!-- Thanh tìm kiếm bên phải -->
-                        <div class="col-sm-6" style="float: right; text-align: right; margin-left: auto;">
-                            <form method="get" action="@Url.Action("Index", "SANPHAMs")" style="display: inline-block;">
-                                <div class="input-group">
-                                    <input type="text" name="search"
-                                           value="@ViewBag.Search"
-                                           class="form-control"
-                                           placeholder="Tìm kiếm sản phẩm..."
-                                           style="width: 250px; border-radius: 4px;">
-                                </div>
-                            </form>
+                    @*headerbutton*@
+                    <div style="margin: 0px;">
+                        <div class="row element-button">
+                            <div class="col-sm-2">
+                                <a class="btn btn-delete btn-sm print-file" title="In" onclick="window.print()">
+                                    <i class="fa fa-print"></i> In dữ liệu
+                                </a>
+                            </div>
+                            <div class="col-sm-2">
+                                <a class="btn btn-excel btn-sm" href="@Url.Action("ExportToExcel", "KHACHHANGs")">
+                                    <i class="fa fa-file-excel-o"></i> Xuất Excel
+                                </a>
+                            </div>
+                            <div class="col-sm-2">
+                                <a class="btn btn-delete btn-sm pdf-file" href="@Url.Action("ExportToPDF", "KHACHHANGs")">
+                                    <i class="fa fa-file-pdf-o"></i> Xuất PDF
+                                </a>
+                            </div>
+                            <!-- Thanh tìm kiếm bên phải -->
+                            <div class="col-sm-6" style="float: right; text-align: right; margin-left: auto;">
+                                <form method="get" action="@Url.Action("Index", "SANPHAMs")" style="display: inline-block;">
+                                    <div class="input-group">
+                                        <input type="text" name="search"
+                                               value="@ViewBag.Search"
+                                               class="form-control"
+                                               placeholder="Tìm kiếm sản phẩm..."
+                                               style="width: 250px; border-radius: 4px;">
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
 
-                    <table class="table table-hover table-bordered" id="sampleTable">
-                        <thead class="table-light">
-                            <tr>
-                                <th width="10"><input type="checkbox" id="all"></th>
-                                <th>Tên khách hàng</th>
-                                <th>Địa chỉ</th>
-                                <th>Số điện thoại</th>
-                                <th>Giới tính</th>
-                                <th>Ngày sinh</th>
-                                <th>Email</th>
-                                <th>Tài khoản</th>
-                                <th>Phân quyền</th>
-                                <th>Chức năng</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td><input type="checkbox" name="check1" value="@item.ID_KH"></td>
-                                    <td>@Html.DisplayFor(modelItem => item.TenKH)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.DiaChi)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.SDT)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.GioTinh)</td>
-                                    <td>@(item.NgaySinh.HasValue ? item.NgaySinh.Value.ToString("dd/MM/yyyy") : "")</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Email)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.TK)</td>
-                                    <td>
-                                        @if (item.PhanQuyen == 1)
-                                        {<span class="badge bg-danger">Admin</span> }
-                                        else
-                                        { <span class="badge bg-info">Khách hàng</span>}
-                                    </td>
-                                    <td class="text-center">
-                                        <a class="btn btn-info btn-sm" title="Chi tiết"
-                                           href="@Url.Action("Details", "KHACHHANGs", new { id = item.ID_KH })">
-                                            <i class="fa fa-eye"></i>
-                                        </a>
-
-                                        <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
-                                                onclick="confirmDelete(@item.ID_KH)">
-                                            <i class="fa fa-trash"></i>
-                                        </button>
-
-                                        <a class="btn btn-warning btn-sm edit" title="Sửa"
-                                           href="@Url.Action("Edit", "KHACHHANGs", new { id = item.ID_KH })">
-                                            <i class="fa fa-pencil-square-o"></i>
-                                        </a>
-                                    </td>
+                    @*body*@
+                    <div style="max-height: 450px; overflow: auto;">
+                        <table class="table table-hover table-bordered" id="sampleTable">
+                            <thead class="table-light" style="margin: 0px; position: sticky; top: 0px;">
+                                <tr style="top: 0px;">
+                                    <th width="10" style="top: 0px;"><input type="checkbox" id="all"></th>
+                                    <th style="top: 0px;">Tên khách hàng</th>
+                                    <th style="top: 0px;">Địa chỉ</th>
+                                    <th style="top: 0px;">Số điện thoại</th>
+                                    <th style="top: 0px;">Giới tính</th>
+                                    <th style="top: 0px;">Ngày sinh</th>
+                                    <th style="top: 0px;">Email</th>
+                                    <th style="top: 0px;">Tài khoản</th>
+                                    <th style="top: 0px;">Phân quyền</th>
+                                    <th style="top: 0px;">Chức năng</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td><input type="checkbox" name="check1" value="@item.ID_KH"></td>
+                                        <td>@Html.DisplayFor(modelItem => item.TenKH)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.DiaChi)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.SDT)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.GioTinh)</td>
+                                        <td>@(item.NgaySinh.HasValue ? item.NgaySinh.Value.ToString("dd/MM/yyyy") : "")</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.TK)</td>
+                                        <td>
+                                            @if (item.PhanQuyen == 1)
+                                            {<span class="badge bg-danger">Admin</span> }
+                                            else
+                                            { <span class="badge bg-info">Khách hàng</span>}
+                                        </td>
+                                        <td class="text-center">
+                                            <a class="btn btn-info btn-sm" title="Chi tiết"
+                                               href="@Url.Action("Details", "KHACHHANGs", new { id = item.ID_KH })">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
+
+                                            <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
+                                                    onclick="confirmDelete(@item.ID_KH)">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+
+                                            <a class="btn btn-warning btn-sm edit" title="Sửa"
+                                               href="@Url.Action("Edit", "KHACHHANGs", new { id = item.ID_KH })">
+                                                <i class="fa fa-pencil-square-o"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
 
                 </div>
             </div>
         </div>
     </div>
-    <div class="row mt-3">
+    <div class="row">
         <div class="col-md-12 text-center">
             <nav>
                 <ul class="pagination justify-content-center">
