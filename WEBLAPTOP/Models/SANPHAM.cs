@@ -41,7 +41,6 @@
         [AllowHtml] // <-- THÊM DÒNG NÀY TRÊN THUỘC TÍNH MOTA
         public string Mota { get; set; }
 
-        [Required]
         public int? Status_SP { get; set; }
 
         [Column(TypeName = "date")]
@@ -50,7 +49,6 @@
         [Range(0, int.MaxValue, ErrorMessage = "Số lượng phải >= 0")]
         public int? SoLuong { get; set; }
 
-        [Range(0, int.MaxValue, ErrorMessage = "Số lượng bán phải >= 0")]
         public int? SoLuongBan { get; set; }
 
         [StringLength(255)]
