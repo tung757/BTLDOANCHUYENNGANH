@@ -37,7 +37,7 @@
         [Range(0, int.MaxValue, ErrorMessage = "Giá bán phải >= 0")]
         public int? GiaBan { get; set; }
 
-        [StringLength(4000, ErrorMessage = "Mô tả tối đa 4000 ký tự")]
+        //[StringLength(4000, ErrorMessage = "Mô tả tối đa 4000 ký tự")]
         [AllowHtml] // <-- THÊM DÒNG NÀY TRÊN THUỘC TÍNH MOTA
         public string Mota { get; set; }
 

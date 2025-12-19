@@ -55,7 +55,7 @@
             ErrorMessage = "Tài khoản chỉ chứa chữ và số")]
         public string TK { get; set; }
 
-        [Required(ErrorMessage = "Mật khẩu không được bỏ trống")]
+ 
         [StringLength(20)]
         [RegularExpression(@"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,20}$",
             ErrorMessage = "Mật khẩu phải từ 6–20 ký tự và có ít nhất 1 chữ + 1 số")]

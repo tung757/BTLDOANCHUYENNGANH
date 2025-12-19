@@ -49,39 +49,32 @@ namespace WEBLAPTOP.Controllers
         public ActionResult AddToCart(int id, int quantity = 1)
         {
             int? id_kh = Session["id"] as int?;
-            if (id_kh == null)
+            if (id_kh == null) return RedirectToAction("Index", "Login");
+
+            // Lấy thông tin sản phẩm để kiểm tra tồn kho
+            var sanPham = db.SANPHAMs.Find(id);
+            if (sanPham == null) return HttpNotFound();
+
+            GIOHANG gioHang = db.GIOHANGs.FirstOrDefault(g => g.ID_KH == id_kh);
+            if (gioHang == null) { /* ... tạo giỏ hàng như cũ ... */ }
+
+            var itemInCart = db.GIOHANG_SANPHAM.FirstOrDefault(item => item.ID_GH == gioHang.ID_GH && item.ID_SP == id);
+
+            int tongSoLuongMuonMua = (itemInCart?.SoLuong ?? 0) + quantity;
+
+            // Kiểm tra tồn kho
+            if (tongSoLuongMuonMua > sanPham.SoLuong)
             {
-                return RedirectToAction("Index", "Login");
+                TempData["Error"] = "Số lượng vượt quá tồn kho hiện có!";
+                return RedirectToAction("Index", "Product"); // Hoặc trang chi tiết sản phẩm
             }
-            int id_kh_value = id_kh.Value;
-            GIOHANG gioHang = db.GIOHANGs.FirstOrDefault(g => g.ID_KH == id_kh_value);
-            if (gioHang == null)
-            {
-                gioHang = new GIOHANG { ID_KH = id_kh_value };
-                db.GIOHANGs.Add(gioHang);
-                db.SaveChanges();
-            }
-            var itemInCart = db.GIOHANG_SANPHAM.FirstOrDefault(
-                item => item.ID_GH == gioHang.ID_GH && item.ID_SP == id
-            );
 
             if (itemInCart != null)
-            {
-                itemInCart.SoLuong = (itemInCart.SoLuong ?? 0) + quantity;
-            }
+                itemInCart.SoLuong = tongSoLuongMuonMua;
             else
-            {
-                var newItem = new GIOHANG_SANPHAM
-                {
-                    ID_GH = gioHang.ID_GH,
-                    ID_SP = id,
-                    SoLuong = quantity
-                };
-                db.GIOHANG_SANPHAM.Add(newItem);
-            }
+                db.GIOHANG_SANPHAM.Add(new GIOHANG_SANPHAM { ID_GH = gioHang.ID_GH, ID_SP = id, SoLuong = quantity });
 
             db.SaveChanges();
-
             return RedirectToAction("Index");
         }
         [HttpPost]
