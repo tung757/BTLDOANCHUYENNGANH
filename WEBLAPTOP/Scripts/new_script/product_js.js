@@ -61,7 +61,13 @@ $(document).ready(function () {
             $("#btn_add_cart").click(function () {
                 window.location.href = base_link_cart + "?id=" + id;
             })
-        })
+        });
+
+        $(document).ready(function () {
+            $("#quick_buy").click(function () {
+                window.location.href = base_link_quickbuy + "?id_sp=" + id;
+            });
+        });
 
         // Hiển thị modal
         var modal = new bootstrap.Modal(document.getElementById('quickViewModal'));

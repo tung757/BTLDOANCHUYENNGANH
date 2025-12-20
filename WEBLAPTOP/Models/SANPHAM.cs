@@ -5,6 +5,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using System.Web.Mvc;
 
     [Table("SANPHAM")]
     public partial class SANPHAM
@@ -36,10 +37,10 @@
         [Range(0, int.MaxValue, ErrorMessage = "Giá bán phải >= 0")]
         public int? GiaBan { get; set; }
 
-        [StringLength(4000, ErrorMessage = "Mô tả tối đa 4000 ký tự")]
+        //[StringLength(4000, ErrorMessage = "Mô tả tối đa 4000 ký tự")]
+        [AllowHtml] // <-- THÊM DÒNG NÀY TRÊN THUỘC TÍNH MOTA
         public string Mota { get; set; }
 
-        [Required]
         public int? Status_SP { get; set; }
 
         [Column(TypeName = "date")]
@@ -48,7 +49,6 @@
         [Range(0, int.MaxValue, ErrorMessage = "Số lượng phải >= 0")]
         public int? SoLuong { get; set; }
 
-        [Range(0, int.MaxValue, ErrorMessage = "Số lượng bán phải >= 0")]
         public int? SoLuongBan { get; set; }
 
         [StringLength(255)]
