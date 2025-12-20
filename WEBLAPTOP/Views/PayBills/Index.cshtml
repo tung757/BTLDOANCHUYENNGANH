@@ -151,34 +151,7 @@
             </div>
         </div>
     </div>
-    <!--Hình Thức nhận hàng-->
-    <!--<div class="HinhThucNhanHang mb-4 p-3 border rounded">
-        <h4>Hình thức nhận hàng</h4>
-        <div>
-            <input class="form-check-input" type="radio"
-                   name="hinhthuc"
-                   id="rdoGiaoHang"
-                   value="Giao hàng"
-                   checked />
-            Giao hàng tận nơi<br />
-            <input class="form-check-input" type="radio"
-                   name="hinhthuc"
-                   id="rdoNhanTaiCuaHang"
-                   value="Tại cửa hàng" />
-            Nhận tại cửa hàng<br />
-
-            <div class="form-check-input" id="txtDiaChi">
-                <input type="text"
-                       class="form-control my-2"
-                       value="@ViewBag.DiaChi" />
-            </div>
-            <div id="txtGhiChu">
-                <input type="text"
-                       class="form-control"
-                       placeholder="Ghi chú (VD: Hãy gọi cho tôi khi chuẩn bị hàng xong)" />
-            </div>
-        </div>
-    </div>-->
+ 
     <!-- Hình Thức nhận hàng -->
     <div class="HinhThucNhanHang mb-4 p-3 border rounded bg-light">
         <h4 class="mb-3">Hình thức nhận hàng</h4>
@@ -238,107 +211,6 @@
                 <input class="form-check-input me-3" type="radio" name="PhuongThuc" value="VNPAY">
                 <img src="~/Images/Footer/vnpay.png" style="height:24px" class="me-2" />
                 <span>Thanh toán VNPay</span>
-            </label>
-
-            <!-- Bank ATM -->
-            <label class="list-group-item d-flex align-items-center py-3 atm-option">
-                <input class="form-check-input me-3" type="radio" name="PhuongThuc" value="ATM">
-                <img src="~/Images/Footer/atm.png" style="height:24px" class="me-2" />
-                <span>Thẻ ATM / Tài khoản ngân hàng</span>
-            </label>
-
-            <!-- Dropdown: Danh sách ngân hàng -->
-            <div id="BankDropdown" class="bank-dropdown rounded mt-2 ms-4 my-2">
-                <label class="fw-bold small text-secondary">Chọn ngân hàng</label>
-                <input type="text" id="SearchBank" class="form-control mb-2" placeholder="Tìm ngân hàng...">
-
-                <div class="bank-select">
-                    <!-- Danh sách ngân hàng (30+ ngân hàng VN) -->
-                    <div class="bank-item" data-bank="VCB">Vietcombank</div>
-                    <div class="bank-item" data-bank="TCB">Techcombank</div>
-                    <div class="bank-item" data-bank="VTB">VietinBank</div>
-                    <div class="bank-item" data-bank="BIDV">BIDV</div>
-                    <div class="bank-item" data-bank="MBBANK">MB Bank</div>
-                    <div class="bank-item" data-bank="ACB">ACB</div>
-                    <div class="bank-item" data-bank="VPB">VPBank</div>
-                    <div class="bank-item" data-bank="VIB">VIB</div>
-                    <div class="bank-item" data-bank="MSB">MSB</div>
-                    <div class="bank-item" data-bank="HDB">HDBank</div>
-                    <div class="bank-item" data-bank="OCB">OCB</div>
-                    <div class="bank-item" data-bank="SCB">SCB</div>
-                    <div class="bank-item" data-bank="EIB">Eximbank</div>
-                    <div class="bank-item" data-bank="DAB">DongA Bank</div>
-                    <div class="bank-item" data-bank="SHB">SHB</div>
-                    <div class="bank-item" data-bank="TPB">TPBank</div>
-                    <div class="bank-item" data-bank="BAB">Bắc Á Bank</div>
-                    <div class="bank-item" data-bank="KLB">KienLongBank</div>
-                    <div class="bank-item" data-bank="SGB">SaigonBank</div>
-                    <div class="bank-item" data-bank="NAB">Nam Á Bank</div>
-                    <div class="bank-item" data-bank="PGB">PG Bank</div>
-                    <div class="bank-item" data-bank="VAB">VietABank</div>
-                    <div class="bank-item" data-bank="LPB">LienVietPostBank</div>
-                    <div class="bank-item" data-bank="SEA">SeABank</div>
-                    <div class="bank-item" data-bank="ABB">ABBank</div>
-                    <div class="bank-item" data-bank="BVB">BaoVietBank</div>
-                </div>
-            </div>
-            <div id="BankNextStep" class="BankNextStep mt-3 p-3 border rounded bg-white shadow-sm" style="display:none;">
-
-                <h5 class="fw-bold mb-2">Thông tin thanh toán</h5>
-
-                <p class="text-secondary small mb-3">
-                    Ngân hàng đã chọn:
-                    <span id="SelectedBankText" class="fw-bold text-primary"></span>
-                </p>
-
-                <!-- Thẻ thông tin thanh toán -->
-                <div class="p-3 border rounded bg-light mb-3">
-                    <div class="mb-2 d-flex align-items-center">
-                        <img src="~/Images/Footer/atm.png" style="height:20px" class="me-2" />
-                        <span class="fw-semibold">Thanh toán bằng Thẻ ATM / Tài khoản ngân hàng</span>
-                    </div>
-
-                    <div class="row g-2">
-                        <div class="col-md-6">
-                            <label class="form-label small">Số thẻ</label>
-                            <input type="text" class="form-control" placeholder="•••• •••• •••• ••••" />
-                        </div>
-
-                        <div class="col-md-3">
-                            <label class="form-label small">Ngày hết hạn</label>
-                            <input type="text" class="form-control" placeholder="MM/YY" />
-                        </div>
-
-                        <div class="col-md-3">
-                            <label class="form-label small">Mã CVV</label>
-                            <input type="password" class="form-control" placeholder="•••" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- MoMo -->
-            <label class="list-group-item d-flex align-items-center py-3">
-                <input class="form-check-input me-3" type="radio" name="PhuongThuc" value="MOMO">
-                <img src="~/Images/Footer/logo-momo.jpg" style="height:24px" class="me-2" />
-                <span>Thanh toán qua MoMo</span>
-            </label>
-
-            <!-- ZaloPay -->
-            <label class="list-group-item d-flex align-items-center py-3">
-                <input class="form-check-input me-3" type="radio" name="PhuongThuc" value="ZALO">
-                <img src="~/Images/Footer/zalopay.png" style="height:24px" class="me-2" />
-                <span>Thanh toán qua ZaloPay</span>
-            </label>
-
-            <!-- QR chuyển khoản BANK_QR -->
-            <label class="list-group-item d-flex align-items-center pttt-qr py-3">
-                <input class="form-check-input me-3" type="radio" name="PhuongThuc" value="BANK_QR">
-                <span>Chuyển khoản QR Code</span>
-
-                <img class="qr-img ms-3"
-                     src="~/Images/QR/QR.png"
-                     style="display:none; max-width:200px; border-radius:6px;" />
             </label>
 
         </div>
@@ -480,21 +352,40 @@
             CapNhatTien();
         })
     })
-    // Hiển thị QR khi chọn phương thức "BANK_QR"
-    document.querySelectorAll("input[name='PhuongThuc']").forEach(radio => {
-        radio.addEventListener("change", function () {
-            let qrImg = document.querySelector(".pttt-qr .qr-img");
-
-            if (this.value === "BANK_QR") {
-                qrImg.style.display = "block";
-            } else {
-                qrImg.style.display = "none";
-            }
-        });
-    });
+    
 
     //Xử lý đặt hàng
     document.querySelector(".btnDatHang").addEventListener("click", function () {
+
+        Swal.fire({
+            title: 'Xác nhận đặt hàng?',
+            html: `
+            <p>Bạn đang chuẩn bị <b>hoàn tất đơn hàng</b>.</p>
+            <p class="text-muted">Vui lòng kiểm tra lại thông tin trước khi thanh toán.</p>
+        `,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Xác nhận mua',
+            cancelButtonText: 'Xem lại',
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#6c757d'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                thucHienDatHang(); 
+            }
+        });
+
+    });
+    function thucHienDatHang() {
+
+        Swal.fire({
+            title: 'Đang xử lý đơn hàng...',
+            text: 'Vui lòng chờ trong giây lát',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
         var tenKH = document.getElementById("inputTenKH").value;
         var sdtKH = document.getElementById("inputSDT").value;
         var hinhThucGH = document.querySelector("input[name='hinhthuc']:checked").value;
@@ -516,113 +407,64 @@
             });
         });
         //Ajax
+        if (phuongThuc === "VNPAY") {
+            $.ajax({
+                url: '/PayBills/CreateVnpayPayment',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    DONHANG: {
+                        Ten: tenKH,
+                        SDT: sdtKH,
+                        PhuongThucNhanHang: hinhThucGH,
+                        DiaChiGiaoHang: diaChiGH,
+                        GhiChu: ghiChu,
+                        PhuongThucTT: phuongThuc,
+                        ID_KM: idKM
+                    },
+                    DONHANG_SANPHAM: dsSP
+                }),
+                success: function (res) {
+                    window.location.href = res.url;
+                }
+            });
+            return;
+        }
+
         $.ajax({
             url: '/PayBills/DatHang',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({
-            DONHANG: {
+                DONHANG: {
                     Ten: tenKH,
                     SDT: sdtKH,
                     PhuongThucNhanHang: hinhThucGH,
                     DiaChiGiaoHang: diaChiGH,
                     GhiChu: ghiChu,
                     PhuongThucTT: phuongThuc,
-                    ID_KM: idKM,
+                    ID_KM: idKM
                 },
-            DONHANG_SANPHAM: dsSP
+                DONHANG_SANPHAM: dsSP
             }),
             success: function (result) {
                 if (result.success) {
-                    Swal.fire({
-                        title: '🎉 Đặt hàng thành công!',
-                        text: 'Cảm ơn bạn đã mua hàng tại DarkTheStore!',
-                        icon: 'success',
-                        confirmButtonText: 'Về trang chủ',
-                        confirmButtonColor: '#d33'
-                    }).then(() => {
-                        window.location.href = '/Home/Index';
-                    });
+                    window.location.href = '/PayBills/ThanhToanThanhCong';
                 }
                 else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Lỗi!',
-                        text: result.message || 'Đặt hàng thất bại, vui lòng thử lại!'
-                    });
+                    window.location.href = '/PayBills/ThanhToanThatBai';
                 }
             },
             error: function () {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Lỗi kết nối!',
-                    text: 'Không thể kết nối đến máy chủ!'
-                });
+                window.location.href = '/PayBills/ThanhToanThatBai';
             }
         })
+    }
 
-    })
     // Nút quay lại
     document.querySelector(".btnQuayLai").addEventListener("click", function () {
         history.back();
 
     });
-
-
-// Xử lý ATM ngân hàng
-// ======================
-const atmOption = document.querySelector(".atm-option input[type='radio']");
-const bankDropdown = document.getElementById("BankDropdown");
-const bankItems = document.querySelectorAll(".bank-item");
-const bankNextStep = document.getElementById("BankNextStep");
-const selectedBankText = document.getElementById("SelectedBankText");
-const searchBank = document.getElementById("SearchBank");
-
-// Ẩn/hiện dropdown khi chọn phương thức thanh toán
-document.querySelectorAll("input[name='PhuongThuc']").forEach(radio => {
-    radio.addEventListener("change", function () {
-        if (this.value === "ATM") {
-            bankDropdown.style.display = "block";
-        } else {
-            bankDropdown.style.display = "none";
-            bankNextStep.style.display = "none";
-
-            // clear active class
-            bankItems.forEach(item => item.classList.remove("active"));
-            selectedBankText.textContent = "";
-        }
-    });
-});
-
-
-bankItems.forEach(item => {
-    item.addEventListener("click", function () {
-
-        // Bỏ active cũ
-        bankItems.forEach(i => i.classList.remove("active"));
-
-        // Set active mới
-        this.classList.add("active");
-
-        // Hiển thị lựa chọn
-        const bankName = this.textContent.trim();
-        selectedBankText.textContent = bankName;
-
-        // Hiện bước tiếp theo
-        bankDropdown.style.display = "none";
-        bankNextStep.style.display = "block";
-    });
-});
-
-
-searchBank.addEventListener("keyup", function () {
-    const keyword = this.value.toLowerCase();
-
-    bankItems.forEach(item => {
-        const text = item.textContent.toLowerCase();
-        item.style.display = text.includes(keyword) ? "block" : "none";
-    });
-});
-
 
 </script>

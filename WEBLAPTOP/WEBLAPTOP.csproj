@@ -236,6 +236,7 @@
     <Compile Include="ViewModel\CartItem.cs" />
     <Compile Include="ViewModel\DonHangView.cs" />
     <Compile Include="ViewModel\GioHangView.cs" />
+    <Compile Include="VNPAY\VnpayLibrary.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\css\main.css" />
@@ -423,6 +424,8 @@
     <Content Include="Views\DonHang\Details.cshtml" />
     <Content Include="Views\DonHang\Index.cshtml" />
     <Content Include="Views\SignUp\ConfirmOtp.cshtml" />
+    <Content Include="Views\PayBills\ThanhToanThanhCong.cshtml" />
+    <Content Include="Views\PayBills\ThanhToanThatBai.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

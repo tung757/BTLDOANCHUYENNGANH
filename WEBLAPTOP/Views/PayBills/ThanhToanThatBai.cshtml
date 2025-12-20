@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "Thanh toán thất bại";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height:70vh">
+    <div class="card shadow-lg border-0 text-center p-5" style="max-width: 520px;">
+
+        <div class="mb-4">
+            <i class="bi bi-x-circle-fill text-danger" style="font-size: 80px;"></i>
+        </div>
+
+        <h2 class="text-danger fw-bold mb-3">
+            Thanh toán không thành công
+        </h2>
+
+        <p class="text-muted mb-4" style="line-height: 1.7">
+            Giao dịch chưa thể hoàn tất.<br />
+            Nguyên nhân có thể do bạn hủy thanh toán, nhập sai OTP
+            hoặc kết nối mạng bị gián đoạn.
+        </p>
+
+        <div class="d-flex justify-content-center gap-3">
+            <a href="/PayBills/Index" class="btn btn-danger px-4">
+                <i class="bi bi-arrow-repeat me-1"></i> Thử lại
+            </a>
+
+            <a href="/Home/Index" class="btn btn-outline-secondary px-4">
+                <i class="bi bi-house-door me-1"></i> Trang chủ
+            </a>
+        </div>
+    </div>
+</div>
