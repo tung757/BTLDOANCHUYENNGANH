@@ -7,10 +7,10 @@
 
 <style>
     .qr-img {
+        margin-top: 14px;
         border: 1px solid #e0e0e0;
         padding: 10px;
         background: white;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
 
     #CanThanhToan {
@@ -32,40 +32,6 @@
         filter: drop-shadow(0 0 4px #007bff);
     }
 
-    .bank-dropdown {
-        display: none;
-        background: #fff;
-        border: 1px solid #dee2e6;
-        padding: 12px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    }
-
-    .bank-select {
-        max-height: 250px;
-        overflow-y: auto;
-        border: 1px solid #eee;
-        border-radius: 6px;
-    }
-
-    .bank-item {
-        padding: 10px 12px;
-        border-bottom: 1px solid #f2f2f2;
-        cursor: pointer;
-        transition: 0.2s;
-    }
-
-        .bank-item:last-child {
-            border-bottom: none;
-        }
-
-        .bank-item:hover {
-            background: #f8f9fa;
-        }
-
-        .bank-item.active {
-            background: #007bff;
-            color: white !important;
-        }
 
     .sanpham:hover {
         background-color: gainsboro;
@@ -131,7 +97,7 @@
 
                 <!-- Thành tiền -->
                 <div class="col-3 d-flex justify-content-end align-items-center">
-                    <b class="text-danger thanhtien">@String.Format("{0:N0} đ", (item.GiaBan ?? 0) * item.SoLuong)</b>
+                    <b class="text-danger thanhtien">@String.Format("{0:N0} đ", (decimal)(item.GiaBan ?? 0) * item.SoLuong)</b>
                 </div>
             </div>
         }
@@ -213,6 +179,21 @@
                 <span>Thanh toán VNPay</span>
             </label>
 
+            <!-- QR chuyển khoản BANK_QR -->
+            <label class="list-group-item d-flex align-items-center pttt-qr py-3">
+                <input class="form-check-input me-3" type="radio" name="PhuongThuc" value="BANK_QR">
+                <span>Chuyển khoản QR Code</span>
+
+
+            </label>
+            <div style="display:flex;justify-content:center;background-color:aliceblue">
+                <img class="qr-img ms-3"
+                     src="~/Images/QR/QR.png"
+                     style="display:none; max-width:200px; border-radius:6px;" />
+            </div>
+
+
+
         </div>
     </div>
 
@@ -227,7 +208,7 @@
             <div id="MaKhuyenMai" class="col text-secondary ">Chọn mã ưu đãi</div>
             <div class="col-auto"><i class="bi bi-chevron-right fs-5 text-secondary"></i></div>
         </div>
-        <div id="DanhSachMaKM" class="border p-2" style="display:none;">
+        <div id="DanhSachMaKM" class="border p-2" style="display:none; margin-bottom:16px;background-color:azure;">
             @foreach (var item in ViewBag.KhuyenMai)
             {
                 <div class="KhuyenMai border mb-2 p-2" data-idkm="@item.ID_KM" data-giamgia="@item.GiamGia" style="cursor:pointer">
@@ -350,9 +331,21 @@
             var thanhtien = row.querySelector(".thanhtien");
             thanhtien.textContent = formatVN(tong);
             CapNhatTien();
-        })
-    })
+        });
+    });
     
+    // Hiển thị QR khi chọn phương thức "BANK_QR"
+    document.querySelectorAll("input[name='PhuongThuc']").forEach(radio => {
+        radio.addEventListener("change", function () {
+            let qrImg = document.querySelector(" .qr-img");
+
+            if (this.value === "BANK_QR") {
+                qrImg.style.display = "block";
+            } else {
+                qrImg.style.display = "none";
+            }
+        });
+    });
 
     //Xử lý đặt hàng
     document.querySelector(".btnDatHang").addEventListener("click", function () {
@@ -425,7 +418,12 @@
                     DONHANG_SANPHAM: dsSP
                 }),
                 success: function (res) {
-                    window.location.href = res.url;
+                    if (res.success) {
+                        window.location.href = res.url;
+                    } else {
+                        alert(res.message);
+                        window.location.href = "/PayBills/ThanhToanThatBai";
+                    }
                 }
             });
             return;
@@ -452,11 +450,9 @@
                     window.location.href = '/PayBills/ThanhToanThanhCong';
                 }
                 else {
-                    window.location.href = '/PayBills/ThanhToanThatBai';
+                    alert(result.message);
+                    window.location.href = "/PayBills/ThanhToanThatBai";
                 }
-            },
-            error: function () {
-                window.location.href = '/PayBills/ThanhToanThatBai';
             }
         })
     }

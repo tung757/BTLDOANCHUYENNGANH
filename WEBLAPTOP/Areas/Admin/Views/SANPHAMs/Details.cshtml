@@ -81,10 +81,13 @@
                             }
 
                             <h4 class="mt-4 mb-3">Mô tả</h4>
-                            <hr />
-                            <div style="white-space: pre-wrap; word-break: break-word; line-height: 1.6;">
-                                @(string.IsNullOrEmpty(Model.Mota) ? "Không có mô tả." : Model.Mota)
+                            <div>
+                                @Html.Raw(string.IsNullOrEmpty(Model.Mota) ? "Không có mô tả." : Model.Mota)
                             </div>
+                            <!--<div style="white-space: pre-wrap; word-break: break-word; line-height: 0.4;">-->
+                                @*@(string.IsNullOrEmpty(Model.Mota) ? "Không có mô tả." : Model.Mota)*@
+                                <!--
+                            </div>-->
                         </div>
                     </div>
                 </div>

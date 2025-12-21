@@ -19,6 +19,9 @@ $(document).ready(function () {
         var name = $(this).data("name");
         var price = $(this).data("price");
         var desc = $(this).data("description");
+
+        // Xóa toàn bộ thẻ HTML, chỉ giữ text
+        desc = $("<div>").html(desc).text();
         var imagesString = $(this).data("image");
         var slb = $(this).data("slb");
         var giathat = $(this).data("giathat");

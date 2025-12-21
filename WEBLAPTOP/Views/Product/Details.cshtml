@@ -1,4 +1,5 @@
 ﻿@model WEBLAPTOP.Models.SANPHAM
+@using System.Text.RegularExpressions
 @{
     ViewBag.Title = Model.TenSP;
 }
@@ -187,13 +188,13 @@
                                         diem_dg = diem_dg + x.Diem;
                                     }
                                     double kqq = 0;
-                                    if (ViewBag.SLDG == null || ViewBag.SLDG==0)
+                                    if (ViewBag.SLDG == null || ViewBag.SLDG == 0)
                                     {
                                         kqq = 0;
                                     }
                                     else
                                     {
-                                        kqq= diem_dg / ViewBag.SLDG;
+                                        kqq = diem_dg / ViewBag.SLDG;
                                     }
                                     kqq = Math.Round(kqq, 1);
                                 }@kqq/5.0
@@ -239,17 +240,24 @@
             <div class="row">
                 <div class="col">
                     <div id="hienmota">
-                        @{  string dsmota = @Model.Mota;
-                            string[] ds_des = dsmota.Split(';');
-                            int sla = images.Count();
+                        @{
+                            string dsmota = Model.Mota ?? "";
+
+                            // Xóa toàn bộ thẻ HTML
+                            dsmota = Regex.Replace(dsmota, "<.*?>", "");
+
+                            string[] ds_des = dsmota
+                                .Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+
+                            int sla = images?.Count() ?? 0;
                         }
-                        @for(int i = 0; i < ds_des.Count(); i++)
+                        @for (int i = 0; i < ds_des.Count(); i++)
                         {
                             <div class="d-flex justify-content-center text-center">@ds_des[i]</div>
                             <div class="d-flex justify-content-center">
                                 @if (i < sla)
                                 {
-                                <img src="~/Images/Product_images/@images[i]" class="w-75 mt-3 mb-3" />
+                                    <img src="~/Images/Product_images/@images[i]" class="w-75 mt-3 mb-3" />
                                 }
                             </div>
                         }
@@ -284,7 +292,7 @@
                             }
 
 
-}
+                        }
                         <div class="container">
                             <div class="row">
                                 <div class="col d-flex justify-content-center">
@@ -317,11 +325,11 @@
         <div class="col-md-3 ">
             <div class="bg-light rounded p-3 position-sticky" style="top: 140px;">
                 @*<div class="fw-semibold mb-2">Số lượng</div>
-                <div class="d-flex mb-3">
-                    <div class="btn btn-outline-secondary" id="giamsl">-</div>
-                    <div class="px-3 border d-flex align-items-center" id="soluong">1</div>
-                    <div class="btn btn-outline-secondary" id="tangsl">+</div>
-                </div>*@
+                    <div class="d-flex mb-3">
+                        <div class="btn btn-outline-secondary" id="giamsl">-</div>
+                        <div class="px-3 border d-flex align-items-center" id="soluong">1</div>
+                        <div class="btn btn-outline-secondary" id="tangsl">+</div>
+                    </div>*@
 
                 <div class="fw-semibold mb-2">Vận chuyển <span class="text-muted" title="Phí ship"><i class="bi bi-info-circle"></i></span></div>
                 <div class="mb-3">
@@ -338,8 +346,8 @@
                     <div class="btn btn-warning w-100 fw-semibold" onclick="window.location.href='@Url.Action("QuickBuy", "PayBills", new { id_sp = Model.ID_SP })'">Mua ngay</div>
                     @*<div class="d-flex align-items-center p-2 text-secondary" style="font-size: 30px;"><i class="bi bi-cart" style="cursor: pointer;"></i></div>*@
                     <button style="border: none;" class="bg-light" onclick="window.location.href = '@Url.Action("AddToCart", "Cart", new { id = Model.ID_SP })';">
-                    <div class="d-flex align-items-center p-2 text-secondary" style="font-size: 30px;">
-                        <i class="bi bi-cart" style="cursor: pointer;"></i>
+                        <div class="d-flex align-items-center p-2 text-secondary" style="font-size: 30px;">
+                            <i class="bi bi-cart" style="cursor: pointer;"></i>
                         </div>
                     </button>
                 </div>
@@ -461,7 +469,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                        <button type="submit" class="btn btn-success" >Lưu</button>
+                        <button type="submit" class="btn btn-success">Lưu</button>
                     </div>
                 </form>
             </div>

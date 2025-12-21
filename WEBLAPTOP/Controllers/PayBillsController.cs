@@ -47,7 +47,7 @@ namespace WEBLAPTOP.Controllers
                                 TenSP = x.SANPHAM.TenSP,
                                 GiaBan = x.SANPHAM.GiaBan,
                                 SoLuong = x.SoLuong,
-                                TongTien = x.SoLuong * x.SANPHAM.GiaBan
+                                TongTien = (decimal)x.SoLuong * x.SANPHAM.GiaBan
                             }).ToList();
             var tongTienHang = spGioHang.Sum(item => item.TongTien ?? 0);
 
@@ -263,7 +263,7 @@ namespace WEBLAPTOP.Controllers
                 ConfigurationManager.AppSettings["vnp_HashSecret"]
             );
 
-            return Json(new { url });
+            return Json(new { success = true, url = url });
         }
         public ActionResult VnpayReturn()
         {

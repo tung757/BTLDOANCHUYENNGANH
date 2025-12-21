@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using WEBLAPTOP.Models;
@@ -37,7 +38,7 @@ namespace WEBLAPTOP.Controllers
                                          Images_url = sp.Images_url,
                                          GiaBan = sp.GiaBan,
                                          SoLuong = gh_sp.SoLuong,
-                                         TongTien = gh_sp.SoLuong * sp.GiaBan
+                                         TongTien = (decimal)gh_sp.SoLuong * sp.GiaBan
                                      };
 
                 cart = cartItemsQuery.ToList();
@@ -46,7 +47,7 @@ namespace WEBLAPTOP.Controllers
             ViewBag.TotalPrice = cart.Sum(item => item.TongTien.GetValueOrDefault(0));
             return View(cart);
         }
-        public ActionResult AddToCart(int id, int quantity = 1)
+        public async Task<ActionResult> AddToCart(int id, int quantity = 1)
         {
             int? id_kh = Session["id"] as int?;
             if (id_kh == null) return RedirectToAction("Index", "Login");
@@ -56,7 +57,12 @@ namespace WEBLAPTOP.Controllers
             if (sanPham == null) return HttpNotFound();
 
             GIOHANG gioHang = db.GIOHANGs.FirstOrDefault(g => g.ID_KH == id_kh);
-            if (gioHang == null) { /* ... tạo giỏ hàng như cũ ... */ }
+            if (gioHang == null) 
+            {
+                db.GIOHANGs.Add(new GIOHANG { ID_KH = id_kh });
+                await db.SaveChangesAsync();
+                gioHang = db.GIOHANGs.FirstOrDefault(g => g.ID_KH == id_kh);
+            }
 
             var itemInCart = db.GIOHANG_SANPHAM.FirstOrDefault(item => item.ID_GH == gioHang.ID_GH && item.ID_SP == id);
 
