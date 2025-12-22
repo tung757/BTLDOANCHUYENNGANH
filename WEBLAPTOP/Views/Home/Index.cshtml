@@ -265,7 +265,7 @@
                                             <span class="badge bg-dark"><i class="bi bi-truck me-1"></i>Freeship</span>
                                         </div>
                                         <div class="mb-2">
-                                            <span class="fw-bold text-warning">@a.GiaBan</span>
+                                            <span class="fw-bold text-warning">@Convert.ToDecimal(a.GiaBan).ToString("C0", System.Globalization.CultureInfo.GetCultureInfo("vi-VN"))</span>
                                             @{
                                                 double giam = 0;
                                                 if (a.Gia.HasValue)
