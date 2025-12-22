@@ -166,7 +166,7 @@ namespace WEBLAPTOP.Areas.Admin.Controllers
                 return HttpNotFound();
             }
             // ĐÃ SỬA: Dùng ToListAsync()
-            ViewBag.ID_DM = new SelectList(await db.DANHMUCs.ToListAsync(), "ID_DM", "TenDM", sANPHAM.ID_DM);
+            ViewBag.ListDanhMuc = new SelectList(await db.DANHMUCs.ToListAsync(), "ID_DM", "TenDM", sANPHAM.ID_DM);
             return View(sANPHAM);
         }
 

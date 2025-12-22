@@ -63,7 +63,9 @@
 
                                 <div class="mb-3">
                                     @Html.LabelFor(model => model.ID_DM, "Danh mục", htmlAttributes: new { @class = "form-label" })
-                                    @Html.DropDownListFor(model => model.ID_DM, (IEnumerable<SelectListItem>)ViewBag.ID_DM, "--- Chọn danh mục ---", new { @class = "form-control" })
+
+                                    @Html.DropDownListFor(model => model.ID_DM, (IEnumerable<SelectListItem>)ViewBag.ListDanhMuc, "--- Chọn danh mục ---", new { @class = "form-control" })
+
                                     @Html.ValidationMessageFor(model => model.ID_DM, "", new { @class = "text-danger" })
                                 </div>
 
