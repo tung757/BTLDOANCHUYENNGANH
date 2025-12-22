@@ -8,50 +8,54 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <div class="tile">
+            <div class="tile" style="margin-bottom: 10px;">
                 <div class="tile-body">
-                    <div class="row element-button">
-                        <div class="col-sm-2">
-                            <a class="btn btn-add btn-sm" href="@Url.Action("Create", "DANHMUCs")" title="Thêm">
-                                <i class="fa fa-plus"></i> Tạo mới danh mục
-                            </a>
+                    <div style="margin: 0px;">
+                        <div class="row element-button">
+                            <div class="col-sm-2">
+                                <a class="btn btn-add btn-sm" href="@Url.Action("Create", "DANHMUCs")" title="Thêm">
+                                    <i class="fa fa-plus"></i> Tạo mới danh mục
+                                </a>
+                            </div>
                         </div>
                     </div>
-                    <table class="table table-hover table-bordered" id="sampleTable">
-                        <thead>
-                            <tr>
-                                <th width="10"><input type="checkbox" id="all"></th>
-                                <th>Tên danh mục</th>
-                                <th>Chức năng</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td width="10">
-                                        <input type="checkbox" name="check1" value="@item.ID_DM">
-                                    </td>
-
-                                    <td>
-                                        @item.TenDM
-                                    </td>
-
-                                    <td>
-                                        <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
-                                                onclick="confirmDelete(@item.ID_DM)">
-                                            <i class="fa fa-trash"></i>
-                                        </button>
-
-                                        <a class="btn btn-primary btn-sm edit" title="Sửa"
-                                           href="@Url.Action("Edit", "DANHMUCs", new { id = item.ID_DM })">
-                                            <i class="fa fa-pencil-square-o"></i>
-                                        </a>
-                                    </td>
+                    <div  style="max-height: 450px; overflow: auto;">
+                        <table class="table table-hover table-bordered" id="sampleTable">
+                            <thead style="margin: 0px; position: sticky; top: 0px;">
+                                <tr style="top: 0px;">
+                                    <th style="top: 0px;" width="10"><input type="checkbox" id="all"></th>
+                                    <th style="top: 0px;">Tên danh mục</th>
+                                    <th style="top: 0px;">Chức năng</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td width="10">
+                                            <input type="checkbox" name="check1" value="@item.ID_DM">
+                                        </td>
+
+                                        <td>
+                                            @item.TenDM
+                                        </td>
+
+                                        <td>
+                                            <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
+                                                    onclick="confirmDelete(@item.ID_DM)">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+
+                                            <a class="btn btn-primary btn-sm edit" title="Sửa"
+                                               href="@Url.Action("Edit", "DANHMUCs", new { id = item.ID_DM })">
+                                                <i class="fa fa-pencil-square-o"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

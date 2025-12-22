@@ -4,7 +4,43 @@
     ViewBag.Title = "Sản Phẩm";
 }
 
+<style>
+    .dropdown-menu {
+        max-height: 300px; /* chiều cao tối đa */
+        overflow-y: auto; /* bật scroll dọc */
+    }
+    .category-bar {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        white-space: nowrap;
+        padding-bottom: 6px; /* chừa chỗ cho scrollbar mỏng */
+    }
 
+        /* Chrome, Edge, Safari */
+        .category-bar::-webkit-scrollbar {
+            height: 5px; /* thu nhỏ chiều cao scrollbar */
+        }
+
+        .category-bar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .category-bar::-webkit-scrollbar-thumb {
+            background-color: #bbb;
+            border-radius: 10px;
+        }
+
+            .category-bar::-webkit-scrollbar-thumb:hover {
+                background-color: #999;
+            }
+
+    /* Firefox */
+    .category-bar {
+        scrollbar-width: thin;
+        scrollbar-color: #bbb transparent;
+    }
+</style>
 
 <script>
     var imageBaseUrl = '@Url.Content("~/Images/Product_images/")';

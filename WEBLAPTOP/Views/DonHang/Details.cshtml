@@ -74,11 +74,11 @@
                         var donGia = sp.DonGia ?? 0;
                         decimal tt = soLuong * donGia;
                         tongTien += tt;
-
+                        string[] images = sp.SANPHAM.Images_url.Split(';');
                         <tr>
                             <td class="text-center align-middle">@stt</td>
                             <td class="text-center align-middle">
-                                <img src="~/Images/Product_images/@sp.SANPHAM.Images_url"
+                                <img src="~/Images/Product_images/@images[0]"
                                      style="width: 60px; height: 60px; object-fit: cover; border: 1px solid #ddd; padding: 2px;" />
                             </td>
                             <td class="align-middle fw-bold text-primary">

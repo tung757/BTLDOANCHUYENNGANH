@@ -131,17 +131,22 @@ namespace WEBLAPTOP.Controllers
             else
             {
                 // --- TRƯỜNG HỢP 2: Chưa có tài khoản -> TỰ ĐỘNG TẠO MỚI ---
-
                 khachhang = new KHACHHANG();
-                khachhang.TK = googleUser.email.Substring(0, 20);
+                khachhang.TK = new string(googleUser.email
+                    .Substring(0, Math.Min(20, googleUser.email.Length))
+                    .Where(c => char.IsLetterOrDigit(c))
+                    .ToArray());
                 khachhang.Email = googleUser.email;
                 khachhang.TenKH = googleUser.name;
-                khachhang.MK = Guid.NewGuid().ToString().Substring(0, 20);
+                string rawMK = Guid.NewGuid().ToString("N").Substring(0, 20);
+                if (!rawMK.Any(char.IsLetter)) rawMK += "A";
+                if (!rawMK.Any(char.IsDigit)) rawMK += "1";
+                khachhang.MK = rawMK.Substring(0, 20);
                 khachhang.PhanQuyen = 2;
-
-
-
+                khachhang.DiaChi = "Chưa cập nhật";
+                khachhang.SDT = "0000000000";
                 db.KHACHHANGs.Add(khachhang);
+
 
                 try
                 {
